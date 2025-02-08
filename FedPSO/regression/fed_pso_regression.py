@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from typing import Dict, List, Optional, Tuple
 
+import sys
 import numpy as np
 import torch
 import torch.nn as nn
@@ -245,6 +246,7 @@ class FedPSO(flwr.server.strategy.Strategy):
         self.best_loss = np.inf
         self.best_client = None
         self.global_best = get_parameters(Net())
+        self.communication_volume = 0
 
     def __repr__(self) -> str:
         return "FedPSO"
@@ -297,6 +299,7 @@ class FedPSO(flwr.server.strategy.Strategy):
         """Aggregate fit results using weighted average."""
 
         for client, fit_res in results:
+            self.communication_volume += sys.getsizeof(fit_res.parameters)
             loss = fit_res.metrics["loss"]
             if loss < self.best_loss:
                 self.best_loss = loss
@@ -306,6 +309,7 @@ class FedPSO(flwr.server.strategy.Strategy):
         metrics_aggregated = {}
 
         self.global_best = fetch_client_parameters(self.best_client)
+        self.communication_volume += sys.getsizeof(self.global_best)
         return self.global_best, metrics_aggregated
 
     def configure_evaluate(
@@ -362,7 +366,7 @@ class FedPSO(flwr.server.strategy.Strategy):
         # loss, accuracy = test(test_model, testloader)
         # return loss, {"accuracy": accuracy}
         """Evaluate global model parameters using an evaluation function."""
-
+        print(f"total communication volume: {self.communication_volume}")
         # # Let's assume we won't perform the global model evaluation on the server side.
         return None
 

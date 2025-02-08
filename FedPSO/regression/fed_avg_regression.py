@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from typing import List, Tuple
 
+import sys
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
@@ -20,10 +21,6 @@ from flwr.simulation import run_simulation
 
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
-
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
 
 
 DEVICE = torch.device("cpu")  # Try "cuda" to train on GPU
