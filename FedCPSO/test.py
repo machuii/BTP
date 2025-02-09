@@ -41,6 +41,9 @@ def prune_model(model, pruning_rate):
         p.data = torch.where(p.abs() < threshold, torch.tensor(0.0), p)
 
 
+for name, param in model.named_parameters():
+    print(f"{name}: {torch.sum(param == 0).item()} weights pruned")
+
 prune_model(model, 0.5)
 
 
