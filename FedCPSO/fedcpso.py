@@ -176,8 +176,8 @@ class FlowerClient(NumPyClient):
     def fit(self, parameters, config):
         set_parameters(self.server_model, parameters)
         train(self.server_model, self.trainloader, epochs=1)
-        # magnitude prune self.server_model
 
+        # magnitude prune self.server_model
         prune_model(self.server_model, 0.5)
 
         # return back pruned model , accuracy on test_set
@@ -226,14 +226,21 @@ class FedCPSO(Strategy):
         self.min_fit_clients = min_fit_clients
         self.min_evaluate_clients = min_evaluate_clients
         self.min_available_clients = min_available_clients
+
         self.global_model = Net()
         self.global_best_accuracy = 0
         self.global_best_model = copy.deepcopy(self.global_model)
+
         self.local_best_accuracy = [0] * num_clients
         self.prev_client_accuracy = [0] * num_clients
+
         self.client_best_models = [copy.deepcopy(self.global_model)] * num_clients
+        self.client_models = [copy.deepcopy(self.global_model)] * num_clients
+
         self.best_neighbour_grid = [[1] * num_clients] * num_clients
         self.best_neighbour = [0] * num_clients
+        self.best_neighbour_model = [copy.deepcopy(self.global_model)] * num_clients
+
         self.velocities = [0] * num_clients
 
     def __repr__(self) -> str:
@@ -262,7 +269,14 @@ class FedCPSO(Strategy):
         standard_config = {"lr": 0.001}
         fit_configurations = []
         for idx, client in enumerate(clients):
-            fit_configurations.append((client, FitIns(parameters, standard_config)))
+            fit_configurations.append(
+                (
+                    client,
+                    FitIns(
+                        ndarrays_to_parameters(self.client_models[idx]), standard_config
+                    ),
+                )
+            )
 
         return fit_configurations
 
@@ -296,10 +310,7 @@ class FedCPSO(Strategy):
         for idx, (client, fit_res) in enumerate(results):
             if fit_res.metrics["accuracy"] > self.local_best_accuracy[idx]:
                 self.local_best_accuracy[idx] = fit_res.metrics["accuracy"]
-                self.local_best_model[idx] = set_parameters(
-                    self.local_best_model[idx],
-                    parameters_to_ndarrays(fit_res.parameters),
-                )
+                self.local_best_model[idx] = self.client_models[idx]
 
         # update best neighbour
         for idx, (client, fit_res) in enumerate(results):
@@ -311,16 +322,19 @@ class FedCPSO(Strategy):
                 self.best_neighbour[idx] = self.best_neighbour_grid[idx].index(
                     max(self.best_neighbour_grid[idx])
                 )
+                self.best_neighbour_model = self.client_models[self.best_neighbour[idx]]
 
-        self.prev_accuracy = accuracy_list
-
-        # computing velocities
+        # update client models with velocities
         for idx, (client, fit_res) in enumerate(results):
             self.velocities[idx] = 0.5 * self.velocities[idx] + 0.5 * (
-                (self.global_best_model - theta_i_t)
-                + (self.local_best_model[idx] - theta_i_t)
-                + (theta_dash_i_t - theta_i_t)
+                (self.global_best_model - self.client_models[idx])
+                + (self.client_best_models[idx] - self.client_models[idx])
+                + (self.best_neighbour_model[idx] - self.client_models[idx])
             )
+            temp_model = parameters_to_ndarrays(fit_res.parameters)
+            self.client_models[idx] = temp_model + self.velocities[idx]
+
+        self.prev_accuracy = accuracy_list
 
         parameters_aggregated = ndarrays_to_parameters(aggregated_weights)
 
