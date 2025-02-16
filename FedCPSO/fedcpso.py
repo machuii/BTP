@@ -164,10 +164,7 @@ class FlowerClient(NumPyClient):
         self.net = net
         self.trainloader = trainloader
         self.valloader = valloader
-        self.local_best_acc = 0
-        self.local_best_model = net
         self.server_model = net
-        self.velocities = [np.zeros_like(p) for p in get_parameters(net)]
 
     def get_parameters(self, config):
         return get_parameters(self.net)
@@ -231,17 +228,23 @@ class FedCPSO(Strategy):
         self.global_best_accuracy = 0
         self.global_best_model = copy.deepcopy(self.global_model)
 
-        self.local_best_accuracy = [0] * num_clients
-        self.prev_client_accuracy = [0] * num_clients
+        self.local_best_accuracy = [0] * NUM_PARTITIONS
+        self.prev_client_accuracy = [0] * NUM_PARTITIONS
 
-        self.client_best_models = [copy.deepcopy(self.global_model)] * num_clients
-        self.client_models = [copy.deepcopy(self.global_model)] * num_clients
+        self.client_best_models = [copy.deepcopy(self.global_model)] * NUM_PARTITIONS
+        self.client_models = [copy.deepcopy(self.global_model)] * NUM_PARTITIONS
 
-        self.best_neighbour_grid = [[1] * num_clients] * num_clients
-        self.best_neighbour = [0] * num_clients
-        self.best_neighbour_model = [copy.deepcopy(self.global_model)] * num_clients
+        self.best_neighbour_grid = [[1] * NUM_PARTITIONS] * NUM_PARTITIONS
+        self.best_neighbour = [0] * NUM_PARTITIONS
+        self.best_neighbour_model = [copy.deepcopy(self.global_model)] * NUM_PARTITIONS
 
-        self.velocities = [0] * num_clients
+        self.velocities = [
+            {
+                name: torch.zeros_like(param)
+                for name, param in model.state_dict().items()
+            }
+            for model in self.client_models
+        ]
 
     def __repr__(self) -> str:
         return "FedCPSO"
@@ -273,7 +276,8 @@ class FedCPSO(Strategy):
                 (
                     client,
                     FitIns(
-                        ndarrays_to_parameters(self.client_models[idx]), standard_config
+                        ndarrays_to_parameters(get_parameters(self.client_models[idx])),
+                        standard_config,
                     ),
                 )
             )
@@ -294,27 +298,25 @@ class FedCPSO(Strategy):
         ]
 
         aggregated_weights = aggregate(weights_results)
-        self.global_model = set_parameters(self.global_model, aggregated_weights)
+        set_parameters(self.global_model, aggregated_weights)
 
         accuracy_list = [fit_res.metrics["accuracy"] for _, fit_res in results]
         avg_accuracy = sum(accuracy_list) / len(accuracy_list)
 
         # global best model
-        if avg_accuracy > self.best_accuracy:
-            self.best_accuracy = avg_accuracy
-            self.global_best_model = set_parameters(
-                self.global_best_model, aggregated_weights
-            )
+        if avg_accuracy > self.global_best_accuracy:
+            self.global_best_accuracy = avg_accuracy
+            set_parameters(self.global_best_model, aggregated_weights)
 
         # best client model
         for idx, (client, fit_res) in enumerate(results):
             if fit_res.metrics["accuracy"] > self.local_best_accuracy[idx]:
                 self.local_best_accuracy[idx] = fit_res.metrics["accuracy"]
-                self.local_best_model[idx] = self.client_models[idx]
+                self.client_best_models[idx] = self.client_models[idx]
 
         # update best neighbour
         for idx, (client, fit_res) in enumerate(results):
-            if fit_res.metrics["accuracy"] < self.prev_accuracy[idx]:
+            if fit_res.metrics["accuracy"] < self.prev_client_accuracy[idx]:
                 self.best_neighbour_grid[idx][self.best_neighbour[idx]] = (
                     self.best_neighbour_grid[idx][self.best_neighbour[idx]]
                     * fit_res.metrics["accuracy"]
@@ -322,19 +324,37 @@ class FedCPSO(Strategy):
                 self.best_neighbour[idx] = self.best_neighbour_grid[idx].index(
                     max(self.best_neighbour_grid[idx])
                 )
-                self.best_neighbour_model = self.client_models[self.best_neighbour[idx]]
+                self.best_neighbour_model[idx] = self.client_models[
+                    self.best_neighbour[idx]
+                ]
+
+        self.prev_client_accuracy = accuracy_list
 
         # update client models with velocities
         for idx, (client, fit_res) in enumerate(results):
-            self.velocities[idx] = 0.5 * self.velocities[idx] + 0.5 * (
-                (self.global_best_model - self.client_models[idx])
-                + (self.client_best_models[idx] - self.client_models[idx])
-                + (self.best_neighbour_model[idx] - self.client_models[idx])
-            )
-            temp_model = parameters_to_ndarrays(fit_res.parameters)
-            self.client_models[idx] = temp_model + self.velocities[idx]
-
-        self.prev_accuracy = accuracy_list
+            temp_model = Net()
+            set_parameters(temp_model, parameters_to_ndarrays(fit_res.parameters))
+            for param_name, param in self.client_models[idx].named_parameters():
+                self.velocities[idx][param_name] = 0.5 * self.velocities[idx][
+                    param_name
+                ] + 0.5 * (
+                    (
+                        self.global_best_model.state_dict()[param_name]
+                        - self.client_models[idx].state_dict()[param_name]
+                    )
+                    + (
+                        self.client_best_models[idx].state_dict()[param_name]
+                        - self.client_models[idx].state_dict()[param_name]
+                    )
+                    + (
+                        self.best_neighbour_model[idx].state_dict()[param_name]
+                        - self.client_models[idx].state_dict()[param_name]
+                    )
+                )
+                self.client_models[idx].state_dict()[param_name] = (
+                    temp_model.state_dict()[param_name]
+                    + self.velocities[idx][param_name]
+                )
 
         parameters_aggregated = ndarrays_to_parameters(aggregated_weights)
 
@@ -379,7 +399,11 @@ class FedCPSO(Strategy):
                 for _, evaluate_res in results
             ]
         )
-        metrics_aggregated = {}
+
+        accuracy_aggregated = sum(
+            [evaluate_res.metrics["accuracy"] for _, evaluate_res in results]
+        ) / len(results)
+        metrics_aggregated = {"acc": accuracy_aggregated}
         return loss_aggregated, metrics_aggregated
 
     def evaluate(
@@ -406,7 +430,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     config = ServerConfig(num_rounds=5)
     return ServerAppComponents(
         config=config,
-        strategy=FedPSO(0.8),  # <-- pass the new strategy here
+        strategy=FedCPSO(0.8),  # <-- pass the new strategy here
     )
 
 
