@@ -1,13 +1,14 @@
 from collections import OrderedDict
 from typing import Dict, List, Optional, Tuple
 
+import sys
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
-import random, copy
+import copy
 
 import flwr
 from flwr.client import Client, ClientApp, NumPyClient
@@ -72,6 +73,10 @@ def load_datasets(partition_id: int, num_partitions: int):
     testset = fds.load_split("test").with_transform(apply_transforms)
     testloader = DataLoader(testset, batch_size=BATCH_SIZE)
     return trainloader, valloader, testloader
+
+
+# create validation set for server
+server_trainloader, server_valloader, server_testloader = load_datasets(0, 1)
 
 
 class Net(nn.Module):
@@ -174,15 +179,23 @@ class FlowerClient(NumPyClient):
         set_parameters(self.server_model, parameters)
         train(self.server_model, self.trainloader, epochs=1)
 
+        before_prune_size = sys.getsizeof(self.server_model)
+
         # magnitude prune self.server_model
         prune_model(self.server_model, 0.5)
+
+        after_prune_size = sys.getsizeof(self.server_model)
 
         # return back pruned model , accuracy on test_set
         loss, accuracy = test(self.server_model, self.valloader)
         return (
             get_parameters(self.server_model),
             len(self.trainloader),
-            {"accuracy": float(accuracy)},
+            {
+                "accuracy": float(accuracy),
+                "before_prune_size": before_prune_size,
+                "after_prune_size": after_prune_size,
+            },
         )
 
     def evaluate(self, parameters, config):
@@ -212,10 +225,10 @@ class FedCPSO(Strategy):
         self,
         num_clients: int = 10,
         fraction_fit: float = 1.0,
-        fraction_evaluate: float = 1.0,
+        fraction_evaluate: float = 0.5,
         min_fit_clients: int = 2,
-        min_evaluate_clients: int = 2,
-        min_available_clients: int = 2,
+        min_evaluate_clients: int = 5,
+        min_available_clients: int = 10,
     ) -> None:
         super().__init__()
         self.fraction_fit = fraction_fit
@@ -223,6 +236,7 @@ class FedCPSO(Strategy):
         self.min_fit_clients = min_fit_clients
         self.min_evaluate_clients = min_evaluate_clients
         self.min_available_clients = min_available_clients
+        self.total_bytes_received = 0
 
         self.global_model = Net()
         self.global_best_accuracy = 0
@@ -296,6 +310,12 @@ class FedCPSO(Strategy):
             (parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
             for _, fit_res in results
         ]
+
+        for _, fit_res in results:
+            self.total_bytes_received += (
+                fit_res.metrics["before_prune_size"]
+                - fit_res.metrics["after_prune_size"]
+            )
 
         aggregated_weights = aggregate(weights_results)
         set_parameters(self.global_model, aggregated_weights)
@@ -411,8 +431,10 @@ class FedCPSO(Strategy):
     ) -> Optional[Tuple[float, Dict[str, Scalar]]]:
         """Evaluate global model parameters using an evaluation function."""
 
+        # Evaluate global model
+        loss, acc = test(self.global_best_model, server_testloader)
         # Let's assume we won't perform the global model evaluation on the server side.
-        return None
+        return loss, {"accuracy": acc, "bytes_received": self.total_bytes_received}
 
     def num_fit_clients(self, num_available_clients: int) -> Tuple[int, int]:
         """Return sample size and required number of clients."""
@@ -430,7 +452,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     config = ServerConfig(num_rounds=5)
     return ServerAppComponents(
         config=config,
-        strategy=FedCPSO(0.8),  # <-- pass the new strategy here
+        strategy=FedCPSO(),  # <-- pass the new strategy here
     )
 
 

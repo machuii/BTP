@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from typing import List, Tuple
+from typing import List, Tuple, Union, Dict, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -12,11 +12,27 @@ from torch.utils.data import DataLoader
 
 import flwr
 from flwr.client import Client, ClientApp, NumPyClient
-from flwr.common import Metrics, Context
+from flwr.server.client_proxy import ClientProxy
+from flwr.common import (
+    Context,
+    EvaluateIns,
+    EvaluateRes,
+    FitIns,
+    FitRes,
+    Parameters,
+    Scalar,
+    ndarrays_to_parameters,
+    parameters_to_ndarrays,
+)
 from flwr.server import ServerApp, ServerConfig, ServerAppComponents
-from flwr.server.strategy import FedAvg
+from flwr.server.strategy import Strategy
+from flwr.server.client_manager import ClientManager
 from flwr.simulation import run_simulation
 from flwr_datasets import FederatedDataset
+from flwr.server.strategy.aggregate import aggregate, weighted_loss_avg
+
+
+import sys
 
 DEVICE = torch.device("cpu")  # Try "cuda" to train on GPU
 print(f"Training on {DEVICE}")
@@ -170,14 +186,132 @@ def client_fn(context: Context) -> Client:
 client = ClientApp(client_fn=client_fn)
 
 
-# Create FedAvg strategy
-strategy = FedAvg(
-    fraction_fit=1.0,  # Sample 100% of available clients for training
-    fraction_evaluate=0.5,  # Sample 50% of available clients for evaluation
-    min_fit_clients=10,  # Never sample less than 10 clients for training
-    min_evaluate_clients=5,  # Never sample less than 5 clients for evaluation
-    min_available_clients=10,  # Wait until all 10 clients are available
-)
+class FedCustom(Strategy):
+    def __init__(
+        self,
+        fraction_fit: float = 1.0,
+        fraction_evaluate: float = 1.0,
+        min_fit_clients: int = 2,
+        min_evaluate_clients: int = 2,
+        min_available_clients: int = 2,
+    ) -> None:
+        super().__init__()
+        self.fraction_fit = fraction_fit
+        self.fraction_evaluate = fraction_evaluate
+        self.min_fit_clients = min_fit_clients
+        self.min_evaluate_clients = min_evaluate_clients
+        self.min_available_clients = min_available_clients
+
+        self.total_bytes_received = 0
+
+    def __repr__(self) -> str:
+        return "FedCustom"
+
+    def initialize_parameters(
+        self, client_manager: ClientManager
+    ) -> Optional[Parameters]:
+        """Initialize global model parameters."""
+        net = Net()
+        ndarrays = get_parameters(net)
+        return ndarrays_to_parameters(ndarrays)
+
+    def configure_fit(
+        self, server_round: int, parameters: Parameters, client_manager: ClientManager
+    ) -> List[Tuple[ClientProxy, FitIns]]:
+        """Configure the next round of training."""
+
+        # Sample clients
+        sample_size, min_num_clients = self.num_fit_clients(
+            client_manager.num_available()
+        )
+        clients = client_manager.sample(
+            num_clients=sample_size, min_num_clients=min_num_clients
+        )
+
+        # Create custom configs
+        n_clients = len(clients)
+        standard_config = {"lr": 0.001}
+        fit_configurations = []
+        for idx, client in enumerate(clients):
+            fit_configurations.append((client, FitIns(parameters, standard_config)))
+        return fit_configurations
+
+    def aggregate_fit(
+        self,
+        server_round: int,
+        results: List[Tuple[ClientProxy, FitRes]],
+        failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
+    ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
+        """Aggregate fit results using weighted average."""
+
+        weights_results = [
+            (parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
+            for _, fit_res in results
+        ]
+
+        for _, fit_res in results:
+            self.total_bytes_received += sys.getsizeof(fit_res.parameters)
+        parameters_aggregated = ndarrays_to_parameters(aggregate(weights_results))
+        metrics_aggregated = {}
+        return parameters_aggregated, metrics_aggregated
+
+    def configure_evaluate(
+        self, server_round: int, parameters: Parameters, client_manager: ClientManager
+    ) -> List[Tuple[ClientProxy, EvaluateIns]]:
+        """Configure the next round of evaluation."""
+        if self.fraction_evaluate == 0.0:
+            return []
+        config = {}
+        evaluate_ins = EvaluateIns(parameters, config)
+
+        # Sample clients
+        sample_size, min_num_clients = self.num_evaluation_clients(
+            client_manager.num_available()
+        )
+        clients = client_manager.sample(
+            num_clients=sample_size, min_num_clients=min_num_clients
+        )
+
+        # Return client/config pairs
+        return [(client, evaluate_ins) for client in clients]
+
+    def aggregate_evaluate(
+        self,
+        server_round: int,
+        results: List[Tuple[ClientProxy, EvaluateRes]],
+        failures: List[Union[Tuple[ClientProxy, EvaluateRes], BaseException]],
+    ) -> Tuple[Optional[float], Dict[str, Scalar]]:
+        """Aggregate evaluation losses using weighted average."""
+
+        if not results:
+            return None, {}
+
+        loss_aggregated = weighted_loss_avg(
+            [
+                (evaluate_res.num_examples, evaluate_res.loss)
+                for _, evaluate_res in results
+            ]
+        )
+        metrics_aggregated = {}
+        return loss_aggregated, metrics_aggregated
+
+    def evaluate(
+        self, server_round: int, parameters: Parameters
+    ) -> Optional[Tuple[float, Dict[str, Scalar]]]:
+        """Evaluate global model parameters using an evaluation function."""
+
+        # Let's assume we won't perform the global model evaluation on the server side.
+        return self.total_bytes_received, {}
+
+    def num_fit_clients(self, num_available_clients: int) -> Tuple[int, int]:
+        """Return sample size and required number of clients."""
+        num_clients = int(num_available_clients * self.fraction_fit)
+        return max(num_clients, self.min_fit_clients), self.min_available_clients
+
+    def num_evaluation_clients(self, num_available_clients: int) -> Tuple[int, int]:
+        """Use a fraction of available clients for evaluation."""
+        num_clients = int(num_available_clients * self.fraction_evaluate)
+        return max(num_clients, self.min_evaluate_clients), self.min_available_clients
 
 
 def server_fn(context: Context) -> ServerAppComponents:
@@ -191,7 +325,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     # Configure the server for 5 rounds of training
     config = ServerConfig(num_rounds=5)
 
-    return ServerAppComponents(strategy=strategy, config=config)
+    return ServerAppComponents(strategy=FedCustom(), config=config)
 
 
 # Create the ServerApp
