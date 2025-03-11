@@ -29,12 +29,17 @@ from flwr.server.strategy import Strategy
 from flwr.server.client_manager import ClientManager
 from flwr.simulation import run_simulation
 from flwr_datasets import FederatedDataset
+from flwr_datasets.partitioner import DirichletPartitioner
 from flwr.server.strategy.aggregate import aggregate, weighted_loss_avg
 
 
 import sys
 
-DEVICE = torch.device("cpu")  # Try "cuda" to train on GPU
+# DEVICE = (
+#     torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+# )
+
+DEVICE = torch.device("cpu")
 print(f"Training on {DEVICE}")
 print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 disable_progress_bar()
@@ -43,9 +48,14 @@ disable_progress_bar()
 NUM_CLIENTS = 10
 BATCH_SIZE = 32
 
+partitioner = DirichletPartitioner(
+    num_partitions=NUM_CLIENTS, alpha=0.1, partition_by="label"
+)
+
 
 def load_datasets(partition_id: int):
-    fds = FederatedDataset(dataset="cifar10", partitioners={"train": NUM_CLIENTS})
+    # fds = FederatedDataset(dataset="cifar10", partitioners={"train": NUM_CLIENTS})
+    fds = FederatedDataset(dataset="cifar10", partitioners={"train": partitioner})
     partition = fds.load_partition(partition_id)
     # Divide data on each node: 80% train, 20% test
     partition_train_test = partition.train_test_split(test_size=0.2, seed=42)
@@ -202,8 +212,6 @@ class FedCustom(Strategy):
         self.min_evaluate_clients = min_evaluate_clients
         self.min_available_clients = min_available_clients
 
-        self.total_bytes_received = 0
-
     def __repr__(self) -> str:
         return "FedCustom"
 
@@ -249,8 +257,6 @@ class FedCustom(Strategy):
             for _, fit_res in results
         ]
 
-        for _, fit_res in results:
-            self.total_bytes_received += sys.getsizeof(fit_res.parameters)
         parameters_aggregated = ndarrays_to_parameters(aggregate(weights_results))
         metrics_aggregated = {}
         return parameters_aggregated, metrics_aggregated
@@ -292,16 +298,18 @@ class FedCustom(Strategy):
                 for _, evaluate_res in results
             ]
         )
-        metrics_aggregated = {}
+        accuracy_aggregated = np.mean(
+            [evaluate_res.metrics["accuracy"] for _, evaluate_res in results]
+        )
+        metrics_aggregated = {"acc": accuracy_aggregated}
         return loss_aggregated, metrics_aggregated
 
     def evaluate(
         self, server_round: int, parameters: Parameters
     ) -> Optional[Tuple[float, Dict[str, Scalar]]]:
         """Evaluate global model parameters using an evaluation function."""
-
         # Let's assume we won't perform the global model evaluation on the server side.
-        return self.total_bytes_received, {}
+        return None
 
     def num_fit_clients(self, num_available_clients: int) -> Tuple[int, int]:
         """Return sample size and required number of clients."""

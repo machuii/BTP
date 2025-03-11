@@ -16,6 +16,7 @@ from flwr.server import ServerApp, ServerConfig, ServerAppComponents
 from flwr.server.strategy import Strategy
 from flwr.simulation import run_simulation
 from flwr_datasets import FederatedDataset
+from flwr_datasets.partitioner import DirichletPartitioner
 from flwr.common import (
     ndarrays_to_parameters,
     NDArrays,
@@ -32,8 +33,6 @@ from flwr.common import (
     FitIns,
     FitRes,
     Parameters,
-    Scalar,
-    ndarrays_to_parameters,
     parameters_to_ndarrays,
 )
 from flwr.server.client_manager import ClientManager
@@ -41,16 +40,22 @@ from flwr.server.client_proxy import ClientProxy
 from flwr.server.strategy.aggregate import aggregate, weighted_loss_avg
 
 
-DEVICE = torch.device("cpu")  # Try "cuda" to train on GPU
+# DEVICE = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+DEVICE = torch.device("cpu")
 print(f"Training on {DEVICE}")
 print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
-NUM_PARTITIONS = 10
-BATCH_SIZE = 32
+NUM_PARTITIONS = 20
+BATCH_SIZE = 10
+
+partitioner = DirichletPartitioner(
+    num_partitions=NUM_PARTITIONS, alpha=0.1, partition_by="label"
+)
 
 
 def load_datasets(partition_id: int, num_partitions: int):
-    fds = FederatedDataset(dataset="cifar10", partitioners={"train": num_partitions})
+    # fds = FederatedDataset(dataset="cifar10", partitioners={"train": num_partitions})
+    fds = FederatedDataset(dataset="cifar10", partitioners={"train": partitioner})
     partition = fds.load_partition(partition_id)
     # Divide data on each node: 80% train, 20% test
     partition_train_test = partition.train_test_split(test_size=0.2, seed=42)
@@ -106,6 +111,7 @@ def get_parameters(net) -> List[np.ndarray]:
 def set_parameters(net, parameters: List[np.ndarray]):
     params_dict = zip(net.state_dict().keys(), parameters)
     state_dict = OrderedDict({k: torch.Tensor(v) for k, v in params_dict})
+    # state_dict = OrderedDict({k: torch.from_numpy(np.copy(v)) for k, v in params_dict})
     net.load_state_dict(state_dict, strict=True)
 
 
@@ -166,42 +172,41 @@ def prune_model(model, pruning_rate):
 class FlowerClient(NumPyClient):
     def __init__(self, partition_id, net, trainloader, valloader):
         self.partition_id = partition_id
-        self.net = net
         self.trainloader = trainloader
         self.valloader = valloader
-        self.server_model = net
+        self.client_model = net
 
     def get_parameters(self, config):
-        return get_parameters(self.net)
+        return get_parameters(self.client_model)
 
     # this is client update
     def fit(self, parameters, config):
-        set_parameters(self.server_model, parameters)
-        train(self.server_model, self.trainloader, epochs=1)
+        set_parameters(self.client_model, parameters)
+        train(self.client_model, self.trainloader, epochs=1)
 
-        before_prune_size = sys.getsizeof(self.server_model)
+        # fakequant_trainable_channel(self.client_model, 16)
 
-        # magnitude prune self.server_model
-        prune_model(self.server_model, 0.5)
+        # magnitude prune self.client_model
+        # params = get_params(self.client_model)
+        # params = prune(params, 0.5)
 
-        after_prune_size = sys.getsizeof(self.server_model)
+        # prune_model(self.client_model, 0.5)
+        params = get_parameters(self.client_model)
 
         # return back pruned model , accuracy on test_set
-        loss, accuracy = test(self.server_model, self.valloader)
+        loss, accuracy = test(self.client_model, self.valloader)
         return (
-            get_parameters(self.server_model),
+            params,
             len(self.trainloader),
             {
                 "accuracy": float(accuracy),
-                "before_prune_size": before_prune_size,
-                "after_prune_size": after_prune_size,
             },
         )
 
     def evaluate(self, parameters, config):
         print(f"[Client {self.partition_id}] evaluate, config: {config}")
-        set_parameters(self.net, parameters)
-        loss, accuracy = test(self.net, self.valloader)
+        set_parameters(self.client_model, parameters)
+        loss, accuracy = test(self.client_model, self.valloader)
         return float(loss), len(self.valloader), {"accuracy": float(accuracy)}
 
 
@@ -236,21 +241,19 @@ class FedCPSO(Strategy):
         self.min_fit_clients = min_fit_clients
         self.min_evaluate_clients = min_evaluate_clients
         self.min_available_clients = min_available_clients
-        self.total_bytes_received = 0
 
-        self.global_model = Net()
+        self.global_model = Net().to(DEVICE)
         self.global_best_accuracy = 0
-        self.global_best_model = copy.deepcopy(self.global_model)
+        self.global_best_model = Net().to(DEVICE)
 
         self.local_best_accuracy = [0] * NUM_PARTITIONS
         self.prev_client_accuracy = [0] * NUM_PARTITIONS
 
-        self.client_best_models = [copy.deepcopy(self.global_model)] * NUM_PARTITIONS
-        self.client_models = [copy.deepcopy(self.global_model)] * NUM_PARTITIONS
+        self.client_best_models = [Net().to(DEVICE)] * NUM_PARTITIONS
+        self.client_models = [Net().to(DEVICE)] * NUM_PARTITIONS
 
         self.best_neighbour_grid = [[1] * NUM_PARTITIONS] * NUM_PARTITIONS
         self.best_neighbour = [0] * NUM_PARTITIONS
-        self.best_neighbour_model = [copy.deepcopy(self.global_model)] * NUM_PARTITIONS
 
         self.velocities = [
             {
@@ -283,7 +286,7 @@ class FedCPSO(Strategy):
             num_clients=sample_size, min_num_clients=min_num_clients
         )
 
-        standard_config = {"lr": 0.001}
+        standard_config = {"lr": 0.005}
         fit_configurations = []
         for idx, client in enumerate(clients):
             fit_configurations.append(
@@ -311,12 +314,6 @@ class FedCPSO(Strategy):
             for _, fit_res in results
         ]
 
-        for _, fit_res in results:
-            self.total_bytes_received += (
-                fit_res.metrics["before_prune_size"]
-                - fit_res.metrics["after_prune_size"]
-            )
-
         aggregated_weights = aggregate(weights_results)
         set_parameters(self.global_model, aggregated_weights)
 
@@ -332,7 +329,9 @@ class FedCPSO(Strategy):
         for idx, (client, fit_res) in enumerate(results):
             if fit_res.metrics["accuracy"] > self.local_best_accuracy[idx]:
                 self.local_best_accuracy[idx] = fit_res.metrics["accuracy"]
-                self.client_best_models[idx] = self.client_models[idx]
+                temp = Net().to(DEVICE)
+                set_parameters(temp, parameters_to_ndarrays(fit_res.parameters))
+                self.client_best_models[idx] = copy.deepcopy(temp)
 
         # update best neighbour
         for idx, (client, fit_res) in enumerate(results):
@@ -344,15 +343,12 @@ class FedCPSO(Strategy):
                 self.best_neighbour[idx] = self.best_neighbour_grid[idx].index(
                     max(self.best_neighbour_grid[idx])
                 )
-                self.best_neighbour_model[idx] = self.client_models[
-                    self.best_neighbour[idx]
-                ]
 
         self.prev_client_accuracy = accuracy_list
 
         # update client models with velocities
         for idx, (client, fit_res) in enumerate(results):
-            temp_model = Net()
+            temp_model = Net().to(DEVICE)
             set_parameters(temp_model, parameters_to_ndarrays(fit_res.parameters))
             for param_name, param in self.client_models[idx].named_parameters():
                 self.velocities[idx][param_name] = 0.5 * self.velocities[idx][
@@ -367,7 +363,9 @@ class FedCPSO(Strategy):
                         - self.client_models[idx].state_dict()[param_name]
                     )
                     + (
-                        self.best_neighbour_model[idx].state_dict()[param_name]
+                        self.client_models[self.best_neighbour[idx]].state_dict()[
+                            param_name
+                        ]
                         - self.client_models[idx].state_dict()[param_name]
                     )
                 )
@@ -423,7 +421,9 @@ class FedCPSO(Strategy):
         accuracy_aggregated = sum(
             [evaluate_res.metrics["accuracy"] for _, evaluate_res in results]
         ) / len(results)
-        metrics_aggregated = {"acc": accuracy_aggregated}
+        metrics_aggregated = {
+            "acc": accuracy_aggregated,
+        }
         return loss_aggregated, metrics_aggregated
 
     def evaluate(
@@ -434,7 +434,7 @@ class FedCPSO(Strategy):
         # Evaluate global model
         loss, acc = test(self.global_best_model, server_testloader)
         # Let's assume we won't perform the global model evaluation on the server side.
-        return loss, {"accuracy": acc, "bytes_received": self.total_bytes_received}
+        return loss, {"accuracy": acc}
 
     def num_fit_clients(self, num_available_clients: int) -> Tuple[int, int]:
         """Return sample size and required number of clients."""
@@ -449,7 +449,7 @@ class FedCPSO(Strategy):
 
 def server_fn(context: Context) -> ServerAppComponents:
     # Create FedAvg strategy
-    config = ServerConfig(num_rounds=5)
+    config = ServerConfig(num_rounds=10)
     return ServerAppComponents(
         config=config,
         strategy=FedCPSO(),  # <-- pass the new strategy here
