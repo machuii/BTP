@@ -1,3 +1,5 @@
 venv/   
 /FedCPSO/test.py
 /FedCPSO/utils
+/logs.txt
+/results/Results.txt

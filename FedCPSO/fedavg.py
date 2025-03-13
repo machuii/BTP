@@ -45,7 +45,7 @@ print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 disable_progress_bar()
 
 
-NUM_CLIENTS = 10
+NUM_CLIENTS = 20
 BATCH_SIZE = 32
 
 partitioner = DirichletPartitioner(
@@ -55,7 +55,9 @@ partitioner = DirichletPartitioner(
 
 def load_datasets(partition_id: int):
     # fds = FederatedDataset(dataset="cifar10", partitioners={"train": NUM_CLIENTS})
-    fds = FederatedDataset(dataset="cifar10", partitioners={"train": partitioner})
+    fds = FederatedDataset(
+        dataset="uoft-cs/cifar10", partitioners={"train": partitioner}
+    )
     partition = fds.load_partition(partition_id)
     # Divide data on each node: 80% train, 20% test
     partition_train_test = partition.train_test_split(test_size=0.2, seed=42)
@@ -79,6 +81,9 @@ def load_datasets(partition_id: int):
     testset = fds.load_split("test").with_transform(apply_transforms)
     testloader = DataLoader(testset, batch_size=BATCH_SIZE)
     return trainloader, valloader, testloader
+
+
+server_trainloader, server_valloader, server_testloader = load_datasets(0)
 
 
 class Net(nn.Module):
@@ -211,6 +216,7 @@ class FedCustom(Strategy):
         self.min_fit_clients = min_fit_clients
         self.min_evaluate_clients = min_evaluate_clients
         self.min_available_clients = min_available_clients
+        self.global_model = Net().to(DEVICE)
 
     def __repr__(self) -> str:
         return "FedCustom"
@@ -257,7 +263,10 @@ class FedCustom(Strategy):
             for _, fit_res in results
         ]
 
+        set_parameters(self.global_model, aggregate(weights_results))
+
         parameters_aggregated = ndarrays_to_parameters(aggregate(weights_results))
+
         metrics_aggregated = {}
         return parameters_aggregated, metrics_aggregated
 
@@ -308,7 +317,7 @@ class FedCustom(Strategy):
         self, server_round: int, parameters: Parameters
     ) -> Optional[Tuple[float, Dict[str, Scalar]]]:
         """Evaluate global model parameters using an evaluation function."""
-        # Let's assume we won't perform the global model evaluation on the server side.
+
         return None
 
     def num_fit_clients(self, num_available_clients: int) -> Tuple[int, int]:
@@ -331,7 +340,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     """
 
     # Configure the server for 5 rounds of training
-    config = ServerConfig(num_rounds=5)
+    config = ServerConfig(num_rounds=10)
 
     return ServerAppComponents(strategy=FedCustom(), config=config)
 

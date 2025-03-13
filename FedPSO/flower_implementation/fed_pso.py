@@ -8,6 +8,7 @@ import torch.nn.functional as F
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import random
+import copy
 
 import flwr
 from flwr.client import Client, ClientApp, NumPyClient
@@ -15,12 +16,7 @@ from flwr.server import ServerApp, ServerConfig, ServerAppComponents
 from flwr.server.strategy import FedAvg, FedAdagrad
 from flwr.simulation import run_simulation
 from flwr_datasets import FederatedDataset
-from flwr.common import (
-    ndarrays_to_parameters,
-    NDArrays,
-    Scalar,
-    Context,
-)
+from flwr_datasets.partitioner import IidPartitioner
 
 from typing import Union
 import numpy as np
@@ -34,6 +30,9 @@ from flwr.common import (
     Scalar,
     ndarrays_to_parameters,
     parameters_to_ndarrays,
+    NDArrays,
+    Context,
+    GetParametersIns,
 )
 from flwr.server.client_manager import ClientManager
 from flwr.server.client_proxy import ClientProxy
@@ -44,12 +43,15 @@ DEVICE = torch.device("cpu")  # Try "cuda" to train on GPU
 print(f"Training on {DEVICE}")
 print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
-NUM_PARTITIONS = 10
+NUM_PARTITIONS = 20
 BATCH_SIZE = 32
 
 
+partitioner = IidPartitioner(num_partitions=NUM_PARTITIONS)
+
+
 def load_datasets(partition_id: int, num_partitions: int):
-    fds = FederatedDataset(dataset="cifar10", partitioners={"train": num_partitions})
+    fds = FederatedDataset(dataset="cifar10", partitioners={"train": partitioner})
     partition = fds.load_partition(partition_id)
     # Divide data on each node: 80% train, 20% test
     partition_train_test = partition.train_test_split(test_size=0.2, seed=42)
@@ -75,54 +77,23 @@ def load_datasets(partition_id: int, num_partitions: int):
 
 
 class Net(nn.Module):
-    def __init__(self, num_classes=10):
+    def __init__(self) -> None:
         super(Net, self).__init__()
-        # 1st Block
-        self.conv1_1 = nn.Conv2d(
-            in_channels=3, out_channels=32, kernel_size=5, padding=2
-        )
-        self.conv1_2 = nn.Conv2d(
-            in_channels=32, out_channels=32, kernel_size=5, padding=2
-        )
-        self.pool1 = nn.MaxPool2d(kernel_size=2, padding=1)
-        self.dropout1 = nn.Dropout(p=0.2)
+        self.conv1 = nn.Conv2d(3, 6, 5)
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(6, 16, 5)
+        self.fc1 = nn.Linear(16 * 5 * 5, 120)
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, 10)
 
-        # 2nd Block
-        self.conv2_1 = nn.Conv2d(
-            in_channels=32, out_channels=64, kernel_size=5, padding=2
-        )
-        self.conv2_2 = nn.Conv2d(
-            in_channels=64, out_channels=64, kernel_size=5, padding=2
-        )
-        self.pool2 = nn.MaxPool2d(kernel_size=2, padding=1)
-        self.dropout2 = nn.Dropout(p=0.2)
-
-        # Fully Connected Layers
-        self.fc1 = nn.Linear(64 * 9 * 9, 512)  # Updated input size to 4096
-        self.dropout3 = nn.Dropout(p=0.2)
-        self.fc2 = nn.Linear(512, num_classes)
-
-    def forward(self, x):
-        # 1st Block
-        x = F.relu(self.conv1_1(x))
-        x = F.relu(self.conv1_2(x))
-        x = self.pool1(x)
-        x = self.dropout1(x)
-
-        # 2nd Block
-        x = F.relu(self.conv2_1(x))
-        x = F.relu(self.conv2_2(x))
-        x = self.pool2(x)
-        x = self.dropout2(x)
-
-        # Flatten
-        x = torch.flatten(x, 1)
-
-        # Fully Connected Layers
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = x.view(-1, 16 * 5 * 5)
         x = F.relu(self.fc1(x))
-        x = self.dropout3(x)
-        x = self.fc2(x)
-        return F.softmax(x, dim=1)
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
 
 
 def get_parameters(net) -> List[np.ndarray]:
@@ -135,53 +106,20 @@ def set_parameters(net, parameters: List[np.ndarray]):
     net.load_state_dict(state_dict, strict=True)
 
 
-def train(client, config, global_best, epochs):
+def train(net, trainloader, epochs: int):
     """Train the network on the training set."""
-    acc = config["acc"]
-    local_acc = config["local_acc"]
-    global_acc = config["global_acc"]
-
-    temp_model = client.net
-    parameters = get_parameters(temp_model)
-
-    local_best = client.local_best_model
-    local_best_parameters = get_parameters(local_best)
-
-    local_rand, global_rand = random.random(), random.random()
-
-    new_weights = [None] * len(parameters)
-
-    for index, layer in enumerate(parameters):
-        new_v = acc * client.velocities[index]
-        new_v = new_v + local_rand * (
-            local_acc * (local_best_parameters[index] - layer)
-        )
-        new_v = new_v + global_rand * (global_acc * (global_best[index] - layer))
-        client.velocities[index] = new_v
-        new_weights[index] = layer + new_v
-
-    set_parameters(temp_model, new_weights)
-
     criterion = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(temp_model.parameters(), lr=0.001, momentum=0.9)
-    total_loss = 0.0
+    optimizer = torch.optim.Adam(net.parameters())
+    net.train()
     for epoch in range(epochs):
-        for data in client.trainloader:
-            inputs, labels = data["img"].to(DEVICE), data["label"].to(DEVICE)
+        for batch in trainloader:
+            images, labels = batch["img"], batch["label"]
+            images, labels = images.to(DEVICE), labels.to(DEVICE)
             optimizer.zero_grad()
-            outputs = temp_model(inputs)
+            outputs = net(images)
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
-            total_loss += loss.item()
-
-    total_loss /= len(client.trainloader)
-
-    client.net = temp_model
-
-    if total_loss < client.local_best_loss:
-        client.local_best_loss = total_loss
-        client.local_best_model = client.net
 
 
 def test(net, testloader):
@@ -204,56 +142,77 @@ def test(net, testloader):
 
 
 class FlowerClient(NumPyClient):
-    def __init__(self, partition_id, net, trainloader, valloader):
+    def __init__(self, partition_id, trainloader, valloader):
         self.partition_id = partition_id
-        self.net = net
+        self.net = Net().to(DEVICE)
         self.trainloader = trainloader
         self.valloader = valloader
-        self.local_best_loss = np.inf
-        self.local_best_model = net
-        self.velocities = [np.zeros_like(p) for p in get_parameters(net)]
+        self.local_best_accuracy = 0.0
+        self.local_best_model = Net().to(DEVICE)
+        self.velocities = [
+            (np.random.rand(*p.shape) / 5) - 0.10 for p in get_parameters(self.net)
+        ]
 
     def get_parameters(self, config):
-        if config == {}:
-            print(f"[Client {self.partition_id}] get_parameters")
+        if config["model"] == "best":
             return get_parameters(self.local_best_model)
         return get_parameters(self.net)
 
     def fit(self, parameters, config):
-        print(f"[Client {self.partition_id}] fit, config: {config}")
-        train(self, config, parameters, epochs=1)
+
+        acc = config["acc"]
+        local_acc = config["local_acc"]
+        global_acc = config["global_acc"]
+
+        local_best_parameters = get_parameters(self.local_best_model)
+
+        local_rand, global_rand = random.random(), random.random()
+
+        new_weights = [None] * len(parameters)
+
+        for index, layer in enumerate(parameters):
+            new_v = acc * self.velocities[index]
+            new_v = new_v + local_rand * (
+                local_acc * (local_best_parameters[index] - layer)
+            )
+            new_v = new_v + global_rand * (global_acc * (parameters[index] - layer))
+            self.velocities[index] = new_v
+            new_weights[index] = layer + new_v
+
+        set_parameters(self.net, new_weights)
+
+        train(self.net, self.trainloader, epochs=1)
+
+        loss, acc = test(self.net, self.valloader)
+
+        if acc > self.local_best_accuracy:
+            self.local_best_accuracy = acc
+            set_parameters(self.local_best_model, get_parameters(self.net))
+
         return (
             [],
             len(self.trainloader),
-            {"loss": float(self.local_best_loss)},
+            {"acc": float(self.local_best_accuracy)},
         )
 
     def evaluate(self, parameters, config):
-        print(f"[Client {self.partition_id}] evaluate, config: {config}")
-        set_parameters(self.net, parameters)
+        # set_parameters(self.net, parameters)
         loss, accuracy = test(self.net, self.valloader)
         return float(loss), len(self.valloader), {"accuracy": float(accuracy)}
 
 
 def client_fn(context: Context) -> Client:
-    net = Net().to(DEVICE)
 
     # Read the node_config to fetch data partition associated to this node
     partition_id = context.node_config["partition-id"]
     num_partitions = context.node_config["num-partitions"]
 
     trainloader, valloader, _ = load_datasets(partition_id, num_partitions)
-    return FlowerClient(partition_id, net, trainloader, valloader).to_client()
+    return FlowerClient(partition_id, trainloader, valloader).to_client()
 
 
 # Create the ClientApp
 client = ClientApp(client_fn=client_fn)
-
-
-def fetch_client_parameters(client: ClientProxy) -> Parameters:
-    ins = FitIns(Parameters(tensors=[], tensor_type="numpy"), config={})
-    future = client.get_parameters(ins=ins, timeout=1000, group_id=None)
-    return future.parameters
 
 
 class FedPSO(flwr.server.strategy.Strategy):
@@ -271,9 +230,9 @@ class FedPSO(flwr.server.strategy.Strategy):
         self.min_fit_clients = min_fit_clients
         self.min_evaluate_clients = min_evaluate_clients
         self.min_available_clients = min_available_clients
-        self.best_loss = np.inf
+        self.best_accuracy = 0.0
         self.best_client = None
-        self.global_best = get_parameters(Net())
+        self.global_best = Net().to(DEVICE)
 
     def __repr__(self) -> str:
         return "FedPSO"
@@ -282,9 +241,7 @@ class FedPSO(flwr.server.strategy.Strategy):
         self, client_manager: ClientManager
     ) -> Optional[Parameters]:
         """Initialize global model parameters."""
-        net = Net()
-        ndarrays = get_parameters(net)
-        return ndarrays_to_parameters(ndarrays)
+        return ndarrays_to_parameters(get_parameters(Net()))
 
     def configure_fit(
         self, server_round: int, parameters: Parameters, client_manager: ClientManager
@@ -298,21 +255,20 @@ class FedPSO(flwr.server.strategy.Strategy):
         clients = client_manager.sample(
             num_clients=sample_size, min_num_clients=min_num_clients
         )
-
+        params = ndarrays_to_parameters(get_parameters(self.global_best))
         # Create custom configs
         standard_config = {
             "lr": 0.001,
             "acc": 0.3,
             "local_acc": 0.7,
             "global_acc": 1.4,
-            "model": "train",
         }
         fit_configurations = []
         for client in clients:
             fit_configurations.append(
                 (
                     client,
-                    FitIns(parameters, standard_config),
+                    FitIns(params, standard_config),
                 )
             )
         return fit_configurations
@@ -326,16 +282,17 @@ class FedPSO(flwr.server.strategy.Strategy):
         """Aggregate fit results using weighted average."""
 
         for client, fit_res in results:
-            loss = fit_res.metrics["loss"]
-            if loss < self.best_loss:
-                self.best_loss = loss
+            if fit_res.metrics["acc"] > self.best_accuracy:
+                self.best_accuracy = fit_res.metrics["acc"]
                 self.best_client = client
-                self.global_best = fit_res.parameters
+                print(client.cid)
 
         metrics_aggregated = {}
 
-        self.global_best = fetch_client_parameters(self.best_client)
-        return self.global_best, metrics_aggregated
+        global_best_params = self.best_client.get_parameters(
+            (GetParametersIns(config={"model": "best"})), timeout=None, group_id=None
+        ).parameters
+        return [], metrics_aggregated
 
     def configure_evaluate(
         self, server_round: int, parameters: Parameters, client_manager: ClientManager
@@ -344,6 +301,7 @@ class FedPSO(flwr.server.strategy.Strategy):
         if self.fraction_evaluate == 0.0:
             return []
         config = {}
+
         evaluate_ins = EvaluateIns(parameters, config)
 
         # Sample clients
@@ -365,10 +323,6 @@ class FedPSO(flwr.server.strategy.Strategy):
     ) -> Tuple[Optional[float], Dict[str, Scalar]]:
         """Aggregate evaluation losses using weighted average."""
 
-        if not results:
-            print(failures)
-            return None, {}
-
         loss_aggregated = weighted_loss_avg(
             [
                 (evaluate_res.num_examples, evaluate_res.loss)
@@ -386,13 +340,6 @@ class FedPSO(flwr.server.strategy.Strategy):
     def evaluate(
         self, server_round: int, parameters: Parameters
     ) -> Optional[Tuple[float, Dict[str, Scalar]]]:
-        # test_model = Net()
-        # set_parameters(test_model, parameters)
-        # test_model.to(DEVICE)
-        # test_model.eval()
-        # _, _, testloader = load_datasets(0, 1)
-        # loss, accuracy = test(test_model, testloader)
-        # return loss, {"accuracy": accuracy}
         """Evaluate global model parameters using an evaluation function."""
 
         # # Let's assume we won't perform the global model evaluation on the server side.
@@ -414,7 +361,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     config = ServerConfig(num_rounds=5)
     return ServerAppComponents(
         config=config,
-        strategy=FedPSO(0.8),  # <-- pass the new strategy here
+        strategy=FedPSO(fraction_fit=0.5),  # <-- pass the new strategy here
     )
 
 

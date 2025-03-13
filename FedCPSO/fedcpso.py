@@ -17,23 +17,28 @@ from flwr.server.strategy import Strategy
 from flwr.simulation import run_simulation
 from flwr_datasets import FederatedDataset
 from flwr_datasets.partitioner import DirichletPartitioner
-from flwr.common import (
-    ndarrays_to_parameters,
-    NDArrays,
-    Scalar,
-    Context,
-)
 
+from io import BytesIO
+from typing import cast
 from typing import Union
 import numpy as np
 import flwr
 from flwr.common import (
+    Code,
     EvaluateIns,
     EvaluateRes,
     FitIns,
     FitRes,
     Parameters,
+    GetParametersIns,
+    GetParametersRes,
+    Status,
     parameters_to_ndarrays,
+    ndarrays_to_parameters,
+    Scalar,
+    Context,
+    NDArrays,
+    NDArray,
 )
 from flwr.server.client_manager import ClientManager
 from flwr.server.client_proxy import ClientProxy
@@ -48,14 +53,82 @@ print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 NUM_PARTITIONS = 20
 BATCH_SIZE = 10
 
+
+logs = open("logs.txt", "a")
+
+
+def ndarrays_to_sparse_parameters(ndarrays: NDArrays) -> Parameters:
+    """Convert NumPy ndarrays to parameters object."""
+    tensors = [ndarray_to_sparse_bytes(ndarray) for ndarray in ndarrays]
+    return Parameters(tensors=tensors, tensor_type="numpy.ndarray")
+
+
+def sparse_parameters_to_ndarrays(parameters: Parameters) -> NDArrays:
+    """Convert parameters object to NumPy ndarrays."""
+    return [sparse_bytes_to_ndarray(tensor) for tensor in parameters.tensors]
+
+
+def ndarray_to_sparse_bytes(ndarray: NDArray) -> bytes:
+    """Serialize NumPy ndarray to bytes."""
+    bytes_io = BytesIO()
+
+    if len(ndarray.shape) > 1:
+        # We convert our ndarray into a sparse matrix
+        ndarray = torch.tensor(ndarray).to_sparse_csr()
+
+        # And send it byutilizing the sparse matrix attributes
+        # WARNING: NEVER set allow_pickle to true.
+        # Reason: loading pickled data can execute arbitrary code
+        # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
+        np.savez(
+            bytes_io,  # type: ignore
+            crow_indices=ndarray.crow_indices(),
+            col_indices=ndarray.col_indices(),
+            values=ndarray.values(),
+            allow_pickle=False,
+        )
+    else:
+        # WARNING: NEVER set allow_pickle to true.
+        # Reason: loading pickled data can execute arbitrary code
+        # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
+        np.save(bytes_io, ndarray, allow_pickle=False)
+    return bytes_io.getvalue()
+
+
+def sparse_bytes_to_ndarray(tensor: bytes) -> NDArray:
+    """Deserialize NumPy ndarray from bytes."""
+    bytes_io = BytesIO(tensor)
+    # WARNING: NEVER set allow_pickle to true.
+    # Reason: loading pickled data can execute arbitrary code
+    # Source: https://numpy.org/doc/stable/reference/generated/numpy.load.html
+    loader = np.load(bytes_io, allow_pickle=False)  # type: ignore
+
+    if "crow_indices" in loader:
+        # We convert our sparse matrix back to a ndarray, using the attributes we sent
+        ndarray_deserialized = (
+            torch.sparse_csr_tensor(
+                crow_indices=loader["crow_indices"],
+                col_indices=loader["col_indices"],
+                values=loader["values"],
+            )
+            .to_dense()
+            .numpy()
+        )
+    else:
+        ndarray_deserialized = loader
+    return cast(NDArray, ndarray_deserialized)
+
+
 partitioner = DirichletPartitioner(
     num_partitions=NUM_PARTITIONS, alpha=0.1, partition_by="label"
 )
 
 
-def load_datasets(partition_id: int, num_partitions: int):
+def load_datasets(partition_id: int):
     # fds = FederatedDataset(dataset="cifar10", partitioners={"train": num_partitions})
-    fds = FederatedDataset(dataset="cifar10", partitioners={"train": partitioner})
+    fds = FederatedDataset(
+        dataset="uoft-cs/cifar10", partitioners={"train": partitioner}
+    )
     partition = fds.load_partition(partition_id)
     # Divide data on each node: 80% train, 20% test
     partition_train_test = partition.train_test_split(test_size=0.2, seed=42)
@@ -81,7 +154,7 @@ def load_datasets(partition_id: int, num_partitions: int):
 
 
 # create validation set for server
-server_trainloader, server_valloader, server_testloader = load_datasets(0, 1)
+_, _, server_testloader = load_datasets(0)
 
 
 class Net(nn.Module):
@@ -111,7 +184,6 @@ def get_parameters(net) -> List[np.ndarray]:
 def set_parameters(net, parameters: List[np.ndarray]):
     params_dict = zip(net.state_dict().keys(), parameters)
     state_dict = OrderedDict({k: torch.Tensor(v) for k, v in params_dict})
-    # state_dict = OrderedDict({k: torch.from_numpy(np.copy(v)) for k, v in params_dict})
     net.load_state_dict(state_dict, strict=True)
 
 
@@ -169,45 +241,75 @@ def prune_model(model, pruning_rate):
         p.data = torch.where(p.abs() < threshold, torch.tensor(0.0), p)
 
 
-class FlowerClient(NumPyClient):
+class FlowerClient(Client):
     def __init__(self, partition_id, net, trainloader, valloader):
         self.partition_id = partition_id
         self.trainloader = trainloader
         self.valloader = valloader
         self.client_model = net
 
-    def get_parameters(self, config):
-        return get_parameters(self.client_model)
+    def get_parameters(self, ins: GetParametersIns) -> GetParametersRes:
+        print(f"[Client {self.partition_id}] get_parameters")
 
-    # this is client update
-    def fit(self, parameters, config):
-        set_parameters(self.client_model, parameters)
-        train(self.client_model, self.trainloader, epochs=1)
+        # Get parameters as a list of NumPy ndarray's
+        ndarrays: List[np.ndarray] = get_parameters(self.client_model)
 
-        # fakequant_trainable_channel(self.client_model, 16)
+        # Serialize ndarray's into a Parameters object
+        parameters = ndarrays_to_parameters(ndarrays)
 
-        # magnitude prune self.client_model
-        # params = get_params(self.client_model)
-        # params = prune(params, 0.5)
-
-        # prune_model(self.client_model, 0.5)
-        params = get_parameters(self.client_model)
-
-        # return back pruned model , accuracy on test_set
-        loss, accuracy = test(self.client_model, self.valloader)
-        return (
-            params,
-            len(self.trainloader),
-            {
-                "accuracy": float(accuracy),
-            },
+        # Build and return response
+        status = Status(code=Code.OK, message="Success")
+        return GetParametersRes(
+            status=status,
+            parameters=parameters,
         )
 
-    def evaluate(self, parameters, config):
-        print(f"[Client {self.partition_id}] evaluate, config: {config}")
-        set_parameters(self.client_model, parameters)
+    def fit(self, ins: FitIns) -> FitRes:
+        print(f"[Client {self.partition_id}] fit, config: {ins.config}")
+
+        # Deserialize parameters to NumPy ndarray's
+        parameters_original = ins.parameters
+        ndarrays_original = parameters_to_ndarrays(parameters_original)
+
+        # Update local model, train, get updated parameters
+        set_parameters(self.client_model, ndarrays_original)
+
+        train(self.client_model, self.trainloader, epochs=1)
+
+        loss, acc = test(self.client_model, self.valloader)
+
+        # Serialize ndarray's into a Parameters object
+        ndarrays_updated = get_parameters(self.client_model)
+        logs.write(ndarrays_updated)
+        parameters_updated = ndarrays_to_sparse_parameters(ndarrays_updated)
+
+        # Build and return response
+        status = Status(code=Code.OK, message="Success")
+        return FitRes(
+            status=status,
+            parameters=parameters_updated,
+            num_examples=len(self.trainloader),
+            metrics={"accuracy": float(acc)},
+        )
+
+    def evaluate(self, ins: EvaluateIns) -> EvaluateRes:
+        print(f"[Client {self.partition_id}] evaluate, config: {ins.config}")
+
+        # Deserialize parameters to NumPy ndarray's
+        parameters_original = ins.parameters
+        ndarrays_original = parameters_to_ndarrays(parameters_original)
+
+        set_parameters(self.client_model, ndarrays_original)
         loss, accuracy = test(self.client_model, self.valloader)
-        return float(loss), len(self.valloader), {"accuracy": float(accuracy)}
+
+        # Build and return response
+        status = Status(code=Code.OK, message="Success")
+        return EvaluateRes(
+            status=status,
+            loss=float(loss),
+            num_examples=len(self.valloader),
+            metrics={"accuracy": float(accuracy)},
+        )
 
 
 def client_fn(context: Context) -> Client:
@@ -215,9 +317,8 @@ def client_fn(context: Context) -> Client:
 
     # Read the node_config to fetch data partition associated to this node
     partition_id = context.node_config["partition-id"]
-    num_partitions = context.node_config["num-partitions"]
 
-    trainloader, valloader, _ = load_datasets(partition_id, num_partitions)
+    trainloader, valloader, _ = load_datasets(partition_id)
     return FlowerClient(partition_id, net, trainloader, valloader).to_client()
 
 
@@ -225,15 +326,16 @@ def client_fn(context: Context) -> Client:
 client = ClientApp(client_fn=client_fn)
 
 
+### Params are not being received in the same order in each round ###
 class FedCPSO(Strategy):
     def __init__(
         self,
         num_clients: int = 10,
         fraction_fit: float = 1.0,
         fraction_evaluate: float = 0.5,
-        min_fit_clients: int = 2,
-        min_evaluate_clients: int = 5,
-        min_available_clients: int = 10,
+        min_fit_clients: int = 1,
+        min_evaluate_clients: int = 1,
+        min_available_clients: int = 1,
     ) -> None:
         super().__init__()
         self.fraction_fit = fraction_fit
@@ -243,25 +345,19 @@ class FedCPSO(Strategy):
         self.min_available_clients = min_available_clients
 
         self.global_model = Net().to(DEVICE)
-        self.global_best_accuracy = 0
+        self.global_best_accuracy = 0.0
         self.global_best_model = Net().to(DEVICE)
 
-        self.local_best_accuracy = [0] * NUM_PARTITIONS
-        self.prev_client_accuracy = [0] * NUM_PARTITIONS
+        self.local_best_accuracy = {}
+        self.prev_client_accuracy = {}
 
-        self.client_best_models = [Net().to(DEVICE)] * NUM_PARTITIONS
-        self.client_models = [Net().to(DEVICE)] * NUM_PARTITIONS
+        self.client_best_models = {}
+        self.client_models = {}
 
-        self.best_neighbour_grid = [[1] * NUM_PARTITIONS] * NUM_PARTITIONS
-        self.best_neighbour = [0] * NUM_PARTITIONS
+        self.best_neighbour_grid = {}
+        self.best_neighbour = {}
 
-        self.velocities = [
-            {
-                name: torch.zeros_like(param)
-                for name, param in model.state_dict().items()
-            }
-            for model in self.client_models
-        ]
+        self.velocities = {}
 
     def __repr__(self) -> str:
         return "FedCPSO"
@@ -270,7 +366,22 @@ class FedCPSO(Strategy):
         self, client_manager: ClientManager
     ) -> Optional[Parameters]:
         """Initialize global model parameters."""
-        ndarrays = get_parameters(self.global_model)
+        clients = client_manager.all()
+        for name, client in clients.items():
+            self.client_models[client.cid] = Net().to(DEVICE)
+            self.client_best_models[client.cid] = Net().to(DEVICE)
+            self.local_best_accuracy[client.cid] = 0.0
+            self.prev_client_accuracy[client.cid] = 0.0
+            self.velocities[client.cid] = {}
+            for param_name, param in (
+                self.client_models[client.cid].state_dict().items()
+            ):
+                self.velocities[client.cid][param_name] = torch.rand(param.shape)
+            self.best_neighbour_grid[client.cid] = {}
+            for neighbour_name, neighbour in clients.items():
+                self.best_neighbour_grid[client.cid][neighbour.cid] = 1.0
+            self.best_neighbour[client.cid] = client.cid
+        ndarrays = get_parameters(self.global_best_model)
         return ndarrays_to_parameters(ndarrays)
 
     def configure_fit(
@@ -288,12 +399,14 @@ class FedCPSO(Strategy):
 
         standard_config = {"lr": 0.005}
         fit_configurations = []
-        for idx, client in enumerate(clients):
+        for client in clients:
             fit_configurations.append(
                 (
                     client,
                     FitIns(
-                        ndarrays_to_parameters(get_parameters(self.client_models[idx])),
+                        ndarrays_to_parameters(
+                            get_parameters(self.client_models[client.cid])
+                        ),
                         standard_config,
                     ),
                 )
@@ -309,8 +422,12 @@ class FedCPSO(Strategy):
     ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
         """Aggregate fit results using weighted average."""
 
+        logs.write(f"ROUND {server_round}\n")
+        logs.write(
+            "*********************************************************************************\n"
+        )
         weights_results = [
-            (parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
+            (sparse_parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
             for _, fit_res in results
         ]
 
@@ -318,60 +435,83 @@ class FedCPSO(Strategy):
         set_parameters(self.global_model, aggregated_weights)
 
         accuracy_list = [fit_res.metrics["accuracy"] for _, fit_res in results]
-        avg_accuracy = sum(accuracy_list) / len(accuracy_list)
+        print(f"Accuracy list: {accuracy_list}")
+
+        avg_acc = sum(accuracy_list) / len(accuracy_list)
+
+        print(f"Average accuracy: {avg_acc}")
 
         # global best model
-        if avg_accuracy > self.global_best_accuracy:
-            self.global_best_accuracy = avg_accuracy
+        if avg_acc > self.global_best_accuracy:
+            logs.write(f"Global best model updated: {avg_acc}\n")
+            self.global_best_accuracy = avg_acc
             set_parameters(self.global_best_model, aggregated_weights)
 
-        # best client model
-        for idx, (client, fit_res) in enumerate(results):
-            if fit_res.metrics["accuracy"] > self.local_best_accuracy[idx]:
-                self.local_best_accuracy[idx] = fit_res.metrics["accuracy"]
-                temp = Net().to(DEVICE)
-                set_parameters(temp, parameters_to_ndarrays(fit_res.parameters))
-                self.client_best_models[idx] = copy.deepcopy(temp)
+        for client, fit_res in results:
+            # best client model
+            if fit_res.metrics["accuracy"] > self.local_best_accuracy[client.cid]:
+                logs.write(
+                    f"Client {client.cid} best model updated: {fit_res.metrics['accuracy']}\n"
+                )
+                self.local_best_accuracy[client.cid] = fit_res.metrics["accuracy"]
+                params = sparse_parameters_to_ndarrays(fit_res.parameters)
+                set_parameters(self.client_best_models[client.cid], params)
 
-        # update best neighbour
-        for idx, (client, fit_res) in enumerate(results):
-            if fit_res.metrics["accuracy"] < self.prev_client_accuracy[idx]:
-                self.best_neighbour_grid[idx][self.best_neighbour[idx]] = (
-                    self.best_neighbour_grid[idx][self.best_neighbour[idx]]
+            # update best neighbour
+            if fit_res.metrics["accuracy"] < self.prev_client_accuracy[client.cid]:
+                self.best_neighbour_grid[client.cid][
+                    self.best_neighbour[client.cid]
+                ] = (
+                    self.best_neighbour_grid[client.cid][
+                        self.best_neighbour[client.cid]
+                    ]
                     * fit_res.metrics["accuracy"]
                 )
-                self.best_neighbour[idx] = self.best_neighbour_grid[idx].index(
-                    max(self.best_neighbour_grid[idx])
-                )
 
-        self.prev_client_accuracy = accuracy_list
+                max_score = 0.0
+                for neighbour, score in self.best_neighbour_grid[client.cid].items():
+                    if score > max_score:
+                        max_score = score
+                        self.best_neighbour[client.cid] = neighbour
+
+                logs.write(
+                    f"Client {client.cid} best neighbour: {self.best_neighbour[client.cid]}\n"
+                )
+                logs.write(f"Neighbout grid: {self.best_neighbour_grid[client.cid]}\n")
+
+        for client, fit_res in results:
+            self.prev_client_accuracy[client.cid] = fit_res.metrics["accuracy"]
 
         # update client models with velocities
-        for idx, (client, fit_res) in enumerate(results):
+        for client, fit_res in results:
             temp_model = Net().to(DEVICE)
-            set_parameters(temp_model, parameters_to_ndarrays(fit_res.parameters))
-            for param_name, param in self.client_models[idx].named_parameters():
-                self.velocities[idx][param_name] = 0.5 * self.velocities[idx][
-                    param_name
-                ] + 0.5 * (
+            weights = sparse_parameters_to_ndarrays(fit_res.parameters)
+            set_parameters(temp_model, weights)
+            for param_name, param in (
+                self.client_models[client.cid].state_dict().items()
+            ):
+                self.velocities[client.cid][param_name] = 0.5 * self.velocities[
+                    client.cid
+                ][param_name] + 0.5 * (
                     (
                         self.global_best_model.state_dict()[param_name]
-                        - self.client_models[idx].state_dict()[param_name]
+                        - self.client_models[client.cid].state_dict()[param_name]
                     )
                     + (
-                        self.client_best_models[idx].state_dict()[param_name]
-                        - self.client_models[idx].state_dict()[param_name]
+                        self.client_best_models[client.cid].state_dict()[param_name]
+                        - self.client_models[client.cid].state_dict()[param_name]
                     )
                     + (
-                        self.client_models[self.best_neighbour[idx]].state_dict()[
-                            param_name
-                        ]
-                        - self.client_models[idx].state_dict()[param_name]
+                        self.client_models[
+                            self.best_neighbour[client.cid]
+                        ].state_dict()[param_name]
+                        - self.client_models[client.cid].state_dict()[param_name]
                     )
                 )
-                self.client_models[idx].state_dict()[param_name] = (
+
+                self.client_models[client.cid].state_dict()[param_name] = (
                     temp_model.state_dict()[param_name]
-                    + self.velocities[idx][param_name]
+                    + self.velocities[client.cid][param_name]
                 )
 
         parameters_aggregated = ndarrays_to_parameters(aggregated_weights)
@@ -386,8 +526,6 @@ class FedCPSO(Strategy):
         if self.fraction_evaluate == 0.0:
             return []
         config = {}
-        best_parameters = ndarrays_to_parameters(get_parameters(self.global_best_model))
-        evaluate_ins = EvaluateIns(best_parameters, config)
 
         # Sample clients
         sample_size, min_num_clients = self.num_evaluation_clients(
@@ -397,8 +535,15 @@ class FedCPSO(Strategy):
             num_clients=sample_size, min_num_clients=min_num_clients
         )
 
+        send_eval = []
+        for client in clients:
+            evaluate_ins = EvaluateIns(
+                ndarrays_to_parameters(get_parameters(self.client_models[client.cid])),
+                config,
+            )
+            send_eval.append((client, evaluate_ins))
         # Return client/config pairs
-        return [(client, evaluate_ins) for client in clients]
+        return send_eval
 
     def aggregate_evaluate(
         self,
@@ -449,10 +594,12 @@ class FedCPSO(Strategy):
 
 def server_fn(context: Context) -> ServerAppComponents:
     # Create FedAvg strategy
-    config = ServerConfig(num_rounds=10)
+    config = ServerConfig(num_rounds=5)
     return ServerAppComponents(
         config=config,
-        strategy=FedCPSO(),  # <-- pass the new strategy here
+        strategy=FedCPSO(
+            num_clients=NUM_PARTITIONS, fraction_fit=0.5
+        ),  # <-- pass the new strategy here
     )
 
 
@@ -477,3 +624,8 @@ run_simulation(
     num_supernodes=NUM_PARTITIONS,
     backend_config=backend_config,
 )
+
+logs.write(
+    "*********************************************************************************\nSIMULATION ENDED\n"
+)
+logs.close()
