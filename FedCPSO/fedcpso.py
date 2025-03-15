@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from typing import Dict, List, Optional, Tuple
 
-import sys
+import sys, os
 import numpy as np
 import torch
 import torch.nn as nn
@@ -50,7 +50,7 @@ DEVICE = torch.device("cpu")
 print(f"Training on {DEVICE}")
 print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
-NUM_PARTITIONS = 20
+NUM_PARTITIONS = 5
 BATCH_SIZE = 10
 
 
@@ -127,7 +127,7 @@ partitioner = DirichletPartitioner(
 def load_datasets(partition_id: int):
     # fds = FederatedDataset(dataset="cifar10", partitioners={"train": num_partitions})
     fds = FederatedDataset(
-        dataset="uoft-cs/cifar10", partitioners={"train": partitioner}
+        dataset="uoft-cs/cifar10", partitioners={"train": NUM_PARTITIONS}
     )
     partition = fds.load_partition(partition_id)
     # Divide data on each node: 80% train, 20% test
@@ -187,7 +187,7 @@ def set_parameters(net, parameters: List[np.ndarray]):
     net.load_state_dict(state_dict, strict=True)
 
 
-def train(net, trainloader, epochs: int, verbose=False):
+def train(net, trainloader, epochs: int):
     """Train the network on the training set."""
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(net.parameters())
@@ -195,20 +195,20 @@ def train(net, trainloader, epochs: int, verbose=False):
     for epoch in range(epochs):
         correct, total, epoch_loss = 0, 0, 0.0
         for batch in trainloader:
-            images, labels = batch["img"].to(DEVICE), batch["label"].to(DEVICE)
+            images, labels = batch["img"], batch["label"]
+            images, labels = images.to(DEVICE), labels.to(DEVICE)
             optimizer.zero_grad()
             outputs = net(images)
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
-            # Metrics
-            epoch_loss += loss
+            # metrics
+            epoch_loss += loss.item()
             total += labels.size(0)
             correct += (torch.max(outputs.data, 1)[1] == labels).sum().item()
         epoch_loss /= len(trainloader.dataset)
         epoch_acc = correct / total
-        if verbose:
-            print(f"Epoch {epoch+1}: train loss {epoch_loss}, accuracy {epoch_acc}")
+        # print(f"Epoch {epoch+1}/{epochs}, Loss: {epoch_loss}, Accuracy: {epoch_acc}")
 
 
 def test(net, testloader):
@@ -221,8 +221,8 @@ def test(net, testloader):
             images, labels = batch["img"], batch["label"]
             images, labels = images.to(DEVICE), labels.to(DEVICE)
             outputs = net(images)
+            _, predicted = torch.max(outputs, 1)
             loss += criterion(outputs, labels).item()
-            _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
     loss /= len(testloader.dataset)
@@ -230,15 +230,9 @@ def test(net, testloader):
     return loss, accuracy
 
 
-def prune_model(model, pruning_rate):
-    all_weights = []
-    for p in model.parameters():
-        all_weights += p.abs().view(-1)
-    threshold = torch.topk(
-        torch.tensor(all_weights), int(len(all_weights) * pruning_rate), largest=False
-    ).values[-1]
-    for p in model.parameters():
-        p.data = torch.where(p.abs() < threshold, torch.tensor(0.0), p)
+net = Net().to(DEVICE)
+trainloader, valloader, _ = load_datasets(0)
+train(net, trainloader, epochs=10)
 
 
 class FlowerClient(Client):
@@ -246,7 +240,11 @@ class FlowerClient(Client):
         self.partition_id = partition_id
         self.trainloader = trainloader
         self.valloader = valloader
-        self.client_model = net
+        self.client_model = Net().to(DEVICE)
+        self.model_path = f"models/client_{partition_id}.pt"
+
+        if os.path.exists(self.model_path):
+            self.client_model.load_state_dict(torch.load(self.model_path))
 
     def get_parameters(self, ins: GetParametersIns) -> GetParametersRes:
         print(f"[Client {self.partition_id}] get_parameters")
@@ -265,7 +263,6 @@ class FlowerClient(Client):
         )
 
     def fit(self, ins: FitIns) -> FitRes:
-        print(f"[Client {self.partition_id}] fit, config: {ins.config}")
 
         # Deserialize parameters to NumPy ndarray's
         parameters_original = ins.parameters
@@ -280,8 +277,9 @@ class FlowerClient(Client):
 
         # Serialize ndarray's into a Parameters object
         ndarrays_updated = get_parameters(self.client_model)
-        logs.write(ndarrays_updated)
-        parameters_updated = ndarrays_to_sparse_parameters(ndarrays_updated)
+        parameters_updated = ndarrays_to_parameters(ndarrays_updated)
+
+        torch.save(self.client_model.state_dict(), self.model_path)
 
         # Build and return response
         status = Status(code=Code.OK, message="Success")
@@ -293,14 +291,16 @@ class FlowerClient(Client):
         )
 
     def evaluate(self, ins: EvaluateIns) -> EvaluateRes:
-        print(f"[Client {self.partition_id}] evaluate, config: {ins.config}")
 
         # Deserialize parameters to NumPy ndarray's
         parameters_original = ins.parameters
         ndarrays_original = parameters_to_ndarrays(parameters_original)
 
         set_parameters(self.client_model, ndarrays_original)
+
         loss, accuracy = test(self.client_model, self.valloader)
+
+        torch.save(self.client_model.state_dict(), self.model_path)
 
         # Build and return response
         status = Status(code=Code.OK, message="Success")
@@ -330,6 +330,7 @@ client = ClientApp(client_fn=client_fn)
 class FedCPSO(Strategy):
     def __init__(
         self,
+        global_model,
         num_clients: int = 10,
         fraction_fit: float = 1.0,
         fraction_evaluate: float = 0.5,
@@ -344,7 +345,7 @@ class FedCPSO(Strategy):
         self.min_evaluate_clients = min_evaluate_clients
         self.min_available_clients = min_available_clients
 
-        self.global_model = Net().to(DEVICE)
+        self.global_model = global_model
         self.global_best_accuracy = 0.0
         self.global_best_model = Net().to(DEVICE)
 
@@ -376,12 +377,14 @@ class FedCPSO(Strategy):
             for param_name, param in (
                 self.client_models[client.cid].state_dict().items()
             ):
-                self.velocities[client.cid][param_name] = torch.rand(param.shape)
+                self.velocities[client.cid][param_name] = (
+                    torch.rand(param.shape) / 2
+                ) - 0.10
             self.best_neighbour_grid[client.cid] = {}
             for neighbour_name, neighbour in clients.items():
                 self.best_neighbour_grid[client.cid][neighbour.cid] = 1.0
             self.best_neighbour[client.cid] = client.cid
-        ndarrays = get_parameters(self.global_best_model)
+        ndarrays = get_parameters(self.global_model)
         return ndarrays_to_parameters(ndarrays)
 
     def configure_fit(
@@ -427,7 +430,7 @@ class FedCPSO(Strategy):
             "*********************************************************************************\n"
         )
         weights_results = [
-            (sparse_parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
+            (parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
             for _, fit_res in results
         ]
 
@@ -435,11 +438,7 @@ class FedCPSO(Strategy):
         set_parameters(self.global_model, aggregated_weights)
 
         accuracy_list = [fit_res.metrics["accuracy"] for _, fit_res in results]
-        print(f"Accuracy list: {accuracy_list}")
-
         avg_acc = sum(accuracy_list) / len(accuracy_list)
-
-        print(f"Average accuracy: {avg_acc}")
 
         # global best model
         if avg_acc > self.global_best_accuracy:
@@ -454,7 +453,7 @@ class FedCPSO(Strategy):
                     f"Client {client.cid} best model updated: {fit_res.metrics['accuracy']}\n"
                 )
                 self.local_best_accuracy[client.cid] = fit_res.metrics["accuracy"]
-                params = sparse_parameters_to_ndarrays(fit_res.parameters)
+                params = parameters_to_ndarrays(fit_res.parameters)
                 set_parameters(self.client_best_models[client.cid], params)
 
             # update best neighbour
@@ -485,7 +484,7 @@ class FedCPSO(Strategy):
         # update client models with velocities
         for client, fit_res in results:
             temp_model = Net().to(DEVICE)
-            weights = sparse_parameters_to_ndarrays(fit_res.parameters)
+            weights = parameters_to_ndarrays(fit_res.parameters)
             set_parameters(temp_model, weights)
             for param_name, param in (
                 self.client_models[client.cid].state_dict().items()
@@ -577,7 +576,7 @@ class FedCPSO(Strategy):
         """Evaluate global model parameters using an evaluation function."""
 
         # Evaluate global model
-        loss, acc = test(self.global_best_model, server_testloader)
+        loss, acc = test(self.global_model, server_testloader)
         # Let's assume we won't perform the global model evaluation on the server side.
         return loss, {"accuracy": acc}
 
@@ -598,7 +597,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     return ServerAppComponents(
         config=config,
         strategy=FedCPSO(
-            num_clients=NUM_PARTITIONS, fraction_fit=0.5
+            global_model=net, num_clients=NUM_PARTITIONS
         ),  # <-- pass the new strategy here
     )
 

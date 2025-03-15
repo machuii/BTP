@@ -48,9 +48,7 @@ print(f"Training on {DEVICE}")
 print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
 
-logs = open("logs.txt", "a")
-
-NUM_PARTITIONS = 3
+NUM_PARTITIONS = 10
 BATCH_SIZE = 32
 
 
@@ -444,7 +442,7 @@ class FedPSO(flwr.server.strategy.Strategy):
 
 def server_fn(context: Context) -> ServerAppComponents:
     # Create FedAvg strategy
-    config = ServerConfig(num_rounds=3)
+    config = ServerConfig(num_rounds=10)
     return ServerAppComponents(
         config=config,
         strategy=FedPSO(),  # <-- pass the new strategy here
@@ -472,6 +470,3 @@ run_simulation(
     num_supernodes=NUM_PARTITIONS,
     backend_config=backend_config,
 )
-
-
-logs.close()
