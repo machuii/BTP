@@ -1,6 +1,7 @@
-from collections import OrderedDict
+from collections import OrderedDict, Counter
 from typing import Dict, List, Optional, Tuple
 
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn as nn
@@ -9,11 +10,11 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import random
 import copy
+import os
 
 import flwr
 from flwr.client import Client, ClientApp, NumPyClient
 from flwr.server import ServerApp, ServerConfig, ServerAppComponents
-from flwr.server.strategy import FedAvg, FedAdagrad
 from flwr.simulation import run_simulation
 from flwr_datasets import FederatedDataset
 from flwr_datasets.partitioner import IidPartitioner
@@ -33,6 +34,9 @@ from flwr.common import (
     NDArrays,
     Context,
     GetParametersIns,
+    ParametersRecord,
+    ConfigsRecord,
+    array_from_numpy,
 )
 from flwr.server.client_manager import ClientManager
 from flwr.server.client_proxy import ClientProxy
@@ -43,18 +47,25 @@ DEVICE = torch.device("cpu")  # Try "cuda" to train on GPU
 print(f"Training on {DEVICE}")
 print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
-NUM_PARTITIONS = 20
+
+logs = open("logs.txt", "a")
+
+NUM_PARTITIONS = 3
 BATCH_SIZE = 32
 
 
 partitioner = IidPartitioner(num_partitions=NUM_PARTITIONS)
 
 
-def load_datasets(partition_id: int, num_partitions: int):
-    fds = FederatedDataset(dataset="cifar10", partitioners={"train": partitioner})
+def load_datasets(partition_id: int):
+    fds = FederatedDataset(
+        dataset="cifar10", partitioners={"train": NUM_PARTITIONS}, seed=42
+    )
     partition = fds.load_partition(partition_id)
     # Divide data on each node: 80% train, 20% test
-    partition_train_test = partition.train_test_split(test_size=0.2, seed=42)
+    partition_train_test = partition.train_test_split(
+        test_size=0.2, shuffle=True, seed=42
+    )
     pytorch_transforms = transforms.Compose(
         [transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
     )
@@ -66,6 +77,7 @@ def load_datasets(partition_id: int, num_partitions: int):
         batch["img"] = [pytorch_transforms(img) for img in batch["img"]]
         return batch
 
+    # Create train/val for each partition and wrap it into DataLoader
     partition_train_test = partition_train_test.with_transform(apply_transforms)
     trainloader = DataLoader(
         partition_train_test["train"], batch_size=BATCH_SIZE, shuffle=True
@@ -74,6 +86,9 @@ def load_datasets(partition_id: int, num_partitions: int):
     testset = fds.load_split("test").with_transform(apply_transforms)
     testloader = DataLoader(testset, batch_size=BATCH_SIZE)
     return trainloader, valloader, testloader
+
+
+trainloader, valloader, testloader = load_datasets(1)
 
 
 class Net(nn.Module):
@@ -112,6 +127,7 @@ def train(net, trainloader, epochs: int):
     optimizer = torch.optim.Adam(net.parameters())
     net.train()
     for epoch in range(epochs):
+        correct, total, epoch_loss = 0, 0, 0.0
         for batch in trainloader:
             images, labels = batch["img"], batch["label"]
             images, labels = images.to(DEVICE), labels.to(DEVICE)
@@ -120,6 +136,14 @@ def train(net, trainloader, epochs: int):
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
+            # metrics
+            epoch_loss += loss.item()
+            total += labels.size(0)
+            correct += (torch.max(outputs.data, 1)[1] == labels).sum().item()
+        epoch_loss /= len(trainloader.dataset)
+        epoch_acc = correct / total
+        # print(f"Epoch {epoch+1}/{epochs}, Loss: {epoch_loss}, Accuracy: {epoch_acc}")
+    return epoch_loss, epoch_acc
 
 
 def test(net, testloader):
@@ -132,8 +156,8 @@ def test(net, testloader):
             images, labels = batch["img"], batch["label"]
             images, labels = images.to(DEVICE), labels.to(DEVICE)
             outputs = net(images)
+            _, predicted = torch.max(outputs, 1)
             loss += criterion(outputs, labels).item()
-            _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
     loss /= len(testloader.dataset)
@@ -142,73 +166,124 @@ def test(net, testloader):
 
 
 class FlowerClient(NumPyClient):
-    def __init__(self, partition_id, trainloader, valloader):
-        self.partition_id = partition_id
-        self.net = Net().to(DEVICE)
+    def __init__(self, context: Context, trainloader, valloader):
+
+        self.client_state = context.state
+        self.partition_id = context.node_config["partition-id"]
+
+        if "accuracy" not in self.client_state.configs_records:
+            self.client_state.configs_records["accuracy"] = ConfigsRecord()
+            self.client_state.configs_records["accuracy"]["global_best_acc"] = 0.0
+            self.client_state.configs_records["accuracy"]["local_best_acc"] = 0.0
+
         self.trainloader = trainloader
         self.valloader = valloader
-        self.local_best_accuracy = 0.0
+
+        if "velocities" not in self.client_state.parameters_records:
+            velocities = [np.zeros_like(p) for p in get_parameters(Net())]
+            vel_record = ParametersRecord()
+            for i in range(len(velocities)):
+                vel_record[str(i)] = array_from_numpy(velocities[i])
+            self.client_state.parameters_records["velocities"] = vel_record
+
+        self.model_path = f"models/client_{self.partition_id}.pth"
+        self.local_best_path = f"models/local_best_{self.partition_id}.pth"
+        self.global_best_path = f"models/global_best_{self.partition_id}.pth"
+
+        self.net = Net().to(DEVICE)
         self.local_best_model = Net().to(DEVICE)
-        self.velocities = [
-            (np.random.rand(*p.shape) / 5) - 0.10 for p in get_parameters(self.net)
-        ]
+        self.global_best_model = Net().to(DEVICE)
+
+        if os.path.exists(self.model_path):
+            self.net.load_state_dict(torch.load(self.model_path))
+
+        if os.path.exists(self.local_best_path):
+            self.local_best_model.load_state_dict(torch.load(self.local_best_path))
+
+        if os.path.exists(self.global_best_path):
+            self.global_best_model.load_state_dict(torch.load(self.global_best_path))
 
     def get_parameters(self, config):
-        if config["model"] == "best":
-            return get_parameters(self.local_best_model)
         return get_parameters(self.net)
 
     def fit(self, parameters, config):
+        vel_record = self.client_state.parameters_records["velocities"]
+        velocities = []
+        for key, value in vel_record.items():
+            velocities.append(value.numpy())
 
-        acc = config["acc"]
-        local_acc = config["local_acc"]
-        global_acc = config["global_acc"]
+        accuracy = self.client_state.configs_records["accuracy"]
+        local_best_acc = accuracy["local_best_acc"]
+        global_best_acc = accuracy["global_best_acc"]
 
-        local_best_parameters = get_parameters(self.local_best_model)
+        if global_best_acc < config["global_best_acc"]:
+            set_parameters(self.global_best_model, parameters)
+            global_best_acc = config["global_best_acc"]
 
+        acce = config["acc"]
+        local_acce = config["local_acc"]
+        global_acce = config["global_acc"]
+
+        temp_model = Net().to(DEVICE)
+        client_parameters = get_parameters(self.net)
+        set_parameters(temp_model, client_parameters)
+
+        client_best_parameters = get_parameters(self.local_best_model)
+        global_best_parameters = get_parameters(self.global_best_model)
+
+        new_weights = [None] * len(client_parameters)
         local_rand, global_rand = random.random(), random.random()
 
-        new_weights = [None] * len(parameters)
-
-        for index, layer in enumerate(parameters):
-            new_v = acc * self.velocities[index]
+        for index, layer in enumerate(client_parameters):
+            new_v = acce * velocities[index]
             new_v = new_v + local_rand * (
-                local_acc * (local_best_parameters[index] - layer)
+                local_acce * (client_best_parameters[index] - layer)
             )
-            new_v = new_v + global_rand * (global_acc * (parameters[index] - layer))
-            self.velocities[index] = new_v
+            new_v = new_v + global_rand * (
+                global_acce * (global_best_parameters[index] - layer)
+            )
+            velocities[index] = new_v
             new_weights[index] = layer + new_v
 
-        set_parameters(self.net, new_weights)
+        set_parameters(temp_model, new_weights)
 
-        train(self.net, self.trainloader, epochs=1)
+        loss, acc = train(temp_model, self.trainloader, epochs=5)
 
-        loss, acc = test(self.net, self.valloader)
+        trained_weights = get_parameters(temp_model)
 
-        if acc > self.local_best_accuracy:
-            self.local_best_accuracy = acc
-            set_parameters(self.local_best_model, get_parameters(self.net))
+        set_parameters(self.net, trained_weights)
+
+        if acc >= local_best_acc:
+            local_best_acc = acc
+            set_parameters(self.local_best_model, trained_weights)
+
+        accuracy["local_best_acc"] = local_best_acc
+        accuracy["global_best_acc"] = global_best_acc
+
+        torch.save(self.net.state_dict(), self.model_path)
+        torch.save(self.local_best_model.state_dict(), self.local_best_path)
+        torch.save(self.global_best_model.state_dict(), self.global_best_path)
+
+        vel_record = ParametersRecord()
+        for i in range(len(velocities)):
+            vel_record[str(i)] = array_from_numpy(velocities[i])
+        self.client_state.parameters_records["velocities"] = vel_record
 
         return (
             [],
             len(self.trainloader),
-            {"acc": float(self.local_best_accuracy)},
+            {"acc": float(acc)},
         )
 
     def evaluate(self, parameters, config):
-        # set_parameters(self.net, parameters)
         loss, accuracy = test(self.net, self.valloader)
         return float(loss), len(self.valloader), {"accuracy": float(accuracy)}
 
 
 def client_fn(context: Context) -> Client:
-
-    # Read the node_config to fetch data partition associated to this node
     partition_id = context.node_config["partition-id"]
-    num_partitions = context.node_config["num-partitions"]
-
-    trainloader, valloader, _ = load_datasets(partition_id, num_partitions)
-    return FlowerClient(partition_id, trainloader, valloader).to_client()
+    trainloader, valloader, _ = load_datasets(partition_id)
+    return FlowerClient(context, trainloader, valloader).to_client()
 
 
 # Create the ClientApp
@@ -232,7 +307,7 @@ class FedPSO(flwr.server.strategy.Strategy):
         self.min_available_clients = min_available_clients
         self.best_accuracy = 0.0
         self.best_client = None
-        self.global_best = Net().to(DEVICE)
+        self.server_model = Net().to(DEVICE)
 
     def __repr__(self) -> str:
         return "FedPSO"
@@ -241,7 +316,7 @@ class FedPSO(flwr.server.strategy.Strategy):
         self, client_manager: ClientManager
     ) -> Optional[Parameters]:
         """Initialize global model parameters."""
-        return ndarrays_to_parameters(get_parameters(Net()))
+        return ndarrays_to_parameters(get_parameters(self.server_model))
 
     def configure_fit(
         self, server_round: int, parameters: Parameters, client_manager: ClientManager
@@ -255,13 +330,14 @@ class FedPSO(flwr.server.strategy.Strategy):
         clients = client_manager.sample(
             num_clients=sample_size, min_num_clients=min_num_clients
         )
-        params = ndarrays_to_parameters(get_parameters(self.global_best))
+        params = ndarrays_to_parameters(get_parameters(self.server_model))
         # Create custom configs
         standard_config = {
             "lr": 0.001,
             "acc": 0.3,
             "local_acc": 0.7,
             "global_acc": 1.4,
+            "global_best_acc": self.best_accuracy,
         }
         fit_configurations = []
         for client in clients:
@@ -287,12 +363,16 @@ class FedPSO(flwr.server.strategy.Strategy):
                 self.best_client = client
                 print(client.cid)
 
+        global_best_parameters = self.best_client.get_parameters(
+            (GetParametersIns(config={})), timeout=None, group_id=None
+        ).parameters
+
+        global_best_ndarray = parameters_to_ndarrays(global_best_parameters)
+        set_parameters(self.server_model, global_best_ndarray)
+
         metrics_aggregated = {}
 
-        global_best_params = self.best_client.get_parameters(
-            (GetParametersIns(config={"model": "best"})), timeout=None, group_id=None
-        ).parameters
-        return [], metrics_aggregated
+        return global_best_parameters, metrics_aggregated
 
     def configure_evaluate(
         self, server_round: int, parameters: Parameters, client_manager: ClientManager
@@ -330,18 +410,24 @@ class FedPSO(flwr.server.strategy.Strategy):
             ]
         )
 
-        metrics_aggregated = {
-            "accuracy": np.mean(
-                [evaluate_res.metrics["accuracy"] for _, evaluate_res in results]
-            )
-        }
+        metrics_aggregated = {}
+
+        accuracy_aggregated = weighted_loss_avg(
+            [
+                (evaluate_res.num_examples, evaluate_res.metrics["accuracy"])
+                for _, evaluate_res in results
+            ]
+        )
+
+        metrics_aggregated["accuracy"] = accuracy_aggregated
         return loss_aggregated, metrics_aggregated
 
     def evaluate(
         self, server_round: int, parameters: Parameters
     ) -> Optional[Tuple[float, Dict[str, Scalar]]]:
         """Evaluate global model parameters using an evaluation function."""
-
+        loss, accuracy = test(self.server_model, valloader)
+        print(f"Round {server_round}, Loss: {loss}, Accuracy: {accuracy}")
         # # Let's assume we won't perform the global model evaluation on the server side.
         return None
 
@@ -358,10 +444,10 @@ class FedPSO(flwr.server.strategy.Strategy):
 
 def server_fn(context: Context) -> ServerAppComponents:
     # Create FedAvg strategy
-    config = ServerConfig(num_rounds=5)
+    config = ServerConfig(num_rounds=3)
     return ServerAppComponents(
         config=config,
-        strategy=FedPSO(fraction_fit=0.5),  # <-- pass the new strategy here
+        strategy=FedPSO(),  # <-- pass the new strategy here
     )
 
 
@@ -386,3 +472,6 @@ run_simulation(
     num_supernodes=NUM_PARTITIONS,
     backend_config=backend_config,
 )
+
+
+logs.close()

@@ -3,3 +3,6 @@ venv/
 /FedCPSO/utils
 /logs.txt
 /results/Results.txt
+/FedCPSO/__pycache__
+/models/
+/checkpoint/
