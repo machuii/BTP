@@ -24,7 +24,7 @@ print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 disable_progress_bar()
 
 
-NUM_CLIENTS = 10
+NUM_CLIENTS = 5
 BATCH_SIZE = 32
 
 

@@ -1,7 +1,6 @@
 from collections import OrderedDict
 from typing import List, Tuple, Union, Dict, Optional
 
-import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn as nn
@@ -33,8 +32,6 @@ from flwr_datasets.partitioner import DirichletPartitioner
 from flwr.server.strategy.aggregate import aggregate, weighted_loss_avg
 
 
-import sys
-
 # DEVICE = (
 #     torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 # )
@@ -45,7 +42,7 @@ print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 disable_progress_bar()
 
 
-NUM_CLIENTS = 20
+NUM_CLIENTS = 5
 BATCH_SIZE = 32
 
 partitioner = DirichletPartitioner(

@@ -44,17 +44,20 @@ from flwr.server.client_manager import ClientManager
 from flwr.server.client_proxy import ClientProxy
 from flwr.server.strategy.aggregate import aggregate, weighted_loss_avg
 
+import logging
+
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename="D:\work\BTP\FedCPSO\logs.log", level=logging.INFO)
+
 
 # DEVICE = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 DEVICE = torch.device("cpu")
 print(f"Training on {DEVICE}")
 print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
-NUM_PARTITIONS = 5
+NUM_PARTITIONS = 10
 BATCH_SIZE = 10
-
-
-logs = open("logs.txt", "a")
 
 
 def ndarrays_to_sparse_parameters(ndarrays: NDArrays) -> Parameters:
@@ -208,7 +211,9 @@ def train(net, trainloader, epochs: int):
             correct += (torch.max(outputs.data, 1)[1] == labels).sum().item()
         epoch_loss /= len(trainloader.dataset)
         epoch_acc = correct / total
-        print(f"Epoch {epoch+1}/{epochs}, Loss: {epoch_loss}, Accuracy: {epoch_acc}")
+        logger.info(
+            f"Epoch {epoch+1}/{epochs}, Loss: {epoch_loss}, Accuracy: {epoch_acc}"
+        )
 
 
 def test(net, testloader):
@@ -230,12 +235,27 @@ def test(net, testloader):
     return loss, accuracy
 
 
+def prune_model(net, prate):
+    parameters = get_parameters(net)
+    pruned_params = [None] * len(parameters)
+
+    for idx, param in enumerate(parameters):
+        if param.ndim > 1:
+            flat_weights = np.abs(param).flatten()
+            k = int(prate * flat_weights.size)  # Number of weights to prune
+            if k > 0:
+                # Find the k-th smallest magnitude
+                threshold = np.partition(flat_weights, k)[k]
+                # Set weights below the threshold to zero
+                param[np.abs(param) < threshold] = 0
+        pruned_params[idx] = param
+
+    return pruned_params
+
+
 # net = Net().to(DEVICE)
 # trainloader, valloader, _ = load_datasets(0)
 # train(net, trainloader, epochs=10)
-
-
-# avg distributed accuracy is increasing when there is no influence of global model
 
 
 class FlowerClient(Client):
@@ -275,7 +295,9 @@ class FlowerClient(Client):
 
         train(self.client_model, self.trainloader, epochs=2)
 
-        # prune model - to be done
+        # prune model
+        pruned_params = prune_model(self.client_model, 0.5)
+        set_parameters(self.client_model, pruned_params)
 
         loss, acc = test(self.client_model, self.valloader)
 
@@ -426,10 +448,6 @@ class FedCPSO(Strategy):
     ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
         """Aggregate fit results using weighted average."""
 
-        logs.write(f"ROUND {server_round}\n")
-        logs.write(
-            "*********************************************************************************\n"
-        )
         weights_results = [
             (parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
             for _, fit_res in results
@@ -443,16 +461,12 @@ class FedCPSO(Strategy):
 
         # global best model
         if avg_acc > self.global_best_accuracy:
-            logs.write(f"Global best model updated: {avg_acc}\n")
             self.global_best_accuracy = avg_acc
             set_parameters(self.global_best_model, aggregated_weights)
 
         for client, fit_res in results:
             # best client model
             if fit_res.metrics["accuracy"] > self.local_best_accuracy[client.cid]:
-                logs.write(
-                    f"Client {client.cid} best model updated: {fit_res.metrics['accuracy']}\n"
-                )
                 self.local_best_accuracy[client.cid] = fit_res.metrics["accuracy"]
                 params = parameters_to_ndarrays(fit_res.parameters)
                 set_parameters(self.client_best_models[client.cid], params)
@@ -473,11 +487,6 @@ class FedCPSO(Strategy):
                     if score > max_score:
                         max_score = score
                         self.best_neighbour[client.cid] = neighbour
-
-                logs.write(
-                    f"Client {client.cid} best neighbour: {self.best_neighbour[client.cid]}\n"
-                )
-                logs.write(f"Neighbout grid: {self.best_neighbour_grid[client.cid]}\n")
 
         for client, fit_res in results:
             self.prev_client_accuracy[client.cid] = fit_res.metrics["accuracy"]
@@ -586,7 +595,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     return ServerAppComponents(
         config=config,
         strategy=FedCPSO(
-            global_model=net, num_clients=NUM_PARTITIONS
+            global_model=Net(), num_clients=NUM_PARTITIONS
         ),  # <-- pass the new strategy here
     )
 
@@ -612,8 +621,3 @@ run_simulation(
     num_supernodes=NUM_PARTITIONS,
     backend_config=backend_config,
 )
-
-logs.write(
-    "*********************************************************************************\nSIMULATION ENDED\n"
-)
-logs.close()

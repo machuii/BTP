@@ -11,6 +11,7 @@ from torch.utils.data import DataLoader
 import random
 import copy
 import os
+import sys
 
 import flwr
 from flwr.client import Client, ClientApp, NumPyClient
@@ -42,6 +43,10 @@ from flwr.server.client_manager import ClientManager
 from flwr.server.client_proxy import ClientProxy
 from flwr.server.strategy.aggregate import aggregate, weighted_loss_avg
 
+import logging
+
+logging.basicConfig(filename="D:\work\BTP\FedPSO\logs.log", level=logging.INFO)
+
 
 DEVICE = torch.device("cpu")  # Try "cuda" to train on GPU
 print(f"Training on {DEVICE}")
@@ -51,6 +56,7 @@ print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 NUM_PARTITIONS = 10
 BATCH_SIZE = 32
 
+# remember to delete previous models
 
 partitioner = IidPartitioner(num_partitions=NUM_PARTITIONS)
 
@@ -245,7 +251,7 @@ class FlowerClient(NumPyClient):
 
         set_parameters(temp_model, new_weights)
 
-        loss, acc = train(temp_model, self.trainloader, epochs=5)
+        loss, acc = train(temp_model, self.trainloader, epochs=2)
 
         trained_weights = get_parameters(temp_model)
 
@@ -365,6 +371,7 @@ class FedPSO(flwr.server.strategy.Strategy):
             (GetParametersIns(config={})), timeout=None, group_id=None
         ).parameters
 
+        print(sys.getsizeof(global_best_parameters))
         global_best_ndarray = parameters_to_ndarrays(global_best_parameters)
         set_parameters(self.server_model, global_best_ndarray)
 
@@ -445,7 +452,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     config = ServerConfig(num_rounds=10)
     return ServerAppComponents(
         config=config,
-        strategy=FedPSO(),  # <-- pass the new strategy here
+        strategy=FedPSO(fraction_fit=0.5),  # <-- pass the new strategy here
     )
 
 

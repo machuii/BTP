@@ -1,0 +1,504 @@
+DEBUG:flwr:Pre-registering run with id 1212822145635323044
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 5 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.23033960180282592, {'accuracy': 0.1}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (1, 0.18989687942266464, {'accuracy': 0.3634}, 29.551118600007612)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (2, 0.16582831588983535, {'accuracy': 0.4462}, 57.95604249997996)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (3, 0.15042347552776336, {'accuracy': 0.4684}, 88.05611479998333)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (4, 0.1399091305732727, {'accuracy': 0.504}, 117.43859549995977)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (5, 0.1306140089929104, {'accuracy': 0.5366}, 147.17213590000756)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 5 round(s) in 153.41s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.16296071043610574
+INFO:flwr:		round 2: 0.1523495593369007
+INFO:flwr:		round 3: 0.138825448282063
+INFO:flwr:		round 4: 0.1399833646118641
+INFO:flwr:		round 5: 0.1484494901895523
+INFO:flwr:	History (loss, centralized):
+INFO:flwr:		round 0: 0.23033960180282592
+INFO:flwr:		round 1: 0.18989687942266464
+INFO:flwr:		round 2: 0.16582831588983535
+INFO:flwr:		round 3: 0.15042347552776336
+INFO:flwr:		round 4: 0.1399091305732727
+INFO:flwr:		round 5: 0.1306140089929104
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'acc': [(1, 0.41325),
+INFO:flwr:	         (2, 0.44825000000000004),
+INFO:flwr:	         (3, 0.50675),
+INFO:flwr:	         (4, 0.51025),
+INFO:flwr:	         (5, 0.50075)]}
+INFO:flwr:	History (metrics, centralized):
+INFO:flwr:	{'accuracy': [(0, 0.1),
+INFO:flwr:	              (1, 0.3634),
+INFO:flwr:	              (2, 0.4462),
+INFO:flwr:	              (3, 0.4684),
+INFO:flwr:	              (4, 0.504),
+INFO:flwr:	              (5, 0.5366)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
+
+DEBUG:flwr:Pre-registering run with id 6249802506171341546
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 5 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.23045606710910796, {'accuracy': 0.1}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (1, 0.19330978780984878, {'accuracy': 0.406}, 32.076022499997634)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (2, 0.16504898389577866, {'accuracy': 0.4507}, 60.94195399997989)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (3, 0.14759613647460937, {'accuracy': 0.4896}, 87.51174560002983)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (4, 0.1338674701333046, {'accuracy': 0.5222}, 118.2188460000325)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (5, 0.12431417433917523, {'accuracy': 0.5583}, 145.46168690000195)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 5 round(s) in 151.20s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.15190616641938687
+INFO:flwr:		round 2: 0.14329927144944665
+INFO:flwr:		round 3: 0.13490942299365996
+INFO:flwr:		round 4: 0.1407231750637293
+INFO:flwr:		round 5: 0.13690045400336384
+INFO:flwr:	History (loss, centralized):
+INFO:flwr:		round 0: 0.23045606710910796
+INFO:flwr:		round 1: 0.19330978780984878
+INFO:flwr:		round 2: 0.16504898389577866
+INFO:flwr:		round 3: 0.14759613647460937
+INFO:flwr:		round 4: 0.1338674701333046
+INFO:flwr:		round 5: 0.12431417433917523
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'acc': [(1, 0.4495),
+INFO:flwr:	         (2, 0.486),
+INFO:flwr:	         (3, 0.5177499999999999),
+INFO:flwr:	         (4, 0.507),
+INFO:flwr:	         (5, 0.5277499999999999)]}
+INFO:flwr:	History (metrics, centralized):
+INFO:flwr:	{'accuracy': [(0, 0.1),
+INFO:flwr:	              (1, 0.406),
+INFO:flwr:	              (2, 0.4507),
+INFO:flwr:	              (3, 0.4896),
+INFO:flwr:	              (4, 0.5222),
+INFO:flwr:	              (5, 0.5583)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
+DEBUG:flwr:Pre-registering run with id 14517267631525152809
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 5 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Pre-registering run with id 11633221916489345892
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 5 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=10, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.2305404418706894, {'accuracy': 0.0979}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (1, 0.21028624707460403, {'accuracy': 0.2683}, 31.977241799992044)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (2, 0.19743965063095092, {'accuracy': 0.299}, 61.789090399979614)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (3, 0.17919247875213623, {'accuracy': 0.3627}, 91.51561399997445)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (4, 0.1494008836865425, {'accuracy': 0.4637}, 119.47511609998764)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (5, 0.139234975874424, {'accuracy': 0.5002}, 148.52636949997395)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 6]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (6, 0.13251162970066072, {'accuracy': 0.5254}, 175.44728129997384)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 7]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (7, 0.12643762893080712, {'accuracy': 0.55}, 208.81641759997)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 8]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (8, 0.11896117831766605, {'accuracy': 0.5783}, 236.06444360001478)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 9]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (9, 0.11582659567892552, {'accuracy': 0.5946}, 261.9590000999742)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 10]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (10, 0.1116987875059247, {'accuracy': 0.6062}, 290.06200440000976)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 10 round(s) in 297.42s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.15705586332082747
+INFO:flwr:		round 2: 0.14532384923100472
+INFO:flwr:		round 3: 0.14390566332638263
+INFO:flwr:		round 4: 0.13820464849472047
+INFO:flwr:		round 5: 0.14237276139855384
+INFO:flwr:		round 6: 0.13388061670213935
+INFO:flwr:		round 7: 0.13599468082934618
+INFO:flwr:		round 8: 0.1296129371970892
+INFO:flwr:		round 9: 0.12685613514482977
+INFO:flwr:		round 10: 0.12473864360153675
+INFO:flwr:	History (loss, centralized):
+INFO:flwr:		round 0: 0.2305404418706894
+INFO:flwr:		round 1: 0.21028624707460403
+INFO:flwr:		round 2: 0.19743965063095092
+INFO:flwr:		round 3: 0.17919247875213623
+INFO:flwr:		round 4: 0.1494008836865425
+INFO:flwr:		round 5: 0.139234975874424
+INFO:flwr:		round 6: 0.13251162970066072
+INFO:flwr:		round 7: 0.12643762893080712
+INFO:flwr:		round 8: 0.11896117831766605
+INFO:flwr:		round 9: 0.11582659567892552
+INFO:flwr:		round 10: 0.1116987875059247
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'acc': [(1, 0.43025),
+INFO:flwr:	         (2, 0.4865),
+INFO:flwr:	         (3, 0.48125),
+INFO:flwr:	         (4, 0.51325),
+INFO:flwr:	         (5, 0.5115),
+INFO:flwr:	         (6, 0.53625),
+INFO:flwr:	         (7, 0.5467500000000001),
+INFO:flwr:	         (8, 0.5545),
+INFO:flwr:	         (9, 0.5615),
+INFO:flwr:	         (10, 0.56525)]}
+INFO:flwr:	History (metrics, centralized):
+INFO:flwr:	{'accuracy': [(0, 0.0979),
+INFO:flwr:	              (1, 0.2683),
+INFO:flwr:	              (2, 0.299),
+INFO:flwr:	              (3, 0.3627),
+INFO:flwr:	              (4, 0.4637),
+INFO:flwr:	              (5, 0.5002),
+INFO:flwr:	              (6, 0.5254),
+INFO:flwr:	              (7, 0.55),
+INFO:flwr:	              (8, 0.5783),
+INFO:flwr:	              (9, 0.5946),
+INFO:flwr:	              (10, 0.6062)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
+DEBUG:flwr:Pre-registering run with id 7835608627256424354
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 10 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.2303936789751053, {'accuracy': 0.0996}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (1, 0.20090073617696763, {'accuracy': 0.3063}, 35.826404399995226)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (2, 0.17375853176116943, {'accuracy': 0.4043}, 63.51486350002233)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (3, 0.15508049449920655, {'accuracy': 0.4496}, 91.97331560001476)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (4, 0.14491378315091133, {'accuracy': 0.4758}, 125.27290949999588)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (5, 0.13907484589219093, {'accuracy': 0.4973}, 153.49569499999052)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 5 round(s) in 162.67s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.1686002173781395
+INFO:flwr:		round 2: 0.15758044798374177
+INFO:flwr:		round 3: 0.15460719777345655
+INFO:flwr:		round 4: 0.1499232523083687
+INFO:flwr:		round 5: 0.14666866933107378
+INFO:flwr:	History (loss, centralized):
+INFO:flwr:		round 0: 0.2303936789751053
+INFO:flwr:		round 1: 0.20090073617696763
+INFO:flwr:		round 2: 0.17375853176116943
+INFO:flwr:		round 3: 0.15508049449920655
+INFO:flwr:		round 4: 0.14491378315091133
+INFO:flwr:		round 5: 0.13907484589219093
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'acc': [(1, 0.3816),
+INFO:flwr:	         (2, 0.4166),
+INFO:flwr:	         (3, 0.4434),
+INFO:flwr:	         (4, 0.45200000000000007),
+INFO:flwr:	         (5, 0.48200000000000004)]}
+INFO:flwr:	History (metrics, centralized):
+INFO:flwr:	{'accuracy': [(0, 0.0996),
+INFO:flwr:	              (1, 0.3063),
+INFO:flwr:	              (2, 0.4043),
+INFO:flwr:	              (3, 0.4496),
+INFO:flwr:	              (4, 0.4758),
+INFO:flwr:	              (5, 0.4973)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
+DEBUG:flwr:Pre-registering run with id 7747922681964291114
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 10 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.23039055979251863, {'accuracy': 0.1018}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (1, 0.21055678508281708, {'accuracy': 0.2821}, 30.251987399999052)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (2, 0.18747654218673707, {'accuracy': 0.3414}, 58.48449200001778)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (3, 0.16860301476716996, {'accuracy': 0.3999}, 87.51838309998857)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (4, 0.15161897915005684, {'accuracy': 0.4508}, 114.30095429997891)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (5, 0.1417224970340729, {'accuracy': 0.4961}, 143.9970345000038)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 5 round(s) in 151.85s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.18238037371635438
+INFO:flwr:		round 2: 0.16177566108703614
+INFO:flwr:		round 3: 0.15853914511203765
+INFO:flwr:		round 4: 0.14873809822797773
+INFO:flwr:		round 5: 0.1485700522184372
+INFO:flwr:	History (loss, centralized):
+INFO:flwr:		round 0: 0.23039055979251863
+INFO:flwr:		round 1: 0.21055678508281708
+INFO:flwr:		round 2: 0.18747654218673707
+INFO:flwr:		round 3: 0.16860301476716996
+INFO:flwr:		round 4: 0.15161897915005684
+INFO:flwr:		round 5: 0.1417224970340729
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'acc': [(1, 0.335),
+INFO:flwr:	         (2, 0.41839999999999994),
+INFO:flwr:	         (3, 0.42119999999999996),
+INFO:flwr:	         (4, 0.4648),
+INFO:flwr:	         (5, 0.4614)]}
+INFO:flwr:	History (metrics, centralized):
+INFO:flwr:	{'accuracy': [(0, 0.1018),
+INFO:flwr:	              (1, 0.2821),
+INFO:flwr:	              (2, 0.3414),
+INFO:flwr:	              (3, 0.3999),
+INFO:flwr:	              (4, 0.4508),
+INFO:flwr:	              (5, 0.4961)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
