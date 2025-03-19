@@ -29,7 +29,7 @@ print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 disable_progress_bar()
 
 
-NUM_CLIENTS = 10
+NUM_CLIENTS = 5
 BATCH_SIZE = 32
 
 
@@ -138,7 +138,7 @@ class FlowerClient(NumPyClient):
 
     def fit(self, parameters, config):
         set_parameters(self.net, parameters)
-        train(self.net, self.trainloader, epochs=100)
+        train(self.net, self.trainloader, epochs=1)
         return get_parameters(self.net), len(self.trainloader), {}
 
     def evaluate(self, parameters, config):
@@ -189,7 +189,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     """
 
     # Configure the server for 5 rounds of training
-    config = ServerConfig(num_rounds=5)
+    config = ServerConfig(num_rounds=10)
 
     return ServerAppComponents(strategy=strategy, config=config)
 

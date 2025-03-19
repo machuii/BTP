@@ -502,3 +502,181 @@ DEBUG:flwr:Triggered stop event for Simulation Engine.
 DEBUG:flwr:Terminated 16 actors
 DEBUG:flwr:Terminated RayBackend
 DEBUG:flwr:Stopping Simulation Engine now.
+DEBUG:flwr:Pre-registering run with id 16403479860868208394
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 10 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.23046083867549896, {'accuracy': 0.094}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+ERROR:flwr:ServerApp thread raised an exception: 'Parameters' object is not iterable
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\run_simulation.py", line 268, in server_th_with_start_checks
+    updated_context = _run(
+                      ^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\run_serverapp.py", line 63, in run
+    server_app(driver=driver, context=context)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\server_app.py", line 120, in __call__
+    start_driver(
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\compat\app.py", line 87, in start_driver
+    hist = run_fl(
+           ^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\server.py", line 492, in run_fl
+    hist, elapsed_time = server.fit(
+                         ^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\server.py", line 115, in fit
+    res_fit = self.fit_round(
+              ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\server.py", line 251, in fit_round
+    ] = self.strategy.aggregate_fit(server_round, results, failures)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso.py", line 453, in aggregate_fit
+    total_bytes += sum(sys.getsizeof(param) for param in fit_res.parameters)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'Parameters' object is not iterable
+
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Queue timeout. No context received.
+DEBUG:flwr:Pre-registering run with id 1255696189761536389
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 10 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.23029147095680236, {'accuracy': 0.1}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+ERROR:flwr:ServerApp thread raised an exception: 'int' object is not iterable
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\run_simulation.py", line 268, in server_th_with_start_checks
+    updated_context = _run(
+                      ^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\run_serverapp.py", line 63, in run
+    server_app(driver=driver, context=context)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\server_app.py", line 120, in __call__
+    start_driver(
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\compat\app.py", line 87, in start_driver
+    hist = run_fl(
+           ^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\server.py", line 492, in run_fl
+    hist, elapsed_time = server.fit(
+                         ^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\server.py", line 115, in fit
+    res_fit = self.fit_round(
+              ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\server.py", line 251, in fit_round
+    ] = self.strategy.aggregate_fit(server_round, results, failures)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso.py", line 453, in aggregate_fit
+    total_bytes += sum(sys.getsizeof(fit_res.parameters))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'int' object is not iterable
+
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Queue timeout. No context received.
+DEBUG:flwr:Pre-registering run with id 5796027549545123507
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 10 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.230599706697464, {'accuracy': 0.0979}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (1, 0.21107551749944686, {'accuracy': 0.2929}, 25.824561799992807)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:The actor died unexpectedly before finishing this task.
+	class_name: ClientAppActor
+	actor_id: 7af02660b902129e6469d3bd01000000
+	pid: 4948
+	namespace: 99045bbc-3603-45ae-a957-da50501ad5af
+	ip: 127.0.0.1
+The actor is dead because its worker process has died. Worker exit type: SYSTEM_ERROR Worker exit detail: Worker unexpectedly exits with a connection error code 10054. An existing connection was forcibly closed by the remote host. There are some potential root causes. (1) The process is killed by SIGKILL by OOM killer due to high memory usage. (2) ray stop --force is called. (3) The worker is crashed unexpectedly due to SIGSEGV or other unexpected errors.
+DEBUG:flwr:Pre-registering run with id 10976787230281270399
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 10 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=1, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.2304006959438324, {'accuracy': 0.1}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (1, 0.19194234030246735, {'accuracy': 0.355}, 29.215488900023047)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 1 round(s) in 38.78s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.16693905377388
+INFO:flwr:	History (loss, centralized):
+INFO:flwr:		round 0: 0.2304006959438324
+INFO:flwr:		round 1: 0.19194234030246735
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'acc': [(1, 0.39160000000000006)]}
+INFO:flwr:	History (metrics, centralized):
+INFO:flwr:	{'accuracy': [(0, 0.1), (1, 0.355)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.

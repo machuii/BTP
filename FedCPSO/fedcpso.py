@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from typing import Dict, List, Optional, Tuple
 
-import sys, os
+import sys, os, shutil
 import numpy as np
 import torch
 import torch.nn as nn
@@ -296,14 +296,14 @@ class FlowerClient(Client):
         train(self.client_model, self.trainloader, epochs=2)
 
         # prune model
-        pruned_params = prune_model(self.client_model, 0.5)
-        set_parameters(self.client_model, pruned_params)
+        # pruned_params = prune_model(self.client_model, 0.5)
+        # set_parameters(self.client_model, pruned_params)
 
         loss, acc = test(self.client_model, self.valloader)
 
         # Serialize ndarray's into a Parameters object
         ndarrays_updated = get_parameters(self.client_model)
-        parameters_updated = ndarrays_to_parameters(ndarrays_updated)
+        parameters_updated = ndarrays_to_sparse_parameters(ndarrays_updated)
 
         torch.save(self.client_model.state_dict(), self.model_path)
 
@@ -449,7 +449,7 @@ class FedCPSO(Strategy):
         """Aggregate fit results using weighted average."""
 
         weights_results = [
-            (parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
+            (sparse_parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
             for _, fit_res in results
         ]
 
@@ -468,7 +468,7 @@ class FedCPSO(Strategy):
             # best client model
             if fit_res.metrics["accuracy"] > self.local_best_accuracy[client.cid]:
                 self.local_best_accuracy[client.cid] = fit_res.metrics["accuracy"]
-                params = parameters_to_ndarrays(fit_res.parameters)
+                params = sparse_parameters_to_ndarrays(fit_res.parameters)
                 set_parameters(self.client_best_models[client.cid], params)
 
             # update best neighbour
@@ -493,7 +493,7 @@ class FedCPSO(Strategy):
 
         # update client models with velocities
         for client, fit_res in results:
-            client_model_params = parameters_to_ndarrays(fit_res.parameters)
+            client_model_params = sparse_parameters_to_ndarrays(fit_res.parameters)
             client_best_params = get_parameters(self.client_best_models[client.cid])
             best_neighbour_params = get_parameters(
                 self.client_best_models[self.best_neighbour[client.cid]]
@@ -591,7 +591,7 @@ class FedCPSO(Strategy):
 
 def server_fn(context: Context) -> ServerAppComponents:
     # Create FedAvg strategy
-    config = ServerConfig(num_rounds=5)
+    config = ServerConfig(num_rounds=1)
     return ServerAppComponents(
         config=config,
         strategy=FedCPSO(
@@ -621,3 +621,21 @@ run_simulation(
     num_supernodes=NUM_PARTITIONS,
     backend_config=backend_config,
 )
+
+
+# CLeanup
+folder_path = "models"
+
+if os.path.exists(folder_path):
+    for file_name in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, file_name)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print(f"Error deleting {file_path}: {e}")
+    print("All files deleted successfully.")
+else:
+    print("Folder not found.")

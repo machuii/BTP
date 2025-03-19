@@ -10,7 +10,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import random
 import copy
-import os
+import os, shutil
 import sys
 
 import flwr
@@ -477,3 +477,20 @@ run_simulation(
     num_supernodes=NUM_PARTITIONS,
     backend_config=backend_config,
 )
+
+# Cleanup
+folder_path = "models"
+
+if os.path.exists(folder_path):
+    for file_name in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, file_name)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print(f"Error deleting {file_path}: {e}")
+    print("All files deleted successfully.")
+else:
+    print("Folder not found.")
