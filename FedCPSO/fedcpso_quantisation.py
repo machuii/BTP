@@ -56,70 +56,8 @@ DEVICE = torch.device("cpu")
 print(f"Training on {DEVICE}")
 print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
-NUM_PARTITIONS = 10
+NUM_PARTITIONS = 5
 BATCH_SIZE = 10
-
-
-def ndarrays_to_sparse_parameters(ndarrays: NDArrays) -> Parameters:
-    """Convert NumPy ndarrays to parameters object."""
-    tensors = [ndarray_to_sparse_bytes(ndarray) for ndarray in ndarrays]
-    return Parameters(tensors=tensors, tensor_type="numpy.ndarray")
-
-
-def sparse_parameters_to_ndarrays(parameters: Parameters) -> NDArrays:
-    """Convert parameters object to NumPy ndarrays."""
-    return [sparse_bytes_to_ndarray(tensor) for tensor in parameters.tensors]
-
-
-def ndarray_to_sparse_bytes(ndarray: NDArray) -> bytes:
-    """Serialize NumPy ndarray to bytes."""
-    bytes_io = BytesIO()
-
-    if len(ndarray.shape) > 1:
-        # We convert our ndarray into a sparse matrix
-        ndarray = torch.tensor(ndarray).to_sparse_csr()
-
-        # And send it byutilizing the sparse matrix attributes
-        # WARNING: NEVER set allow_pickle to true.
-        # Reason: loading pickled data can execute arbitrary code
-        # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
-        np.savez(
-            bytes_io,  # type: ignore
-            crow_indices=ndarray.crow_indices(),
-            col_indices=ndarray.col_indices(),
-            values=ndarray.values(),
-            allow_pickle=False,
-        )
-    else:
-        # WARNING: NEVER set allow_pickle to true.
-        # Reason: loading pickled data can execute arbitrary code
-        # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
-        np.save(bytes_io, ndarray, allow_pickle=False)
-    return bytes_io.getvalue()
-
-
-def sparse_bytes_to_ndarray(tensor: bytes) -> NDArray:
-    """Deserialize NumPy ndarray from bytes."""
-    bytes_io = BytesIO(tensor)
-    # WARNING: NEVER set allow_pickle to true.
-    # Reason: loading pickled data can execute arbitrary code
-    # Source: https://numpy.org/doc/stable/reference/generated/numpy.load.html
-    loader = np.load(bytes_io, allow_pickle=False)  # type: ignore
-
-    if "crow_indices" in loader:
-        # We convert our sparse matrix back to a ndarray, using the attributes we sent
-        ndarray_deserialized = (
-            torch.sparse_csr_tensor(
-                crow_indices=loader["crow_indices"],
-                col_indices=loader["col_indices"],
-                values=loader["values"],
-            )
-            .to_dense()
-            .numpy()
-        )
-    else:
-        ndarray_deserialized = loader
-    return cast(NDArray, ndarray_deserialized)
 
 
 partitioner = DirichletPartitioner(
@@ -182,6 +120,14 @@ class Net(nn.Module):
 
 def get_parameters(net) -> List[np.ndarray]:
     return [val.cpu().numpy() for _, val in net.state_dict().items()]
+
+
+def special_get_parameters(net) -> List[np.ndarray]:
+    quantized_model = torch.quantization.quantize_dynamic(
+        net, {torch.nn.Linear}, dtype=torch.qint8
+    )
+
+    return [p.numpy() for p in quantized_model.state_dict().values()]
 
 
 def set_parameters(net, parameters: List[np.ndarray]):
@@ -268,7 +214,11 @@ class FlowerClient(Client):
         self.model_path = f"models/client_{partition_id}.pt"
 
         if os.path.exists(self.model_path):
+            torch.quantization.quantize_dynamic(
+                self.client_model, {torch.nn.Linear}, dtype=torch.qint8, inplace=True
+            )
             self.client_model.load_state_dict(torch.load(self.model_path))
+            self.client_model = self.client_model.float()
 
     def get_parameters(self, ins: GetParametersIns) -> GetParametersRes:
 
@@ -291,21 +241,22 @@ class FlowerClient(Client):
         parameters_original = ins.parameters
         ndarrays_original = parameters_to_ndarrays(parameters_original)
 
+        print(self.client_model)
+
         # Update local model, train, get updated parameters
         set_parameters(self.client_model, ndarrays_original)
 
         train(self.client_model, self.trainloader, epochs=2)
-
-        # PRUNE MODEL
-        # pruning is done but no savings in communication cost
-        pruned_params = prune_model(self.client_model, 0.5)
-        set_parameters(self.client_model, pruned_params)
 
         loss, acc = test(self.client_model, self.valloader)
 
         # Serialize ndarray's into a Parameters object
         ndarrays_updated = get_parameters(self.client_model)
         parameters_updated = ndarrays_to_parameters(ndarrays_updated)
+
+        torch.quantization.quantize_dynamic(
+            self.client_model, {nn.Linear}, dtype=torch.qint8, inplace=True
+        )
 
         torch.save(self.client_model.state_dict(), self.model_path)
 
@@ -593,7 +544,7 @@ class FedCPSO(Strategy):
 
 def server_fn(context: Context) -> ServerAppComponents:
     # Create FedAvg strategy
-    config = ServerConfig(num_rounds=1)
+    config = ServerConfig(num_rounds=2)
     return ServerAppComponents(
         config=config,
         strategy=FedCPSO(
