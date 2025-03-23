@@ -118,16 +118,45 @@ class Net(nn.Module):
         return x
 
 
+class QuantizedNet(nn.Module):
+    def __init__(self) -> None:
+        super(QuantizedNet, self).__init__()
+        self.quant = torch.quantization.QuantStub()
+        self.conv1 = nn.Conv2d(3, 6, 5)
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(6, 16, 5)
+        self.fc1 = nn.Linear(16 * 5 * 5, 120)
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, 10)
+        self.dequant = torch.quantization.DeQuantStub()
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.quant(x)
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = x.view(-1, 16 * 5 * 5)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        x = self.dequant(x)
+        return x
+
+
 def get_parameters(net) -> List[np.ndarray]:
     return [val.cpu().numpy() for _, val in net.state_dict().items()]
 
 
-def special_get_parameters(net) -> List[np.ndarray]:
-    quantized_model = torch.quantization.quantize_dynamic(
-        net, {torch.nn.Linear}, dtype=torch.qint8
-    )
+def get_quantized_parameters(net):
+    parameters = []
 
-    return [p.numpy() for p in quantized_model.state_dict().values()]
+    for name, module in net.named_modules():
+        if isinstance(module, torch.nn.quantized.Linear) or isinstance(
+            module, torch.nn.quantized.Conv2d
+        ):
+            parameters.append(module.weight().int_repr().cpu().numpy())
+            parameters.append(module.bias().detach().cpu().numpy())
+
+    return parameters  # Convert to NumPy array
 
 
 def set_parameters(net, parameters: List[np.ndarray]):
@@ -181,24 +210,6 @@ def test(net, testloader):
     return loss, accuracy
 
 
-def prune_model(net, prate):
-    parameters = get_parameters(net)
-    pruned_params = [None] * len(parameters)
-
-    for idx, param in enumerate(parameters):
-        if param.ndim > 1:
-            flat_weights = np.abs(param).flatten()
-            k = int(prate * flat_weights.size)  # Number of weights to prune
-            if k > 0:
-                # Find the k-th smallest magnitude
-                threshold = np.partition(flat_weights, k)[k]
-                # Set weights below the threshold to zero
-                param[np.abs(param) < threshold] = 0
-        pruned_params[idx] = param
-
-    return pruned_params
-
-
 # IF INITIALIZING WITH PRETRAINED MODEL
 # net = Net().to(DEVICE)
 # trainloader, valloader, _ = load_datasets(0)
@@ -210,20 +221,22 @@ class FlowerClient(Client):
         self.partition_id = partition_id
         self.trainloader = trainloader
         self.valloader = valloader
-        self.client_model = Net().to(DEVICE)
         self.model_path = f"models/client_{partition_id}.pt"
+        self.client_model = Net().to(DEVICE)
+        torch.ao.quantization.quantize_dynamic(
+            self.client_model,
+            {torch.nn.Linear, torch.nn.Conv2d},
+            dtype=torch.qint8,
+            inplace=True,
+        )
 
         if os.path.exists(self.model_path):
-            torch.quantization.quantize_dynamic(
-                self.client_model, {torch.nn.Linear}, dtype=torch.qint8, inplace=True
-            )
             self.client_model.load_state_dict(torch.load(self.model_path))
-            self.client_model = self.client_model.float()
 
     def get_parameters(self, ins: GetParametersIns) -> GetParametersRes:
 
         # Get parameters as a list of NumPy ndarray's
-        ndarrays: List[np.ndarray] = get_parameters(self.client_model)
+        ndarrays: List[np.ndarray] = get_quantized_parameters(self.client_model)
 
         # Serialize ndarray's into a Parameters object
         parameters = ndarrays_to_parameters(ndarrays)
@@ -241,25 +254,22 @@ class FlowerClient(Client):
         parameters_original = ins.parameters
         ndarrays_original = parameters_to_ndarrays(parameters_original)
 
-        print(self.client_model)
+        model_f32 = Net().to(DEVICE)
+        set_parameters(model_f32, ndarrays_original)
 
-        # Update local model, train, get updated parameters
-        set_parameters(self.client_model, ndarrays_original)
+        train(model_f32, self.trainloader, epochs=2)
 
-        train(self.client_model, self.trainloader, epochs=2)
-
-        loss, acc = test(self.client_model, self.valloader)
+        loss, acc = test(model_f32, self.valloader)
 
         # Serialize ndarray's into a Parameters object
-        ndarrays_updated = get_parameters(self.client_model)
+        ndarrays_updated = get_parameters(model_f32)
         parameters_updated = ndarrays_to_parameters(ndarrays_updated)
 
-        torch.quantization.quantize_dynamic(
-            self.client_model, {nn.Linear}, dtype=torch.qint8, inplace=True
+        # Save the model
+        mod_int8 = torch.ao.quantization.quantize_dynamic(
+            model_f32, {torch.nn.Linear, torch.nn.Conv2d}, dtype=torch.qint8
         )
-
-        torch.save(self.client_model.state_dict(), self.model_path)
-
+        torch.save(mod_int8.state_dict(), self.model_path)
         # Build and return response
         status = Status(code=Code.OK, message="Success")
         return FitRes(
@@ -544,7 +554,7 @@ class FedCPSO(Strategy):
 
 def server_fn(context: Context) -> ServerAppComponents:
     # Create FedAvg strategy
-    config = ServerConfig(num_rounds=2)
+    config = ServerConfig(num_rounds=5)
     return ServerAppComponents(
         config=config,
         strategy=FedCPSO(
@@ -577,18 +587,18 @@ run_simulation(
 
 
 # CLeanup
-folder_path = "models"
+# folder_path = "models"
 
-if os.path.exists(folder_path):
-    for file_name in os.listdir(folder_path):
-        file_path = os.path.join(folder_path, file_name)
-        try:
-            if os.path.isfile(file_path):
-                os.remove(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            print(f"Error deleting {file_path}: {e}")
-    print("All files deleted successfully.")
-else:
-    print("Folder not found.")
+# if os.path.exists(folder_path):
+#     for file_name in os.listdir(folder_path):
+#         file_path = os.path.join(folder_path, file_name)
+#         try:
+#             if os.path.isfile(file_path):
+#                 os.remove(file_path)
+#             elif os.path.isdir(file_path):
+#                 shutil.rmtree(file_path)
+#         except Exception as e:
+#             print(f"Error deleting {file_path}: {e}")
+#     print("All files deleted successfully.")
+# else:
+#     print("Folder not found.")

@@ -23629,3 +23629,132 @@ DEBUG:flwr:Triggered stop event for Simulation Engine.
 DEBUG:flwr:Terminated 16 actors
 DEBUG:flwr:Terminated RayBackend
 DEBUG:flwr:Stopping Simulation Engine now.
+DEBUG:flwr:Pre-registering run with id 11994491622136682276
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 10 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=1, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.2304706674337387, {'accuracy': 0.1}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:fit progress: (1, 0.21101318432092667, {'accuracy': 0.2386}, 31.892674600007012)
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 1 round(s) in 43.37s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.17311389770507812
+INFO:flwr:	History (loss, centralized):
+INFO:flwr:		round 0: 0.2304706674337387
+INFO:flwr:		round 1: 0.21101318432092667
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'acc': [(1, 0.376)]}
+INFO:flwr:	History (metrics, centralized):
+INFO:flwr:	{'accuracy': [(0, 0.1), (1, 0.2386)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
+DEBUG:flwr:Pre-registering run with id 2596260294755147895
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 5 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.23037902109622954, {'accuracy': 0.1}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (1, 0.20249070378541947, {'accuracy': 0.3473}, 27.731662200007122)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (2, 0.18032368122339248, {'accuracy': 0.4098}, 55.61310070002219)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (3, 0.1572258873164654, {'accuracy': 0.4599}, 84.82819000002928)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (4, 0.13654857886433602, {'accuracy': 0.5172}, 115.06073260004632)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:fit progress: (5, 0.1251989823669195, {'accuracy': 0.5618}, 141.86370310001075)
+INFO:flwr:configure_evaluate: strategy sampled 2 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 2 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 5 round(s) in 156.86s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.15368427994847297
+INFO:flwr:		round 2: 0.14618950329720973
+INFO:flwr:		round 3: 0.13766640634834768
+INFO:flwr:		round 4: 0.14191509506106378
+INFO:flwr:		round 5: 0.13836526349186898
+INFO:flwr:	History (loss, centralized):
+INFO:flwr:		round 0: 0.23037902109622954
+INFO:flwr:		round 1: 0.20249070378541947
+INFO:flwr:		round 2: 0.18032368122339248
+INFO:flwr:		round 3: 0.1572258873164654
+INFO:flwr:		round 4: 0.13654857886433602
+INFO:flwr:		round 5: 0.1251989823669195
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'acc': [(1, 0.4495),
+INFO:flwr:	         (2, 0.48949999999999994),
+INFO:flwr:	         (3, 0.5157499999999999),
+INFO:flwr:	         (4, 0.5115000000000001),
+INFO:flwr:	         (5, 0.51025)]}
+INFO:flwr:	History (metrics, centralized):
+INFO:flwr:	{'accuracy': [(0, 0.1),
+INFO:flwr:	              (1, 0.3473),
+INFO:flwr:	              (2, 0.4098),
+INFO:flwr:	              (3, 0.4599),
+INFO:flwr:	              (4, 0.5172),
+INFO:flwr:	              (5, 0.5618)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
