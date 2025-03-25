@@ -133,7 +133,7 @@ def train(net, trainloader, epochs: int):
             # metrics
             epoch_loss += loss.item()
             total += labels.size(0)
-        epoch_loss /= len(trainloader.dataset)
+        epoch_loss /= len(trainloader)
         # print(f"Epoch {epoch+1}/{epochs}, Loss: {epoch_loss}, Accuracy: {epoch_acc}")
     return epoch_loss
 
@@ -149,7 +149,7 @@ def test(net, testloader):
             images, labels = images.to(DEVICE), labels.to(DEVICE)
             outputs = net(images)
             loss += criterion(outputs, labels).item()
-    loss /= len(testloader.dataset)
+    loss /= len(testloader)
     return loss
 
 
@@ -425,7 +425,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     config = ServerConfig(num_rounds=10)
     return ServerAppComponents(
         config=config,
-        strategy=FedPSO(fraction_fit=0.5),  # <-- pass the new strategy here
+        strategy=FedPSO(),  # <-- pass the new strategy here
     )
 
 

@@ -56,7 +56,7 @@ DEVICE = torch.device("cpu")
 print(f"Training on {DEVICE}")
 print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
-NUM_PARTITIONS = 5
+NUM_PARTITIONS = 10
 BATCH_SIZE = 10
 
 
@@ -210,6 +210,24 @@ def test(net, testloader):
     return loss, accuracy
 
 
+def prune_model(net, prate):
+    parameters = get_parameters(net)
+    pruned_params = [None] * len(parameters)
+
+    for idx, param in enumerate(parameters):
+        if param.ndim > 1:
+            flat_weights = np.abs(param).flatten()
+            k = int(prate * flat_weights.size)  # Number of weights to prune
+            if k > 0:
+                # Find the k-th smallest magnitude
+                threshold = np.partition(flat_weights, k)[k]
+                # Set weights below the threshold to zero
+                param[np.abs(param) < threshold] = 0
+        pruned_params[idx] = param
+
+    return pruned_params
+
+
 # IF INITIALIZING WITH PRETRAINED MODEL
 # net = Net().to(DEVICE)
 # trainloader, valloader, _ = load_datasets(0)
@@ -259,11 +277,13 @@ class FlowerClient(Client):
 
         train(model_f32, self.trainloader, epochs=2)
 
+        pruned_params = prune_model(model_f32, 0.5)
+        set_parameters(model_f32, pruned_params)
+
         loss, acc = test(model_f32, self.valloader)
 
         # Serialize ndarray's into a Parameters object
-        ndarrays_updated = get_parameters(model_f32)
-        parameters_updated = ndarrays_to_parameters(ndarrays_updated)
+        parameters_updated = ndarrays_to_parameters(pruned_params)
 
         # Save the model
         mod_int8 = torch.ao.quantization.quantize_dynamic(
@@ -587,18 +607,18 @@ run_simulation(
 
 
 # CLeanup
-# folder_path = "models"
+folder_path = "models"
 
-# if os.path.exists(folder_path):
-#     for file_name in os.listdir(folder_path):
-#         file_path = os.path.join(folder_path, file_name)
-#         try:
-#             if os.path.isfile(file_path):
-#                 os.remove(file_path)
-#             elif os.path.isdir(file_path):
-#                 shutil.rmtree(file_path)
-#         except Exception as e:
-#             print(f"Error deleting {file_path}: {e}")
-#     print("All files deleted successfully.")
-# else:
-#     print("Folder not found.")
+if os.path.exists(folder_path):
+    for file_name in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, file_name)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print(f"Error deleting {file_path}: {e}")
+    print("All files deleted successfully.")
+else:
+    print("Folder not found.")
