@@ -67,7 +67,6 @@ partitioner = DirichletPartitioner(
 
 
 def load_datasets(partition_id: int):
-    # fds = FederatedDataset(dataset="cifar10", partitioners={"train": num_partitions})
     fds = FederatedDataset(
         dataset="uoft-cs/cifar10", partitioners={"train": NUM_PARTITIONS}
     )

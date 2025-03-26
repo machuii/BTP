@@ -128,7 +128,6 @@ partitioner = DirichletPartitioner(
 
 
 def load_datasets(partition_id: int):
-    # fds = FederatedDataset(dataset="cifar10", partitioners={"train": num_partitions})
     fds = FederatedDataset(
         dataset="zalando-datasets/fashion_mnist", partitioners={"train": NUM_PARTITIONS}
     )
@@ -216,9 +215,6 @@ def train(net, trainloader, epochs: int):
             correct += (torch.max(outputs.data, 1)[1] == labels).sum().item()
         epoch_loss /= len(trainloader.dataset)
         epoch_acc = correct / total
-        logger.info(
-            f"Epoch {epoch+1}/{epochs}, Loss: {epoch_loss}, Accuracy: {epoch_acc}"
-        )
 
 
 def test(net, testloader):

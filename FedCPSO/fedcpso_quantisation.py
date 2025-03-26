@@ -66,7 +66,6 @@ partitioner = DirichletPartitioner(
 
 
 def load_datasets(partition_id: int):
-    # fds = FederatedDataset(dataset="cifar10", partitioners={"train": num_partitions})
     fds = FederatedDataset(
         dataset="uoft-cs/cifar10", partitioners={"train": NUM_PARTITIONS}
     )
@@ -574,7 +573,7 @@ class FedCPSO(Strategy):
 
 def server_fn(context: Context) -> ServerAppComponents:
     # Create FedAvg strategy
-    config = ServerConfig(num_rounds=5)
+    config = ServerConfig(num_rounds=10)
     return ServerAppComponents(
         config=config,
         strategy=FedCPSO(
