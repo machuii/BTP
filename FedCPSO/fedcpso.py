@@ -454,6 +454,12 @@ class FedCPSO(Strategy):
             for _, fit_res in results
         ]
 
+        total_bytes = 0
+        for _, fit_res in results:
+            for tensor in fit_res.parameters.tensors:
+                total_bytes += len(tensor)
+        print(f"Total bytes received: {total_bytes}")
+
         aggregated_weights = aggregate(weights_results)
         set_parameters(self.global_model, aggregated_weights)
 

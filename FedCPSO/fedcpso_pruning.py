@@ -10,6 +10,7 @@ import torchvision.transforms as transforms
 from torch.nn.utils import prune
 from torch.utils.data import DataLoader
 import copy
+import gzip
 
 import flwr
 from flwr.client import Client, ClientApp, NumPyClient
@@ -109,33 +110,6 @@ def sparse_parameters_to_ndarrays(parameters: Parameters) -> NDArrays:
     return [sparse_bytes_to_ndarray(tensor) for tensor in parameters.tensors]
 
 
-# def ndarray_to_sparse_bytes(ndarray: NDArray) -> bytes:
-#     """Serialize NumPy ndarray to bytes."""
-#     bytes_io = BytesIO()
-
-#     if len(ndarray.shape) == 2:
-#         # We convert our ndarray into a sparse matrix
-#         ndarray = torch.tensor(ndarray).to_sparse_csr()
-
-#         # And send it byutilizing the sparse matrix attributes
-#         # WARNING: NEVER set allow_pickle to true.
-#         # Reason: loading pickled data can execute arbitrary code
-#         # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
-#         np.savez(
-#             bytes_io,  # type: ignore
-#             crow_indices=ndarray.crow_indices(),
-#             col_indices=ndarray.col_indices(),
-#             values=ndarray.values(),
-#             allow_pickle=False,
-#         )
-#     else:
-#         # WARNING: NEVER set allow_pickle to true.
-#         # Reason: loading pickled data can execute arbitrary code
-#         # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
-#         np.save(bytes_io, ndarray, allow_pickle=False)
-#     return bytes_io.getvalue()
-
-
 def ndarray_to_sparse_bytes(ndarray: NDArray) -> bytes:
     """Serialize NumPy ndarray to bytes."""
     bytes_io = BytesIO()
@@ -169,12 +143,14 @@ def ndarray_to_sparse_bytes(ndarray: NDArray) -> bytes:
         # Reason: loading pickled data can execute arbitrary code
         # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
         np.save(bytes_io, ndarray, allow_pickle=False)
-    return bytes_io.getvalue()
+    serialized_data = gzip.compress(bytes_io.getvalue())
+    return serialized_data
 
 
 def sparse_bytes_to_ndarray(tensor: bytes) -> NDArray:
     """Deserialize NumPy ndarray from bytes."""
-    bytes_io = BytesIO(tensor)
+    decompressed = gzip.decompress(tensor)
+    bytes_io = BytesIO(decompressed)
     # WARNING: NEVER set allow_pickle to true.
     # Reason: loading pickled data can execute arbitrary code
     # Source: https://numpy.org/doc/stable/reference/generated/numpy.load.html
@@ -505,7 +481,8 @@ class FedCPSO(Strategy):
 
         total_bytes = 0
         for _, fit_res in results:
-            total_bytes += sys.getsizeof(fit_res.parameters)
+            for tensor in fit_res.parameters.tensors:
+                total_bytes += len(tensor)
 
         print("Netowkr cost is", total_bytes)
 
