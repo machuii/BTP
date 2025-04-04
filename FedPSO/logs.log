@@ -118,3 +118,2426 @@ ray.exceptions.RayActorError: The actor died unexpectedly before finishing this 
 The actor is dead because its worker process has died. Worker exit type: SYSTEM_ERROR Worker exit detail: Worker unexpectedly exits with a connection error code 10054. An existing connection was forcibly closed by the remote host. There are some potential root causes. (1) The process is killed by SIGKILL by OOM killer due to high memory usage. (2) ray stop --force is called. (3) The worker is crashed unexpectedly due to SIGSEGV or other unexpected errors.
 
 INFO:flwr:aggregate_evaluate: received 9 results and 1 failures
+DEBUG:flwr:Pre-registering run with id 11742065545853812454
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 10 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=10, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+INFO:flwr:Evaluation returned no results (`None`)
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 10)
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:The actor died unexpectedly before finishing this task.
+	class_name: ClientAppActor
+	actor_id: 1a9d327da1a38269803c2a8001000000
+	pid: 27324
+	namespace: e06e3e2f-c36b-4374-9d70-1b80c22355a0
+	ip: 127.0.0.1
+The actor is dead because its worker process has died. Worker exit type: SYSTEM_ERROR Worker exit detail: Worker unexpectedly exits with a connection error code 10054. An existing connection was forcibly closed by the remote host. There are some potential root causes. (1) The process is killed by SIGKILL by OOM killer due to high memory usage. (2) ray stop --force is called. (3) The worker is crashed unexpectedly due to SIGSEGV or other unexpected errors.
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:The actor died unexpectedly before finishing this task.
+	class_name: ClientAppActor
+	actor_id: 5fcdcbd284d9810eb03e33f501000000
+	pid: 27604
+	namespace: e06e3e2f-c36b-4374-9d70-1b80c22355a0
+	ip: 127.0.0.1
+The actor is dead because its worker process has died. Worker exit type: SYSTEM_ERROR Worker exit detail: Worker unexpectedly exits with a connection error code 10054. An existing connection was forcibly closed by the remote host. There are some potential root causes. (1) The process is killed by SIGKILL by OOM killer due to high memory usage. (2) ray stop --force is called. (3) The worker is crashed unexpectedly due to SIGSEGV or other unexpected errors.
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 866, in get_objects
+    raise value
+ray.exceptions.RayActorError: The actor died unexpectedly before finishing this task.
+	class_name: ClientAppActor
+	actor_id: 5fcdcbd284d9810eb03e33f501000000
+	pid: 27604
+	namespace: e06e3e2f-c36b-4374-9d70-1b80c22355a0
+	ip: 127.0.0.1
+The actor is dead because its worker process has died. Worker exit type: SYSTEM_ERROR Worker exit detail: Worker unexpectedly exits with a connection error code 10054. An existing connection was forcibly closed by the remote host. There are some potential root causes. (1) The process is killed by SIGKILL by OOM killer due to high memory usage. (2) ray stop --force is called. (3) The worker is crashed unexpectedly due to SIGSEGV or other unexpected errors.
+
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 866, in get_objects
+    raise value
+ray.exceptions.RayActorError: The actor died unexpectedly before finishing this task.
+	class_name: ClientAppActor
+	actor_id: 1a9d327da1a38269803c2a8001000000
+	pid: 27324
+	namespace: e06e3e2f-c36b-4374-9d70-1b80c22355a0
+	ip: 127.0.0.1
+The actor is dead because its worker process has died. Worker exit type: SYSTEM_ERROR Worker exit detail: Worker unexpectedly exits with a connection error code 10054. An existing connection was forcibly closed by the remote host. There are some potential root causes. (1) The process is killed by SIGKILL by OOM killer due to high memory usage. (2) ray stop --force is called. (3) The worker is crashed unexpectedly due to SIGSEGV or other unexpected errors.
+
+DEBUG:flwr:Pre-registering run with id 8815116690332167501
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 10 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+INFO:flwr:Evaluation returned no results (`None`)
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 5 round(s) in 109.10s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.172263534283638
+INFO:flwr:		round 2: 0.15566564021110535
+INFO:flwr:		round 3: 0.15497996534109115
+INFO:flwr:		round 4: 0.1567195196032524
+INFO:flwr:		round 5: 0.16733490864634512
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'accuracy': [(1, 0.36419999999999997),
+INFO:flwr:	              (2, 0.4402),
+INFO:flwr:	              (3, 0.4535),
+INFO:flwr:	              (4, 0.4658),
+INFO:flwr:	              (5, 0.4607999999999999)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
+DEBUG:flwr:Pre-registering run with id 13492167645648042819
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 5 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+INFO:flwr:Evaluation returned no results (`None`)
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 5 round(s) in 145.04s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.15691115939617156
+INFO:flwr:		round 2: 0.14274625199735166
+INFO:flwr:		round 3: 0.14343589328527448
+INFO:flwr:		round 4: 0.14907509414553644
+INFO:flwr:		round 5: 0.14306087812185286
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'accuracy': [(1, 0.43570000000000003),
+INFO:flwr:	              (2, 0.48569999999999997),
+INFO:flwr:	              (3, 0.5014),
+INFO:flwr:	              (4, 0.5031),
+INFO:flwr:	              (5, 0.5206000000000001)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
+DEBUG:flwr:Pre-registering run with id 3456137001877835247
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 5 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+INFO:flwr:Evaluation returned no results (`None`)
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 5 round(s) in 179.07s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.17176629295349122
+INFO:flwr:		round 2: 0.15701926035881042
+INFO:flwr:		round 3: 0.14818777945637704
+INFO:flwr:		round 4: 0.1464972894072533
+INFO:flwr:		round 5: 0.14451804582476618
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'accuracy': [(1, 0.36049999999999993),
+INFO:flwr:	              (2, 0.433),
+INFO:flwr:	              (3, 0.46490000000000004),
+INFO:flwr:	              (4, 0.47659999999999997),
+INFO:flwr:	              (5, 0.4829)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
+DEBUG:flwr:Pre-registering run with id 1876195902180203103
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 5 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=10, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+INFO:flwr:Evaluation returned no results (`None`)
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:[36mray::ClientAppActor.run()[39m (pid=18972, ip=127.0.0.1, actor_id=f2235bedb8441abc7763785201000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000021810054E90>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=18972, ip=127.0.0.1, actor_id=f2235bedb8441abc7763785201000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000021810054E90>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 781, in resolve
+    origin_metadata = _get_origin_metadata(data_files, download_config=download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 548, in _get_origin_metadata
+    return thread_map(
+           ^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\contrib\concurrent.py", line 69, in thread_map
+    return _executor_map(ThreadPoolExecutor, fn, *iterables, **tqdm_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\contrib\concurrent.py", line 51, in _executor_map
+    return list(tqdm_class(ex.map(fn, *iterables, chunksize=chunksize), **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\std.py", line 1169, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 527, in _get_single_origin_metadata
+    resolved_path = fs.resolve_path(data_file)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 198, in resolve_path
+    repo_and_revision_exist, err = self._repo_and_revision_exist(repo_type, repo_id, revision)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 125, in _repo_and_revision_exist
+    self._api.repo_info(
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2704, in repo_info
+    return method(
+           ^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2562, in dataset_info
+    hf_raise_for_status(r)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=18972, ip=127.0.0.1, actor_id=f2235bedb8441abc7763785201000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000021810054E90>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:[36mray::ClientAppActor.run()[39m (pid=15620, ip=127.0.0.1, actor_id=d2f0fd78605cd41a0014bfc901000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000259FAD3A390>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=15620, ip=127.0.0.1, actor_id=d2f0fd78605cd41a0014bfc901000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000259FAD3A390>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 781, in resolve
+    origin_metadata = _get_origin_metadata(data_files, download_config=download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 548, in _get_origin_metadata
+    return thread_map(
+           ^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\contrib\concurrent.py", line 69, in thread_map
+    return _executor_map(ThreadPoolExecutor, fn, *iterables, **tqdm_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\contrib\concurrent.py", line 51, in _executor_map
+    return list(tqdm_class(ex.map(fn, *iterables, chunksize=chunksize), **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\std.py", line 1169, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 527, in _get_single_origin_metadata
+    resolved_path = fs.resolve_path(data_file)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 198, in resolve_path
+    repo_and_revision_exist, err = self._repo_and_revision_exist(repo_type, repo_id, revision)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 125, in _repo_and_revision_exist
+    self._api.repo_info(
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2704, in repo_info
+    return method(
+           ^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2562, in dataset_info
+    hf_raise_for_status(r)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=15620, ip=127.0.0.1, actor_id=d2f0fd78605cd41a0014bfc901000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000259FAD3A390>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 864, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ClientAppException): [36mray::ClientAppActor.run()[39m (pid=15620, ip=127.0.0.1, actor_id=d2f0fd78605cd41a0014bfc901000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000259FAD3A390>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=15620, ip=127.0.0.1, actor_id=d2f0fd78605cd41a0014bfc901000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000259FAD3A390>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 781, in resolve
+    origin_metadata = _get_origin_metadata(data_files, download_config=download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 548, in _get_origin_metadata
+    return thread_map(
+           ^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\contrib\concurrent.py", line 69, in thread_map
+    return _executor_map(ThreadPoolExecutor, fn, *iterables, **tqdm_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\contrib\concurrent.py", line 51, in _executor_map
+    return list(tqdm_class(ex.map(fn, *iterables, chunksize=chunksize), **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\std.py", line 1169, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 527, in _get_single_origin_metadata
+    resolved_path = fs.resolve_path(data_file)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 198, in resolve_path
+    repo_and_revision_exist, err = self._repo_and_revision_exist(repo_type, repo_id, revision)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 125, in _repo_and_revision_exist
+    self._api.repo_info(
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2704, in repo_info
+    return method(
+           ^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2562, in dataset_info
+    hf_raise_for_status(r)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=15620, ip=127.0.0.1, actor_id=d2f0fd78605cd41a0014bfc901000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000259FAD3A390>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 864, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ClientAppException): [36mray::ClientAppActor.run()[39m (pid=18972, ip=127.0.0.1, actor_id=f2235bedb8441abc7763785201000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000021810054E90>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=18972, ip=127.0.0.1, actor_id=f2235bedb8441abc7763785201000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000021810054E90>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 781, in resolve
+    origin_metadata = _get_origin_metadata(data_files, download_config=download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 548, in _get_origin_metadata
+    return thread_map(
+           ^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\contrib\concurrent.py", line 69, in thread_map
+    return _executor_map(ThreadPoolExecutor, fn, *iterables, **tqdm_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\contrib\concurrent.py", line 51, in _executor_map
+    return list(tqdm_class(ex.map(fn, *iterables, chunksize=chunksize), **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\std.py", line 1169, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 527, in _get_single_origin_metadata
+    resolved_path = fs.resolve_path(data_file)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 198, in resolve_path
+    repo_and_revision_exist, err = self._repo_and_revision_exist(repo_type, repo_id, revision)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 125, in _repo_and_revision_exist
+    self._api.repo_info(
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2704, in repo_info
+    return method(
+           ^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2562, in dataset_info
+    hf_raise_for_status(r)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=18972, ip=127.0.0.1, actor_id=f2235bedb8441abc7763785201000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000021810054E90>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:[36mray::ClientAppActor.run()[39m (pid=8304, ip=127.0.0.1, actor_id=a52b9f29051df1e600dcb22901000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000268F3C7A690>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=8304, ip=127.0.0.1, actor_id=a52b9f29051df1e600dcb22901000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000268F3C7A690>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 781, in resolve
+    origin_metadata = _get_origin_metadata(data_files, download_config=download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 548, in _get_origin_metadata
+    return thread_map(
+           ^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\contrib\concurrent.py", line 69, in thread_map
+    return _executor_map(ThreadPoolExecutor, fn, *iterables, **tqdm_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\contrib\concurrent.py", line 51, in _executor_map
+    return list(tqdm_class(ex.map(fn, *iterables, chunksize=chunksize), **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\std.py", line 1169, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 527, in _get_single_origin_metadata
+    resolved_path = fs.resolve_path(data_file)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 198, in resolve_path
+    repo_and_revision_exist, err = self._repo_and_revision_exist(repo_type, repo_id, revision)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 125, in _repo_and_revision_exist
+    self._api.repo_info(
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2704, in repo_info
+    return method(
+           ^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2562, in dataset_info
+    hf_raise_for_status(r)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=8304, ip=127.0.0.1, actor_id=a52b9f29051df1e600dcb22901000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000268F3C7A690>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 864, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ClientAppException): [36mray::ClientAppActor.run()[39m (pid=8304, ip=127.0.0.1, actor_id=a52b9f29051df1e600dcb22901000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000268F3C7A690>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=8304, ip=127.0.0.1, actor_id=a52b9f29051df1e600dcb22901000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000268F3C7A690>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 781, in resolve
+    origin_metadata = _get_origin_metadata(data_files, download_config=download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 548, in _get_origin_metadata
+    return thread_map(
+           ^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\contrib\concurrent.py", line 69, in thread_map
+    return _executor_map(ThreadPoolExecutor, fn, *iterables, **tqdm_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\contrib\concurrent.py", line 51, in _executor_map
+    return list(tqdm_class(ex.map(fn, *iterables, chunksize=chunksize), **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\tqdm\std.py", line 1169, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 527, in _get_single_origin_metadata
+    resolved_path = fs.resolve_path(data_file)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 198, in resolve_path
+    repo_and_revision_exist, err = self._repo_and_revision_exist(repo_type, repo_id, revision)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 125, in _repo_and_revision_exist
+    self._api.repo_info(
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2704, in repo_info
+    return method(
+           ^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2562, in dataset_info
+    hf_raise_for_status(r)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=8304, ip=127.0.0.1, actor_id=a52b9f29051df1e600dcb22901000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000268F3C7A690>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/revision/0b2714987fa478483af9968de7c934580d0bb9a2
+
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:[36mray::ClientAppActor.run()[39m (pid=24828, ip=127.0.0.1, actor_id=2b1326753d809000920c48bc01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000166704E2290>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=24828, ip=127.0.0.1, actor_id=2b1326753d809000920c48bc01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000166704E2290>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=24828, ip=127.0.0.1, actor_id=2b1326753d809000920c48bc01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000166704E2290>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 864, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ClientAppException): [36mray::ClientAppActor.run()[39m (pid=24828, ip=127.0.0.1, actor_id=2b1326753d809000920c48bc01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000166704E2290>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=24828, ip=127.0.0.1, actor_id=2b1326753d809000920c48bc01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000166704E2290>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=24828, ip=127.0.0.1, actor_id=2b1326753d809000920c48bc01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000166704E2290>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+INFO:flwr:aggregate_evaluate: received 1 results and 4 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 6]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 7]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 8]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 9]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 10]
+INFO:flwr:configure_fit: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_fit: received 5 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 5 clients (out of 5)
+INFO:flwr:aggregate_evaluate: received 5 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 10 round(s) in 224.86s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.17196146822571756
+INFO:flwr:		round 2: 0.1555698921918869
+INFO:flwr:		round 3: 0.1460228787958622
+INFO:flwr:		round 4: 0.14164496484398842
+INFO:flwr:		round 5: 0.14000659344196323
+INFO:flwr:		round 6: 0.13825265345573426
+INFO:flwr:		round 7: 0.1367130131214857
+INFO:flwr:		round 8: 0.13706007469296458
+INFO:flwr:		round 9: 0.14026518285274506
+INFO:flwr:		round 10: 0.1438703772187233
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'accuracy': [(1, 0.3591),
+INFO:flwr:	              (2, 0.4235),
+INFO:flwr:	              (3, 0.4744),
+INFO:flwr:	              (4, 0.4975),
+INFO:flwr:	              (5, 0.49429999999999996),
+INFO:flwr:	              (6, 0.5139),
+INFO:flwr:	              (7, 0.5157999999999999),
+INFO:flwr:	              (8, 0.5156000000000001),
+INFO:flwr:	              (9, 0.516),
+INFO:flwr:	              (10, 0.5080999999999999)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
+DEBUG:flwr:Pre-registering run with id 10257882102347642963
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 10 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=10, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+INFO:flwr:Evaluation returned no results (`None`)
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 6]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 7]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 8]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 9]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 10]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 10 round(s) in 161.56s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.1889792140126228
+INFO:flwr:		round 2: 0.1699134786069393
+INFO:flwr:		round 3: 0.16390253028273585
+INFO:flwr:		round 4: 0.16076498951911924
+INFO:flwr:		round 5: 0.15672796871066091
+INFO:flwr:		round 6: 0.15475177507996557
+INFO:flwr:		round 7: 0.15497013015747071
+INFO:flwr:		round 8: 0.15851467474699021
+INFO:flwr:		round 9: 0.1608404813170433
+INFO:flwr:		round 10: 0.16082454175651073
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'accuracy': [(1, 0.2898),
+INFO:flwr:	              (2, 0.37150000000000005),
+INFO:flwr:	              (3, 0.4108),
+INFO:flwr:	              (4, 0.4177),
+INFO:flwr:	              (5, 0.43400000000000005),
+INFO:flwr:	              (6, 0.4461),
+INFO:flwr:	              (7, 0.45280000000000004),
+INFO:flwr:	              (8, 0.44420000000000004),
+INFO:flwr:	              (9, 0.44389999999999996),
+INFO:flwr:	              (10, 0.4556)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
+DEBUG:flwr:Pre-registering run with id 9481885211749545540
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 10 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=5, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+INFO:flwr:Evaluation returned no results (`None`)
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:[36mray::ClientAppActor.run()[39m (pid=28232, ip=127.0.0.1, actor_id=4b580fdb68d0cb420d46df2d01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000025799EA0ED0>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=28232, ip=127.0.0.1, actor_id=4b580fdb68d0cb420d46df2d01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000025799EA0ED0>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=28232, ip=127.0.0.1, actor_id=4b580fdb68d0cb420d46df2d01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000025799EA0ED0>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 864, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ClientAppException): [36mray::ClientAppActor.run()[39m (pid=28232, ip=127.0.0.1, actor_id=4b580fdb68d0cb420d46df2d01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000025799EA0ED0>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=28232, ip=127.0.0.1, actor_id=4b580fdb68d0cb420d46df2d01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000025799EA0ED0>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=28232, ip=127.0.0.1, actor_id=4b580fdb68d0cb420d46df2d01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000025799EA0ED0>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:[36mray::ClientAppActor.run()[39m (pid=35268, ip=127.0.0.1, actor_id=7abffd96bebb9b818764a92801000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000026A2447D1D0>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=35268, ip=127.0.0.1, actor_id=7abffd96bebb9b818764a92801000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000026A2447D1D0>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=35268, ip=127.0.0.1, actor_id=7abffd96bebb9b818764a92801000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000026A2447D1D0>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 864, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ClientAppException): [36mray::ClientAppActor.run()[39m (pid=35268, ip=127.0.0.1, actor_id=7abffd96bebb9b818764a92801000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000026A2447D1D0>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=35268, ip=127.0.0.1, actor_id=7abffd96bebb9b818764a92801000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000026A2447D1D0>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=35268, ip=127.0.0.1, actor_id=7abffd96bebb9b818764a92801000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000026A2447D1D0>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:[36mray::ClientAppActor.run()[39m (pid=33752, ip=127.0.0.1, actor_id=dc2607b8c56a5779ee80311601000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000022EB8D9A690>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=33752, ip=127.0.0.1, actor_id=dc2607b8c56a5779ee80311601000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000022EB8D9A690>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=33752, ip=127.0.0.1, actor_id=dc2607b8c56a5779ee80311601000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000022EB8D9A690>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:[36mray::ClientAppActor.run()[39m (pid=17672, ip=127.0.0.1, actor_id=cbeee6c8f3a292bd08d9bb5b01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000286E4C84150>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=17672, ip=127.0.0.1, actor_id=cbeee6c8f3a292bd08d9bb5b01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000286E4C84150>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=17672, ip=127.0.0.1, actor_id=cbeee6c8f3a292bd08d9bb5b01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000286E4C84150>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 864, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ClientAppException): [36mray::ClientAppActor.run()[39m (pid=33752, ip=127.0.0.1, actor_id=dc2607b8c56a5779ee80311601000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000022EB8D9A690>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=33752, ip=127.0.0.1, actor_id=dc2607b8c56a5779ee80311601000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000022EB8D9A690>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=33752, ip=127.0.0.1, actor_id=dc2607b8c56a5779ee80311601000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000022EB8D9A690>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 864, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ClientAppException): [36mray::ClientAppActor.run()[39m (pid=17672, ip=127.0.0.1, actor_id=cbeee6c8f3a292bd08d9bb5b01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000286E4C84150>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=17672, ip=127.0.0.1, actor_id=cbeee6c8f3a292bd08d9bb5b01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000286E4C84150>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 288, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedPSO\fed_pso.py", line 67, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=17672, ip=127.0.0.1, actor_id=cbeee6c8f3a292bd08d9bb5b01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000286E4C84150>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+INFO:flwr:aggregate_evaluate: received 6 results and 4 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_fit: received 10 results and 0 failures
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 5 round(s) in 107.54s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.18041373527050017
+INFO:flwr:		round 2: 0.16552217319607734
+INFO:flwr:		round 3: 0.16114814479947087
+INFO:flwr:		round 4: 0.1607522363841534
+INFO:flwr:		round 5: 0.15919248467683791
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'accuracy': [(1, 0.33383333333333337),
+INFO:flwr:	              (2, 0.3907),
+INFO:flwr:	              (3, 0.4201),
+INFO:flwr:	              (4, 0.4173),
+INFO:flwr:	              (5, 0.4349)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.

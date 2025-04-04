@@ -9,6 +9,8 @@ import torch.nn.functional as F
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import copy
+import gzip
+import lzma
 
 import flwr
 from flwr.client import Client, ClientApp, NumPyClient
@@ -17,6 +19,7 @@ from flwr.server.strategy import Strategy
 from flwr.simulation import run_simulation
 from flwr_datasets import FederatedDataset
 from flwr_datasets.partitioner import DirichletPartitioner
+
 
 from io import BytesIO
 from typing import cast
@@ -57,69 +60,10 @@ print(f"Training on {DEVICE}")
 print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
 NUM_PARTITIONS = 10
+NUM_ROUNDS = 5
 BATCH_SIZE = 10
 
-
-def ndarrays_to_sparse_parameters(ndarrays: NDArrays) -> Parameters:
-    """Convert NumPy ndarrays to parameters object."""
-    tensors = [ndarray_to_sparse_bytes(ndarray) for ndarray in ndarrays]
-    return Parameters(tensors=tensors, tensor_type="numpy.ndarray")
-
-
-def sparse_parameters_to_ndarrays(parameters: Parameters) -> NDArrays:
-    """Convert parameters object to NumPy ndarrays."""
-    return [sparse_bytes_to_ndarray(tensor) for tensor in parameters.tensors]
-
-
-def ndarray_to_sparse_bytes(ndarray: NDArray) -> bytes:
-    """Serialize NumPy ndarray to bytes."""
-    bytes_io = BytesIO()
-
-    if len(ndarray.shape) > 1:
-        # We convert our ndarray into a sparse matrix
-        ndarray = torch.tensor(ndarray).to_sparse_csr()
-
-        # And send it byutilizing the sparse matrix attributes
-        # WARNING: NEVER set allow_pickle to true.
-        # Reason: loading pickled data can execute arbitrary code
-        # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
-        np.savez(
-            bytes_io,  # type: ignore
-            crow_indices=ndarray.crow_indices(),
-            col_indices=ndarray.col_indices(),
-            values=ndarray.values(),
-            allow_pickle=False,
-        )
-    else:
-        # WARNING: NEVER set allow_pickle to true.
-        # Reason: loading pickled data can execute arbitrary code
-        # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
-        np.save(bytes_io, ndarray, allow_pickle=False)
-    return bytes_io.getvalue()
-
-
-def sparse_bytes_to_ndarray(tensor: bytes) -> NDArray:
-    """Deserialize NumPy ndarray from bytes."""
-    bytes_io = BytesIO(tensor)
-    # WARNING: NEVER set allow_pickle to true.
-    # Reason: loading pickled data can execute arbitrary code
-    # Source: https://numpy.org/doc/stable/reference/generated/numpy.load.html
-    loader = np.load(bytes_io, allow_pickle=False)  # type: ignore
-
-    if "crow_indices" in loader:
-        # We convert our sparse matrix back to a ndarray, using the attributes we sent
-        ndarray_deserialized = (
-            torch.sparse_csr_tensor(
-                crow_indices=loader["crow_indices"],
-                col_indices=loader["col_indices"],
-                values=loader["values"],
-            )
-            .to_dense()
-            .numpy()
-        )
-    else:
-        ndarray_deserialized = loader
-    return cast(NDArray, ndarray_deserialized)
+logger.info(f"\nEXECUTING CPSO FINAL CLIENTS->{NUM_PARTITIONS} ROUNDS->{NUM_ROUNDS}")
 
 
 partitioner = DirichletPartitioner(
@@ -129,25 +73,20 @@ partitioner = DirichletPartitioner(
 
 def load_datasets(partition_id: int):
     fds = FederatedDataset(
-        dataset="zalando-datasets/fashion_mnist", partitioners={"train": NUM_PARTITIONS}
+        dataset="uoft-cs/cifar10", partitioners={"train": NUM_PARTITIONS}
     )
     partition = fds.load_partition(partition_id)
     # Divide data on each node: 80% train, 20% test
     partition_train_test = partition.train_test_split(test_size=0.2, seed=42)
     pytorch_transforms = transforms.Compose(
-        [
-            transforms.ToTensor(),
-            transforms.Normalize(
-                (0.5,), (0.5,)
-            ),  # Correct normalization for Fashion-MNIST
-        ]
+        [transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
     )
 
     def apply_transforms(batch):
         # Instead of passing transforms to CIFAR10(..., transform=transform)
         # we will use this function to dataset.with_transform(apply_transforms)
         # The transforms object is exactly the same
-        batch["image"] = [pytorch_transforms(image) for image in batch["image"]]
+        batch["img"] = [pytorch_transforms(img) for img in batch["img"]]
         return batch
 
     partition_train_test = partition_train_test.with_transform(apply_transforms)
@@ -164,20 +103,124 @@ def load_datasets(partition_id: int):
 server_trainloader, _, server_testloader = load_datasets(0)
 
 
+def ndarrays_to_sparse_parameters(ndarrays: NDArrays) -> Parameters:
+    """Convert NumPy ndarrays to parameters object."""
+    tensors = [ndarray_to_sparse_bytes(ndarray) for ndarray in ndarrays]
+    return Parameters(tensors=tensors, tensor_type="numpy.ndarray")
+
+
+def sparse_parameters_to_ndarrays(parameters: Parameters) -> NDArrays:
+    """Convert parameters object to NumPy ndarrays."""
+    return [sparse_bytes_to_ndarray(tensor) for tensor in parameters.tensors]
+
+
+def ndarray_to_sparse_bytes(ndarray: NDArray) -> bytes:
+    """Serialize NumPy ndarray to bytes."""
+    bytes_io = BytesIO()
+    # WARNING: NEVER set allow_pickle to true.
+    # Reason: loading pickled data can execute arbitrary code
+    # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
+    np.save(bytes_io, ndarray, allow_pickle=False)
+    serialized_data = lzma.compress(bytes_io.getvalue())
+    return serialized_data
+
+
+def sparse_bytes_to_ndarray(tensor: bytes) -> NDArray:
+    """Deserialize NumPy ndarray from bytes."""
+    decompressed = lzma.decompress(tensor)
+    bytes_io = BytesIO(decompressed)
+    # WARNING: NEVER set allow_pickle to true.
+    # Reason: loading pickled data can execute arbitrary code
+    # Source: https://numpy.org/doc/stable/reference/generated/numpy.load.html
+    ndarray_deserialized = np.load(bytes_io, allow_pickle=False)
+    return cast(NDArray, ndarray_deserialized)
+
+
+# def ndarray_to_sparse_bytes(ndarray: NDArray) -> bytes:
+#     """Serialize NumPy ndarray to bytes."""
+#     bytes_io = BytesIO()
+
+#     if len(ndarray.shape) == 2:
+#         # We convert our ndarray into a sparse matrix
+#         ndarray = torch.tensor(ndarray).to_sparse_csr()
+
+#         # And send it byutilizing the sparse matrix attributes
+#         # WARNING: NEVER set allow_pickle to true.
+#         # Reason: loading pickled data can execute arbitrary code
+#         # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
+#         np.savez(
+#             bytes_io,  # type: ignore
+#             crow_indices=ndarray.crow_indices(),
+#             col_indices=ndarray.col_indices(),
+#             values=ndarray.values(),
+#             allow_pickle=False,
+#         )
+#     elif len(ndarray.shape) == 4:
+#         ndarray = torch.tensor(ndarray).to_sparse_coo()
+
+#         np.savez(
+#             bytes_io,
+#             indices=ndarray.indices(),
+#             values=ndarray.values(),
+#             allow_pickle=False,
+#         )
+#     else:
+#         # WARNING: NEVER set allow_pickle to true.
+#         # Reason: loading pickled data can execute arbitrary code
+#         # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
+#         np.save(bytes_io, ndarray, allow_pickle=False)
+#     serialized_data = gzip.compress(bytes_io.getvalue())
+#     return serialized_data
+
+
+# def sparse_bytes_to_ndarray(tensor: bytes) -> NDArray:
+#     """Deserialize NumPy ndarray from bytes."""
+#     decompressed = gzip.decompress(tensor)
+#     bytes_io = BytesIO(decompressed)
+#     # WARNING: NEVER set allow_pickle to true.
+#     # Reason: loading pickled data can execute arbitrary code
+#     # Source: https://numpy.org/doc/stable/reference/generated/numpy.load.html
+#     loader = np.load(bytes_io, allow_pickle=False)  # type: ignore
+
+#     if "crow_indices" in loader:
+#         # We convert our sparse matrix back to a ndarray, using the attributes we sent
+#         ndarray_deserialized = (
+#             torch.sparse_csr_tensor(
+#                 crow_indices=loader["crow_indices"],
+#                 col_indices=loader["col_indices"],
+#                 values=loader["values"],
+#             )
+#             .to_dense()
+#             .numpy()
+#         )
+#     elif "indices" in loader:
+#         ndarray_deserialized = (
+#             torch.sparse_coo_tensor(
+#                 indices=loader["indices"],
+#                 values=loader["values"],
+#             )
+#             .to_dense()
+#             .numpy()
+#         )
+#     else:
+#         ndarray_deserialized = loader
+#     return cast(NDArray, ndarray_deserialized)
+
+
 class Net(nn.Module):
     def __init__(self) -> None:
         super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(1, 6, 5)
+        self.conv1 = nn.Conv2d(3, 6, 5)
         self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(16 * 4 * 4, 120)
+        self.fc1 = nn.Linear(16 * 5 * 5, 120)
         self.fc2 = nn.Linear(120, 84)
         self.fc3 = nn.Linear(84, 10)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
-        x = x.view(-1, 16 * 4 * 4)
+        x = x.view(-1, 16 * 5 * 5)
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
@@ -186,6 +229,19 @@ class Net(nn.Module):
 
 def get_parameters(net) -> List[np.ndarray]:
     return [val.cpu().numpy() for _, val in net.state_dict().items()]
+
+
+def get_quantized_parameters(net):
+    parameters = []
+
+    for name, module in net.named_modules():
+        if isinstance(module, torch.nn.quantized.Linear) or isinstance(
+            module, torch.nn.quantized.Conv2d
+        ):
+            parameters.append(module.weight().int_repr().cpu().numpy())
+            parameters.append(module.bias().detach().cpu().numpy())
+
+    return parameters  # Convert to NumPy array
 
 
 def set_parameters(net, parameters: List[np.ndarray]):
@@ -202,7 +258,7 @@ def train(net, trainloader, epochs: int):
     for epoch in range(epochs):
         correct, total, epoch_loss = 0, 0, 0.0
         for batch in trainloader:
-            images, labels = batch["image"], batch["label"]
+            images, labels = batch["img"], batch["label"]
             images, labels = images.to(DEVICE), labels.to(DEVICE)
             optimizer.zero_grad()
             outputs = net(images)
@@ -224,7 +280,7 @@ def test(net, testloader):
     net.eval()
     with torch.no_grad():
         for batch in testloader:
-            images, labels = batch["image"], batch["label"]
+            images, labels = batch["img"], batch["label"]
             images, labels = images.to(DEVICE), labels.to(DEVICE)
             outputs = net(images)
             _, predicted = torch.max(outputs, 1)
@@ -236,28 +292,18 @@ def test(net, testloader):
     return loss, accuracy
 
 
-def prune_model(net, prate):
-    parameters = get_parameters(net)
-    pruned_params = [None] * len(parameters)
+def prune_threshold(params, prate):
 
-    for idx, param in enumerate(parameters):
-        if param.ndim > 1:
-            flat_weights = np.abs(param).flatten()
-            k = int(prate * flat_weights.size)  # Number of weights to prune
-            if k > 0:
-                # Find the k-th smallest magnitude
-                threshold = np.partition(flat_weights, k)[k]
-                # Set weights below the threshold to zero
-                param[np.abs(param) < threshold] = 0
-        pruned_params[idx] = param
+    pruning_rate = prate
+    sorted = torch.cat(
+        [torch.from_numpy(param).flatten().abs() for param in params]
+    ).sort()[0]
+    threshold = sorted[int(len(sorted) * pruning_rate)]
 
-    return pruned_params
+    for i, p in enumerate(params):
+        params[i][np.abs(p) < threshold.item()] = 0
 
-
-# IF INITIALIZING WITH PRETRAINED MODEL
-# net = Net().to(DEVICE)
-# trainloader, valloader, _ = load_datasets(0)
-# train(net, trainloader, epochs=10)
+    return params
 
 
 class FlowerClient(Client):
@@ -266,6 +312,12 @@ class FlowerClient(Client):
         self.trainloader = trainloader
         self.valloader = valloader
         self.client_model = Net().to(DEVICE)
+        torch.ao.quantization.quantize_dynamic(
+            self.client_model,
+            {torch.nn.Linear, torch.nn.Conv2d},
+            dtype=torch.qint8,
+            inplace=True,
+        )
         self.model_path = f"models/client_{partition_id}.pt"
 
         if os.path.exists(self.model_path):
@@ -274,7 +326,7 @@ class FlowerClient(Client):
     def get_parameters(self, ins: GetParametersIns) -> GetParametersRes:
 
         # Get parameters as a list of NumPy ndarray's
-        ndarrays: List[np.ndarray] = get_parameters(self.client_model)
+        ndarrays: List[np.ndarray] = get_quantized_parameters(self.client_model)
 
         # Serialize ndarray's into a Parameters object
         parameters = ndarrays_to_parameters(ndarrays)
@@ -290,26 +342,31 @@ class FlowerClient(Client):
 
         # Deserialize parameters to NumPy ndarray's
         parameters_original = ins.parameters
+
         ndarrays_original = parameters_to_ndarrays(parameters_original)
 
-        # Update local model, train, get updated parameters
-        set_parameters(self.client_model, ndarrays_original)
+        model_f32 = Net().to(DEVICE)
 
-        train(self.client_model, self.trainloader, epochs=2)
+        set_parameters(model_f32, ndarrays_original)
 
-        # PRUNE MODEL
-        # pruning is done but no savings in communication cost
-        pruned_params = prune_model(self.client_model, 0.5)
-        set_parameters(self.client_model, pruned_params)
+        train(model_f32, self.trainloader, epochs=1)
 
-        loss, acc = test(self.client_model, self.valloader)
+        ndarrays_updated = get_parameters(model_f32)
+
+        pruned_params = prune_threshold(ndarrays_updated, 0.5)
+
+        set_parameters(model_f32, pruned_params)
+
+        loss, acc = test(model_f32, self.valloader)
 
         # Serialize ndarray's into a Parameters object
-        ndarrays_updated = get_parameters(self.client_model)
-        parameters_updated = ndarrays_to_parameters(ndarrays_updated)
+        parameters_updated = ndarrays_to_sparse_parameters(pruned_params)
 
-        torch.save(self.client_model.state_dict(), self.model_path)
-
+        # Save the model
+        mod_int8 = torch.ao.quantization.quantize_dynamic(
+            model_f32, {torch.nn.Linear, torch.nn.Conv2d}, dtype=torch.qint8
+        )
+        torch.save(mod_int8.state_dict(), self.model_path)
         # Build and return response
         status = Status(code=Code.OK, message="Success")
         return FitRes(
@@ -320,8 +377,6 @@ class FlowerClient(Client):
         )
 
     def evaluate(self, ins: EvaluateIns) -> EvaluateRes:
-
-        # set_parameters(self.client_model, ndarrays_original)
 
         loss, accuracy = test(self.client_model, self.valloader)
 
@@ -349,7 +404,6 @@ def client_fn(context: Context) -> Client:
 client = ClientApp(client_fn=client_fn)
 
 
-### Params are not being received in the same order in each round ###
 class FedCPSO(Strategy):
     def __init__(
         self,
@@ -426,7 +480,7 @@ class FedCPSO(Strategy):
             num_clients=sample_size, min_num_clients=min_num_clients
         )
 
-        standard_config = {"lr": 0.005}
+        standard_config = {"lr": 0.001}
         fit_configurations = []
         for client in clients:
             fit_configurations.append(
@@ -452,9 +506,15 @@ class FedCPSO(Strategy):
         """Aggregate fit results using weighted average."""
 
         weights_results = [
-            (parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
+            (sparse_parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
             for _, fit_res in results
         ]
+
+        total_bytes = 0
+        for _, fit_res in results:
+            for tensor in fit_res.parameters.tensors:
+                total_bytes += len(tensor)
+        print(f"Total bytes received: {total_bytes}")
 
         aggregated_weights = aggregate(weights_results)
         set_parameters(self.global_model, aggregated_weights)
@@ -471,7 +531,7 @@ class FedCPSO(Strategy):
             # best client model
             if fit_res.metrics["accuracy"] > self.local_best_accuracy[client.cid]:
                 self.local_best_accuracy[client.cid] = fit_res.metrics["accuracy"]
-                params = parameters_to_ndarrays(fit_res.parameters)
+                params = sparse_parameters_to_ndarrays(fit_res.parameters)
                 set_parameters(self.client_best_models[client.cid], params)
 
             # update best neighbour
@@ -496,7 +556,7 @@ class FedCPSO(Strategy):
 
         # update client models with velocities
         for client, fit_res in results:
-            client_model_params = parameters_to_ndarrays(fit_res.parameters)
+            client_model_params = sparse_parameters_to_ndarrays(fit_res.parameters)
             client_best_params = get_parameters(self.client_best_models[client.cid])
             best_neighbour_params = get_parameters(
                 self.client_best_models[self.best_neighbour[client.cid]]
@@ -594,7 +654,7 @@ class FedCPSO(Strategy):
 
 def server_fn(context: Context) -> ServerAppComponents:
     # Create FedAvg strategy
-    config = ServerConfig(num_rounds=5)
+    config = ServerConfig(num_rounds=NUM_ROUNDS)
     return ServerAppComponents(
         config=config,
         strategy=FedCPSO(

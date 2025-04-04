@@ -54,7 +54,8 @@ print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
 
 NUM_PARTITIONS = 10
-BATCH_SIZE = 32
+NUM_ROUNDS = 5
+BATCH_SIZE = 10
 
 # remember to delete previous models
 
@@ -62,9 +63,7 @@ partitioner = IidPartitioner(num_partitions=NUM_PARTITIONS)
 
 
 def load_datasets(partition_id: int):
-    fds = FederatedDataset(
-        dataset="cifar10", partitioners={"train": NUM_PARTITIONS}, seed=42
-    )
+    fds = FederatedDataset(dataset="cifar10", partitioners={"train": NUM_PARTITIONS})
     partition = fds.load_partition(partition_id)
     # Divide data on each node: 80% train, 20% test
     partition_train_test = partition.train_test_split(
@@ -251,7 +250,7 @@ class FlowerClient(NumPyClient):
 
         set_parameters(temp_model, new_weights)
 
-        loss, acc = train(temp_model, self.trainloader, epochs=2)
+        loss, acc = train(temp_model, self.trainloader, epochs=1)
 
         trained_weights = get_parameters(temp_model)
 
@@ -371,7 +370,6 @@ class FedPSO(flwr.server.strategy.Strategy):
             (GetParametersIns(config={})), timeout=None, group_id=None
         ).parameters
 
-        print(sys.getsizeof(global_best_parameters))
         global_best_ndarray = parameters_to_ndarrays(global_best_parameters)
         set_parameters(self.server_model, global_best_ndarray)
 
@@ -449,10 +447,10 @@ class FedPSO(flwr.server.strategy.Strategy):
 
 def server_fn(context: Context) -> ServerAppComponents:
     # Create FedAvg strategy
-    config = ServerConfig(num_rounds=10)
+    config = ServerConfig(num_rounds=NUM_ROUNDS)
     return ServerAppComponents(
         config=config,
-        strategy=FedPSO(fraction_fit=0.5),  # <-- pass the new strategy here
+        strategy=FedPSO(fraction_fit=1.0),  # <-- pass the new strategy here
     )
 
 
