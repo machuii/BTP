@@ -42,8 +42,8 @@ print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 disable_progress_bar()
 
 
-NUM_CLIENTS = 5
-NUM_ROUNDS = 5
+NUM_CLIENTS = 20
+NUM_ROUNDS = 25
 BATCH_SIZE = 10
 
 partitioner = DirichletPartitioner(
@@ -53,7 +53,7 @@ partitioner = DirichletPartitioner(
 
 def load_datasets(partition_id: int):
     fds = FederatedDataset(
-        dataset="uoft-cs/cifar10", partitioners={"train": NUM_CLIENTS}
+        dataset="uoft-cs/cifar10", partitioners={"train": partitioner}
     )
     partition = fds.load_partition(partition_id)
     # Divide data on each node: 80% train, 20% test

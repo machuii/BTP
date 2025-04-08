@@ -12943,3 +12943,1475 @@ DEBUG:flwr:Triggered stop event for Simulation Engine.
 DEBUG:flwr:Terminated 16 actors
 DEBUG:flwr:Terminated RayBackend
 DEBUG:flwr:Stopping Simulation Engine now.
+INFO:__main__:
+EXECUTING CPSO FINAL CLIENTS->20 ROUNDS->25
+DEBUG:flwr:Pre-registering run with id 1073939250759315225
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 20 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=25, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.23039540350437165, {'accuracy': 0.1014}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (1, 0.20659751001596452, {'accuracy': 0.2865}, 29.622313800035045)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (2, 0.18876459612846375, {'accuracy': 0.3354}, 50.28687389998231)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (3, 0.1751516774892807, {'accuracy': 0.3744}, 63.649400800000876)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (4, 0.16588452771902085, {'accuracy': 0.4039}, 76.84564920002595)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (5, 0.16104258825182916, {'accuracy': 0.4158}, 89.53388989996165)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 6]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (6, 0.1567443033218384, {'accuracy': 0.4333}, 101.90020350005943)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 7]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (7, 0.15410518790483474, {'accuracy': 0.4421}, 114.33511440001894)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 8]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (8, 0.15280846903920173, {'accuracy': 0.4459}, 126.74440049997065)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 9]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (9, 0.15011653327345847, {'accuracy': 0.4546}, 140.2352979000425)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 10]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (10, 0.1486785856664181, {'accuracy': 0.4591}, 152.38793670001905)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 11]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (11, 0.14650422595739365, {'accuracy': 0.4644}, 164.49549340002704)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 12]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (12, 0.14617728841900826, {'accuracy': 0.4686}, 176.73354569997173)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 13]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (13, 0.14486926824450494, {'accuracy': 0.473}, 188.92334550002124)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 14]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (14, 0.1430313399553299, {'accuracy': 0.4834}, 200.9762906000251)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 15]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (15, 0.14267392729520798, {'accuracy': 0.4825}, 213.31285149999894)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 16]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (16, 0.14118032953739165, {'accuracy': 0.4879}, 225.66766569996253)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 17]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (17, 0.1402268550336361, {'accuracy': 0.4936}, 237.91169840004295)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 18]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (18, 0.1400317929506302, {'accuracy': 0.4934}, 250.19819629995618)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 19]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (19, 0.1397028968334198, {'accuracy': 0.4954}, 262.46250599995255)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 20]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (20, 0.13861194677352906, {'accuracy': 0.496}, 274.83420729998033)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 21]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (21, 0.13768358921408652, {'accuracy': 0.504}, 287.1249747000402)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 22]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (22, 0.13665158035755157, {'accuracy': 0.5084}, 299.2636492999736)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 23]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (23, 0.13562210412621498, {'accuracy': 0.5114}, 312.0166358000133)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 24]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (24, 0.13438489741683007, {'accuracy': 0.5155}, 325.3282121999655)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 25]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (25, 0.13390934605002403, {'accuracy': 0.5196}, 339.3404396000551)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 25 round(s) in 341.58s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.19746544935703275
+INFO:flwr:		round 2: 0.1831996656417847
+INFO:flwr:		round 3: 0.1755402541399002
+INFO:flwr:		round 4: 0.17002100791931152
+INFO:flwr:		round 5: 0.16471549526453017
+INFO:flwr:		round 6: 0.16401816318035126
+INFO:flwr:		round 7: 0.1580228845357895
+INFO:flwr:		round 8: 0.15913347351551052
+INFO:flwr:		round 9: 0.15449568552970885
+INFO:flwr:		round 10: 0.15417087371349333
+INFO:flwr:		round 11: 0.15066799763441086
+INFO:flwr:		round 12: 0.15112837029695508
+INFO:flwr:		round 13: 0.1488777227520943
+INFO:flwr:		round 14: 0.15081934940814973
+INFO:flwr:		round 15: 0.14899897640943527
+INFO:flwr:		round 16: 0.14622508082389832
+INFO:flwr:		round 17: 0.14965832996368408
+INFO:flwr:		round 18: 0.1469350867986679
+INFO:flwr:		round 19: 0.14398663643598555
+INFO:flwr:		round 20: 0.1432462228536606
+INFO:flwr:		round 21: 0.14186858049631118
+INFO:flwr:		round 22: 0.142905351793766
+INFO:flwr:		round 23: 0.13966384801864626
+INFO:flwr:		round 24: 0.1404500269174576
+INFO:flwr:		round 25: 0.13923677331209183
+INFO:flwr:	History (loss, centralized):
+INFO:flwr:		round 0: 0.23039540350437165
+INFO:flwr:		round 1: 0.20659751001596452
+INFO:flwr:		round 2: 0.18876459612846375
+INFO:flwr:		round 3: 0.1751516774892807
+INFO:flwr:		round 4: 0.16588452771902085
+INFO:flwr:		round 5: 0.16104258825182916
+INFO:flwr:		round 6: 0.1567443033218384
+INFO:flwr:		round 7: 0.15410518790483474
+INFO:flwr:		round 8: 0.15280846903920173
+INFO:flwr:		round 9: 0.15011653327345847
+INFO:flwr:		round 10: 0.1486785856664181
+INFO:flwr:		round 11: 0.14650422595739365
+INFO:flwr:		round 12: 0.14617728841900826
+INFO:flwr:		round 13: 0.14486926824450494
+INFO:flwr:		round 14: 0.1430313399553299
+INFO:flwr:		round 15: 0.14267392729520798
+INFO:flwr:		round 16: 0.14118032953739165
+INFO:flwr:		round 17: 0.1402268550336361
+INFO:flwr:		round 18: 0.1400317929506302
+INFO:flwr:		round 19: 0.1397028968334198
+INFO:flwr:		round 20: 0.13861194677352906
+INFO:flwr:		round 21: 0.13768358921408652
+INFO:flwr:		round 22: 0.13665158035755157
+INFO:flwr:		round 23: 0.13562210412621498
+INFO:flwr:		round 24: 0.13438489741683007
+INFO:flwr:		round 25: 0.13390934605002403
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'acc': [(1, 0.25379999999999997),
+INFO:flwr:	         (2, 0.3198),
+INFO:flwr:	         (3, 0.35960000000000003),
+INFO:flwr:	         (4, 0.3734),
+INFO:flwr:	         (5, 0.3936),
+INFO:flwr:	         (6, 0.39360000000000006),
+INFO:flwr:	         (7, 0.41819999999999996),
+INFO:flwr:	         (8, 0.4226),
+INFO:flwr:	         (9, 0.43340000000000006),
+INFO:flwr:	         (10, 0.44460000000000005),
+INFO:flwr:	         (11, 0.4506),
+INFO:flwr:	         (12, 0.4526),
+INFO:flwr:	         (13, 0.4635999999999999),
+INFO:flwr:	         (14, 0.4546),
+INFO:flwr:	         (15, 0.46720000000000006),
+INFO:flwr:	         (16, 0.4694000000000001),
+INFO:flwr:	         (17, 0.4618000000000001),
+INFO:flwr:	         (18, 0.4661999999999999),
+INFO:flwr:	         (19, 0.48100000000000004),
+INFO:flwr:	         (20, 0.4866),
+INFO:flwr:	         (21, 0.4904),
+INFO:flwr:	         (22, 0.4784),
+INFO:flwr:	         (23, 0.4967999999999999),
+INFO:flwr:	         (24, 0.4936),
+INFO:flwr:	         (25, 0.4978000000000001)]}
+INFO:flwr:	History (metrics, centralized):
+INFO:flwr:	{'accuracy': [(0, 0.1014),
+INFO:flwr:	              (1, 0.2865),
+INFO:flwr:	              (2, 0.3354),
+INFO:flwr:	              (3, 0.3744),
+INFO:flwr:	              (4, 0.4039),
+INFO:flwr:	              (5, 0.4158),
+INFO:flwr:	              (6, 0.4333),
+INFO:flwr:	              (7, 0.4421),
+INFO:flwr:	              (8, 0.4459),
+INFO:flwr:	              (9, 0.4546),
+INFO:flwr:	              (10, 0.4591),
+INFO:flwr:	              (11, 0.4644),
+INFO:flwr:	              (12, 0.4686),
+INFO:flwr:	              (13, 0.473),
+INFO:flwr:	              (14, 0.4834),
+INFO:flwr:	              (15, 0.4825),
+INFO:flwr:	              (16, 0.4879),
+INFO:flwr:	              (17, 0.4936),
+INFO:flwr:	              (18, 0.4934),
+INFO:flwr:	              (19, 0.4954),
+INFO:flwr:	              (20, 0.496),
+INFO:flwr:	              (21, 0.504),
+INFO:flwr:	              (22, 0.5084),
+INFO:flwr:	              (23, 0.5114),
+INFO:flwr:	              (24, 0.5155),
+INFO:flwr:	              (25, 0.5196)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.
+INFO:__main__:
+EXECUTING CPSO FINAL CLIENTS->20 ROUNDS->25
+WARNING:datasets.load:Using the latest cached version of the dataset since uoft-cs/cifar10 couldn't be found on the Hugging Face Hub
+WARNING:datasets.packaged_modules.cache.cache:Found the latest cached dataset configuration 'plain_text' at C:\Users\mathe\.cache\huggingface\datasets\uoft-cs___cifar10\plain_text\0.0.0\0b2714987fa478483af9968de7c934580d0bb9a2 (last modified on Tue Apr  8 16:45:55 2025).
+DEBUG:flwr:Pre-registering run with id 16959123437937500393
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Using InMemoryState
+DEBUG:flwr:Registered 20 nodes
+DEBUG:flwr:Supported backends: ['ray']
+DEBUG:flwr:Initialising: RayBackend
+DEBUG:flwr:Backend config: {'client_resources': {'num_cpus': 1, 'num_gpus': 0.0}, 'init_args': {'logging_level': 30, 'log_to_driver': True}, 'actor': {'tensorflow': 0}}
+INFO:flwr:Starting Flower ServerApp, config: num_rounds=25, no round_timeout
+INFO:flwr:
+INFO:flwr:[INIT]
+INFO:flwr:Using initial global parameters provided by strategy
+INFO:flwr:Starting evaluation of initial global parameters
+DEBUG:flwr:Constructed ActorPool with: 16 actors
+DEBUG:flwr:Using InMemoryState
+INFO:flwr:initial parameters (loss, other metrics): 0.23036860806941986, {'accuracy': 0.1}
+INFO:flwr:
+INFO:flwr:[ROUND 1]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (1, 0.21006936633586884, {'accuracy': 0.2898}, 39.35257799993269)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 2]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:[36mray::ClientAppActor.run()[39m (pid=20768, ip=127.0.0.1, actor_id=9ec80fc947deaa07e981c93401000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000015680083050>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=20768, ip=127.0.0.1, actor_id=9ec80fc947deaa07e981c93401000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000015680083050>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 328, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 78, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=20768, ip=127.0.0.1, actor_id=9ec80fc947deaa07e981c93401000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000015680083050>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 864, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ClientAppException): [36mray::ClientAppActor.run()[39m (pid=20768, ip=127.0.0.1, actor_id=9ec80fc947deaa07e981c93401000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000015680083050>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=20768, ip=127.0.0.1, actor_id=9ec80fc947deaa07e981c93401000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000015680083050>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 328, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 78, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=20768, ip=127.0.0.1, actor_id=9ec80fc947deaa07e981c93401000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x0000015680083050>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:[36mray::ClientAppActor.run()[39m (pid=41624, ip=127.0.0.1, actor_id=296675af211959512723c5c201000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x000002138023E750>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=41624, ip=127.0.0.1, actor_id=296675af211959512723c5c201000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x000002138023E750>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 328, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 78, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=41624, ip=127.0.0.1, actor_id=296675af211959512723c5c201000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x000002138023E750>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 864, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ClientAppException): [36mray::ClientAppActor.run()[39m (pid=41624, ip=127.0.0.1, actor_id=296675af211959512723c5c201000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x000002138023E750>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=41624, ip=127.0.0.1, actor_id=296675af211959512723c5c201000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x000002138023E750>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 328, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 78, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=41624, ip=127.0.0.1, actor_id=296675af211959512723c5c201000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x000002138023E750>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:[36mray::ClientAppActor.run()[39m (pid=42448, ip=127.0.0.1, actor_id=10ba4bd4f651a769aa623ef401000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000259AFD01FD0>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=42448, ip=127.0.0.1, actor_id=10ba4bd4f651a769aa623ef401000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000259AFD01FD0>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 328, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 78, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=42448, ip=127.0.0.1, actor_id=10ba4bd4f651a769aa623ef401000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000259AFD01FD0>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 864, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ClientAppException): [36mray::ClientAppActor.run()[39m (pid=42448, ip=127.0.0.1, actor_id=10ba4bd4f651a769aa623ef401000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000259AFD01FD0>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=42448, ip=127.0.0.1, actor_id=10ba4bd4f651a769aa623ef401000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000259AFD01FD0>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 328, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 78, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=42448, ip=127.0.0.1, actor_id=10ba4bd4f651a769aa623ef401000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x00000259AFD01FD0>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+ERROR:flwr:An exception was raised when processing a message by RayBackend
+ERROR:flwr:[36mray::ClientAppActor.run()[39m (pid=15300, ip=127.0.0.1, actor_id=d40560442c16ea9a41546d3b01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x000001CE2E401A10>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=15300, ip=127.0.0.1, actor_id=d40560442c16ea9a41546d3b01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x000001CE2E401A10>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 328, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 78, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=15300, ip=127.0.0.1, actor_id=d40560442c16ea9a41546d3b01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x000001CE2E401A10>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+ERROR:flwr:Traceback (most recent call last):
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\vce_api.py", line 112, in worker
+    out_mssg, updated_context = backend.process_message(message, context)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 187, in process_message
+    raise ex
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\server\superlink\fleet\vce\backend\raybackend.py", line 175, in process_message
+    ) = self.pool.fetch_result_and_return_actor_to_pool(future)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 478, in fetch_result_and_return_actor_to_pool
+    _, out_mssg, updated_context = ray.get(future)
+                                   ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\auto_init_hook.py", line 21, in auto_init_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 2667, in get
+    values, debugger_breakpoint = worker.get_objects(object_refs, timeout=timeout)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\worker.py", line 864, in get_objects
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(ClientAppException): [36mray::ClientAppActor.run()[39m (pid=15300, ip=127.0.0.1, actor_id=d40560442c16ea9a41546d3b01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x000001CE2E401A10>)
+  File "D:\work\BTP\venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=15300, ip=127.0.0.1, actor_id=d40560442c16ea9a41546d3b01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x000001CE2E401A10>)
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 58, in run
+    out_message = app(message=message, context=context)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 143, in __call__
+    return self._call(message, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\client_app.py", line 126, in ffn
+    out_message = handle_legacy_message_from_msgtype(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\client\message_handler\message_handler.py", line 96, in handle_legacy_message_from_msgtype
+    client = client_fn(context)
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 328, in client_fn
+    trainloader, valloader, _ = load_datasets(partition_id)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\work\BTP\FedCPSO\fedcpso_FINAL.py", line 78, in load_datasets
+    partition = fds.load_partition(partition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 177, in load_partition
+    self._prepare_dataset()
+  File "D:\work\BTP\venv\Lib\site-packages\flwr_datasets\federated_dataset.py", line 314, in _prepare_dataset
+    self._dataset = datasets.load_dataset(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 2132, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\load.py", line 1890, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 342, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 597, in _create_builder_config
+    builder_config._resolve_data_files(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\builder.py", line 206, in _resolve_data_files
+    self.data_files = self.data_files.resolve(base_path, download_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 818, in resolve
+    out[key] = data_files_patterns_list.resolve(base_path, download_config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 771, in resolve
+    resolve_pattern(
+  File "D:\work\BTP\venv\Lib\site-packages\datasets\data_files.py", line 388, in resolve_pattern
+    for filepath, info in fs.glob(pattern, detail=True, **glob_kwargs).items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 521, in glob
+    return super().glob(path, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 611, in glob
+    allpaths = self.find(root, maxdepth=depth, withdirs=True, detail=True, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 556, in find
+    return super().find(
+           ^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\fsspec\spec.py", line 502, in find
+    out[path] = self.info(path)
+                ^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_file_system.py", line 719, in info
+    paths_info = self._api.get_paths_info(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 3259, in get_paths_info
+    hf_raise_for_status(response)
+  File "D:\work\BTP\venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 477, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+The above exception was the direct cause of the following exception:
+
+[36mray::ClientAppActor.run()[39m (pid=15300, ip=127.0.0.1, actor_id=d40560442c16ea9a41546d3b01000000, repr=<flwr.simulation.ray_transport.ray_actor.ClientAppActor object at 0x000001CE2E401A10>)
+  File "python\ray\_raylet.pyx", line 1883, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1984, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1889, in ray._raylet.execute_task
+  File "python\ray\_raylet.pyx", line 1830, in ray._raylet.execute_task.function_executor
+  File "D:\work\BTP\venv\Lib\site-packages\ray\_private\function_manager.py", line 724, in actor_method_executor
+    return method(__ray_actor, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\ray\util\tracing\tracing_helper.py", line 467, in _resume_span
+    return method(self, *_args, **_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\work\BTP\venv\Lib\site-packages\flwr\simulation\ray_transport\ray_actor.py", line 64, in run
+    raise ClientAppException(str(ex)) from ex
+flwr.client.client_app.ClientAppException: 
+Exception ClientAppException occurred. Message: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/uoft-cs/cifar10/paths-info/0b2714987fa478483af9968de7c934580d0bb9a2
+
+INFO:flwr:aggregate_fit: received 16 results and 4 failures
+INFO:flwr:fit progress: (2, 0.18663239575624466, {'accuracy': 0.3562}, 62.07982220000122)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 3]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (3, 0.17352892270088197, {'accuracy': 0.3908}, 79.5953255998902)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 4]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (4, 0.15985462639331818, {'accuracy': 0.4282}, 96.91073999996297)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 5]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (5, 0.15111931545734406, {'accuracy': 0.4525}, 114.36818539991509)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 6]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (6, 0.14494157225489615, {'accuracy': 0.4713}, 132.74687809997704)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 7]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (7, 0.14092993985414504, {'accuracy': 0.4841}, 149.96391900000162)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 8]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (8, 0.1382354418516159, {'accuracy': 0.495}, 167.32926059991587)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 9]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (9, 0.1366004124879837, {'accuracy': 0.5026}, 185.36520299990661)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 10]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (10, 0.13482601380348205, {'accuracy': 0.5073}, 202.55967799993232)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 11]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (11, 0.13379559265971183, {'accuracy': 0.5157}, 219.83500109997112)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 12]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (12, 0.13216314725279807, {'accuracy': 0.5223}, 236.70462259999476)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 13]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (13, 0.1313706228852272, {'accuracy': 0.5212}, 253.74489569989964)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 14]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (14, 0.13078464944958687, {'accuracy': 0.5261}, 271.0084181999555)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 15]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (15, 0.1294372500151396, {'accuracy': 0.5303}, 288.73584339988884)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 16]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (16, 0.12892579240798951, {'accuracy': 0.5296}, 306.53244649991393)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 17]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (17, 0.12806938533484935, {'accuracy': 0.5329}, 323.7095266999677)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 18]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (18, 0.128190438246727, {'accuracy': 0.5355}, 341.0020443999674)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 19]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (19, 0.12727407108545302, {'accuracy': 0.5369}, 358.10598499991465)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 20]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (20, 0.1265970641642809, {'accuracy': 0.5428}, 375.0513656999683)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 21]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (21, 0.1259349283516407, {'accuracy': 0.5471}, 392.19270339992363)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 22]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (22, 0.1254636855661869, {'accuracy': 0.5483}, 409.21163639996666)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 23]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (23, 0.12534546817839146, {'accuracy': 0.5467}, 426.2517272999976)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 24]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (24, 0.12499467348456383, {'accuracy': 0.5498}, 443.25248849997297)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[ROUND 25]
+INFO:flwr:configure_fit: strategy sampled 20 clients (out of 20)
+INFO:flwr:aggregate_fit: received 20 results and 0 failures
+INFO:flwr:fit progress: (25, 0.12473795013427734, {'accuracy': 0.5493}, 460.13313629990444)
+INFO:flwr:configure_evaluate: strategy sampled 10 clients (out of 20)
+INFO:flwr:aggregate_evaluate: received 10 results and 0 failures
+INFO:flwr:
+INFO:flwr:[SUMMARY]
+INFO:flwr:Run finished 25 round(s) in 462.20s
+INFO:flwr:	History (loss, distributed):
+INFO:flwr:		round 1: 0.18903749558925628
+INFO:flwr:		round 2: 0.18002483830451968
+INFO:flwr:		round 3: 0.1695962991476059
+INFO:flwr:		round 4: 0.161519344997406
+INFO:flwr:		round 5: 0.16108323756456377
+INFO:flwr:		round 6: 0.15249628525972367
+INFO:flwr:		round 7: 0.1479665910243988
+INFO:flwr:		round 8: 0.15149371448755264
+INFO:flwr:		round 9: 0.14697503882646562
+INFO:flwr:		round 10: 0.1467267237067223
+INFO:flwr:		round 11: 0.14581647466421124
+INFO:flwr:		round 12: 0.141485225635767
+INFO:flwr:		round 13: 0.14131385120749476
+INFO:flwr:		round 14: 0.14193180577754977
+INFO:flwr:		round 15: 0.13873759685754777
+INFO:flwr:		round 16: 0.13704710754752158
+INFO:flwr:		round 17: 0.13997336395978927
+INFO:flwr:		round 18: 0.13852843662500383
+INFO:flwr:		round 19: 0.13936288021206855
+INFO:flwr:		round 20: 0.13714814040064816
+INFO:flwr:		round 21: 0.13548091410398486
+INFO:flwr:		round 22: 0.13446817426085472
+INFO:flwr:		round 23: 0.1361285115122795
+INFO:flwr:		round 24: 0.13865261971950532
+INFO:flwr:		round 25: 0.1340899755716324
+INFO:flwr:	History (loss, centralized):
+INFO:flwr:		round 0: 0.23036860806941986
+INFO:flwr:		round 1: 0.21006936633586884
+INFO:flwr:		round 2: 0.18663239575624466
+INFO:flwr:		round 3: 0.17352892270088197
+INFO:flwr:		round 4: 0.15985462639331818
+INFO:flwr:		round 5: 0.15111931545734406
+INFO:flwr:		round 6: 0.14494157225489615
+INFO:flwr:		round 7: 0.14092993985414504
+INFO:flwr:		round 8: 0.1382354418516159
+INFO:flwr:		round 9: 0.1366004124879837
+INFO:flwr:		round 10: 0.13482601380348205
+INFO:flwr:		round 11: 0.13379559265971183
+INFO:flwr:		round 12: 0.13216314725279807
+INFO:flwr:		round 13: 0.1313706228852272
+INFO:flwr:		round 14: 0.13078464944958687
+INFO:flwr:		round 15: 0.1294372500151396
+INFO:flwr:		round 16: 0.12892579240798951
+INFO:flwr:		round 17: 0.12806938533484935
+INFO:flwr:		round 18: 0.128190438246727
+INFO:flwr:		round 19: 0.12727407108545302
+INFO:flwr:		round 20: 0.1265970641642809
+INFO:flwr:		round 21: 0.1259349283516407
+INFO:flwr:		round 22: 0.1254636855661869
+INFO:flwr:		round 23: 0.12534546817839146
+INFO:flwr:		round 24: 0.12499467348456383
+INFO:flwr:		round 25: 0.12473795013427734
+INFO:flwr:	History (metrics, distributed, evaluate):
+INFO:flwr:	{'acc': [(1, 0.3014),
+INFO:flwr:	         (2, 0.34080000000000005),
+INFO:flwr:	         (3, 0.37299999999999994),
+INFO:flwr:	         (4, 0.41240000000000004),
+INFO:flwr:	         (5, 0.4210000000000001),
+INFO:flwr:	         (6, 0.4436000000000001),
+INFO:flwr:	         (7, 0.46440000000000003),
+INFO:flwr:	         (8, 0.4524),
+INFO:flwr:	         (9, 0.4772),
+INFO:flwr:	         (10, 0.4774000000000001),
+INFO:flwr:	         (11, 0.49000000000000005),
+INFO:flwr:	         (12, 0.495),
+INFO:flwr:	         (13, 0.49400000000000005),
+INFO:flwr:	         (14, 0.5018),
+INFO:flwr:	         (15, 0.5012),
+INFO:flwr:	         (16, 0.5102),
+INFO:flwr:	         (17, 0.49799999999999994),
+INFO:flwr:	         (18, 0.5025999999999999),
+INFO:flwr:	         (19, 0.5122000000000001),
+INFO:flwr:	         (20, 0.519),
+INFO:flwr:	         (21, 0.5192),
+INFO:flwr:	         (22, 0.5227999999999999),
+INFO:flwr:	         (23, 0.525),
+INFO:flwr:	         (24, 0.5208),
+INFO:flwr:	         (25, 0.5238000000000002)]}
+INFO:flwr:	History (metrics, centralized):
+INFO:flwr:	{'accuracy': [(0, 0.1),
+INFO:flwr:	              (1, 0.2898),
+INFO:flwr:	              (2, 0.3562),
+INFO:flwr:	              (3, 0.3908),
+INFO:flwr:	              (4, 0.4282),
+INFO:flwr:	              (5, 0.4525),
+INFO:flwr:	              (6, 0.4713),
+INFO:flwr:	              (7, 0.4841),
+INFO:flwr:	              (8, 0.495),
+INFO:flwr:	              (9, 0.5026),
+INFO:flwr:	              (10, 0.5073),
+INFO:flwr:	              (11, 0.5157),
+INFO:flwr:	              (12, 0.5223),
+INFO:flwr:	              (13, 0.5212),
+INFO:flwr:	              (14, 0.5261),
+INFO:flwr:	              (15, 0.5303),
+INFO:flwr:	              (16, 0.5296),
+INFO:flwr:	              (17, 0.5329),
+INFO:flwr:	              (18, 0.5355),
+INFO:flwr:	              (19, 0.5369),
+INFO:flwr:	              (20, 0.5428),
+INFO:flwr:	              (21, 0.5471),
+INFO:flwr:	              (22, 0.5483),
+INFO:flwr:	              (23, 0.5467),
+INFO:flwr:	              (24, 0.5498),
+INFO:flwr:	              (25, 0.5493)]}
+INFO:flwr:
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:ServerApp finished running.
+DEBUG:flwr:Triggered stop event for Simulation Engine.
+DEBUG:flwr:Terminated 16 actors
+DEBUG:flwr:Terminated RayBackend
+DEBUG:flwr:Stopping Simulation Engine now.

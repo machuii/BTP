@@ -59,8 +59,8 @@ DEVICE = torch.device("cpu")
 print(f"Training on {DEVICE}")
 print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
-NUM_PARTITIONS = 10
-NUM_ROUNDS = 5
+NUM_PARTITIONS = 20
+NUM_ROUNDS = 25
 BATCH_SIZE = 10
 
 logger.info(f"\nEXECUTING CPSO FINAL CLIENTS->{NUM_PARTITIONS} ROUNDS->{NUM_ROUNDS}")
@@ -134,77 +134,6 @@ def sparse_bytes_to_ndarray(tensor: bytes) -> NDArray:
     # Source: https://numpy.org/doc/stable/reference/generated/numpy.load.html
     ndarray_deserialized = np.load(bytes_io, allow_pickle=False)
     return cast(NDArray, ndarray_deserialized)
-
-
-# def ndarray_to_sparse_bytes(ndarray: NDArray) -> bytes:
-#     """Serialize NumPy ndarray to bytes."""
-#     bytes_io = BytesIO()
-
-#     if len(ndarray.shape) == 2:
-#         # We convert our ndarray into a sparse matrix
-#         ndarray = torch.tensor(ndarray).to_sparse_csr()
-
-#         # And send it byutilizing the sparse matrix attributes
-#         # WARNING: NEVER set allow_pickle to true.
-#         # Reason: loading pickled data can execute arbitrary code
-#         # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
-#         np.savez(
-#             bytes_io,  # type: ignore
-#             crow_indices=ndarray.crow_indices(),
-#             col_indices=ndarray.col_indices(),
-#             values=ndarray.values(),
-#             allow_pickle=False,
-#         )
-#     elif len(ndarray.shape) == 4:
-#         ndarray = torch.tensor(ndarray).to_sparse_coo()
-
-#         np.savez(
-#             bytes_io,
-#             indices=ndarray.indices(),
-#             values=ndarray.values(),
-#             allow_pickle=False,
-#         )
-#     else:
-#         # WARNING: NEVER set allow_pickle to true.
-#         # Reason: loading pickled data can execute arbitrary code
-#         # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
-#         np.save(bytes_io, ndarray, allow_pickle=False)
-#     serialized_data = gzip.compress(bytes_io.getvalue())
-#     return serialized_data
-
-
-# def sparse_bytes_to_ndarray(tensor: bytes) -> NDArray:
-#     """Deserialize NumPy ndarray from bytes."""
-#     decompressed = gzip.decompress(tensor)
-#     bytes_io = BytesIO(decompressed)
-#     # WARNING: NEVER set allow_pickle to true.
-#     # Reason: loading pickled data can execute arbitrary code
-#     # Source: https://numpy.org/doc/stable/reference/generated/numpy.load.html
-#     loader = np.load(bytes_io, allow_pickle=False)  # type: ignore
-
-#     if "crow_indices" in loader:
-#         # We convert our sparse matrix back to a ndarray, using the attributes we sent
-#         ndarray_deserialized = (
-#             torch.sparse_csr_tensor(
-#                 crow_indices=loader["crow_indices"],
-#                 col_indices=loader["col_indices"],
-#                 values=loader["values"],
-#             )
-#             .to_dense()
-#             .numpy()
-#         )
-#     elif "indices" in loader:
-#         ndarray_deserialized = (
-#             torch.sparse_coo_tensor(
-#                 indices=loader["indices"],
-#                 values=loader["values"],
-#             )
-#             .to_dense()
-#             .numpy()
-#         )
-#     else:
-#         ndarray_deserialized = loader
-#     return cast(NDArray, ndarray_deserialized)
 
 
 class Net(nn.Module):
@@ -509,12 +438,6 @@ class FedCPSO(Strategy):
             (sparse_parameters_to_ndarrays(fit_res.parameters), fit_res.num_examples)
             for _, fit_res in results
         ]
-
-        total_bytes = 0
-        for _, fit_res in results:
-            for tensor in fit_res.parameters.tensors:
-                total_bytes += len(tensor)
-        print(f"Total bytes received: {total_bytes}")
 
         aggregated_weights = aggregate(weights_results)
         set_parameters(self.global_model, aggregated_weights)
