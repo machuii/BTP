@@ -54,7 +54,7 @@ print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
 
 NUM_PARTITIONS = 10
-NUM_ROUNDS = 5
+NUM_ROUNDS = 20
 BATCH_SIZE = 10
 
 # remember to delete previous models
@@ -176,18 +176,12 @@ class FlowerClient(NumPyClient):
 
         if "accuracy" not in self.client_state.configs_records:
             self.client_state.configs_records["accuracy"] = ConfigsRecord()
-            self.client_state.configs_records["accuracy"]["global_best_acc"] = 0.0
-            self.client_state.configs_records["accuracy"]["local_best_acc"] = 0.0
 
         self.trainloader = trainloader
         self.valloader = valloader
 
         if "velocities" not in self.client_state.parameters_records:
-            velocities = [np.zeros_like(p) for p in get_parameters(Net())]
-            vel_record = ParametersRecord()
-            for i in range(len(velocities)):
-                vel_record[str(i)] = array_from_numpy(velocities[i])
-            self.client_state.parameters_records["velocities"] = vel_record
+            self.client_state.parameters_records["velocities"] = ParametersRecord()
 
         self.model_path = f"models/client_{self.partition_id}.pth"
         self.local_best_path = f"models/local_best_{self.partition_id}.pth"
@@ -210,12 +204,26 @@ class FlowerClient(NumPyClient):
         return get_parameters(self.net)
 
     def fit(self, parameters, config):
+
+        vel_record = self.client_state.parameters_records["velocities"]
+        if not vel_record:
+            velocities = [np.zeros_like(p) for p in get_parameters(Net())]
+            for i in range(len(velocities)):
+                vel_record[str(i)] = array_from_numpy(velocities[i])
+            self.client_state.parameters_records["velocities"] = vel_record
+
         vel_record = self.client_state.parameters_records["velocities"]
         velocities = []
         for key, value in vel_record.items():
             velocities.append(value.numpy())
 
         accuracy = self.client_state.configs_records["accuracy"]
+
+        if "local_best_acc" not in accuracy:
+            accuracy["local_best_acc"] = 0.0
+        if "global_best_acc" not in accuracy:
+            accuracy["global_best_acc"] = 0.0
+
         local_best_acc = accuracy["local_best_acc"]
         global_best_acc = accuracy["global_best_acc"]
 
@@ -227,10 +235,7 @@ class FlowerClient(NumPyClient):
         local_acce = config["local_acc"]
         global_acce = config["global_acc"]
 
-        temp_model = Net().to(DEVICE)
         client_parameters = get_parameters(self.net)
-        set_parameters(temp_model, client_parameters)
-
         client_best_parameters = get_parameters(self.local_best_model)
         global_best_parameters = get_parameters(self.global_best_model)
 
@@ -248,13 +253,11 @@ class FlowerClient(NumPyClient):
             velocities[index] = new_v
             new_weights[index] = layer + new_v
 
-        set_parameters(temp_model, new_weights)
+        set_parameters(self.net, new_weights)
 
-        loss, acc = train(temp_model, self.trainloader, epochs=1)
+        loss, acc = train(self.net, self.trainloader, epochs=1)
 
-        trained_weights = get_parameters(temp_model)
-
-        set_parameters(self.net, trained_weights)
+        trained_weights = get_parameters(self.net)
 
         if acc >= local_best_acc:
             local_best_acc = acc
@@ -262,15 +265,15 @@ class FlowerClient(NumPyClient):
 
         accuracy["local_best_acc"] = local_best_acc
         accuracy["global_best_acc"] = global_best_acc
+        self.client_state.configs_records["accuracy"] = accuracy
+
+        for i in range(len(velocities)):
+            vel_record[str(i)] = array_from_numpy(velocities[i])
+        self.client_state.parameters_records["velocities"] = vel_record
 
         torch.save(self.net.state_dict(), self.model_path)
         torch.save(self.local_best_model.state_dict(), self.local_best_path)
         torch.save(self.global_best_model.state_dict(), self.global_best_path)
-
-        vel_record = ParametersRecord()
-        for i in range(len(velocities)):
-            vel_record[str(i)] = array_from_numpy(velocities[i])
-        self.client_state.parameters_records["velocities"] = vel_record
 
         return (
             [],
@@ -279,7 +282,7 @@ class FlowerClient(NumPyClient):
         )
 
     def evaluate(self, parameters, config):
-        loss, accuracy = test(self.net, self.valloader)
+        loss, accuracy = test(self.local_best_model, self.valloader)
         return float(loss), len(self.valloader), {"accuracy": float(accuracy)}
 
 
@@ -364,7 +367,6 @@ class FedPSO(flwr.server.strategy.Strategy):
             if fit_res.metrics["acc"] > self.best_accuracy:
                 self.best_accuracy = fit_res.metrics["acc"]
                 self.best_client = client
-                print(client.cid)
 
         global_best_parameters = self.best_client.get_parameters(
             (GetParametersIns(config={})), timeout=None, group_id=None
@@ -429,8 +431,6 @@ class FedPSO(flwr.server.strategy.Strategy):
         self, server_round: int, parameters: Parameters
     ) -> Optional[Tuple[float, Dict[str, Scalar]]]:
         """Evaluate global model parameters using an evaluation function."""
-        loss, accuracy = test(self.server_model, valloader)
-        print(f"Round {server_round}, Loss: {loss}, Accuracy: {accuracy}")
         # # Let's assume we won't perform the global model evaluation on the server side.
         return None
 

@@ -43,7 +43,7 @@ disable_progress_bar()
 
 
 NUM_CLIENTS = 20
-NUM_ROUNDS = 25
+NUM_ROUNDS = 15
 BATCH_SIZE = 10
 
 partitioner = DirichletPartitioner(
@@ -303,8 +303,11 @@ class FedCustom(Strategy):
                 for _, evaluate_res in results
             ]
         )
-        accuracy_aggregated = np.mean(
-            [evaluate_res.metrics["accuracy"] for _, evaluate_res in results]
+        accuracy_aggregated = weighted_loss_avg(
+            [
+                (evaluate_res.num_examples, evaluate_res.metrics["accuracy"])
+                for _, evaluate_res in results
+            ]
         )
         metrics_aggregated = {"acc": accuracy_aggregated}
         return loss_aggregated, metrics_aggregated
