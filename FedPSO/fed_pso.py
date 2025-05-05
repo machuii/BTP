@@ -54,7 +54,7 @@ print(f"Flower {flwr.__version__} / PyTorch {torch.__version__}")
 
 
 NUM_PARTITIONS = 10
-NUM_ROUNDS = 20
+NUM_ROUNDS = 10
 BATCH_SIZE = 10
 
 # remember to delete previous models
@@ -255,7 +255,7 @@ class FlowerClient(NumPyClient):
 
         set_parameters(self.net, new_weights)
 
-        loss, acc = train(self.net, self.trainloader, epochs=1)
+        loss, acc = train(self.net, self.trainloader, epochs=5)
 
         trained_weights = get_parameters(self.net)
 

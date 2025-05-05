@@ -43,7 +43,7 @@ disable_progress_bar()
 
 
 NUM_CLIENTS = 20
-NUM_ROUNDS = 15
+NUM_ROUNDS = 25
 BATCH_SIZE = 10
 
 partitioner = DirichletPartitioner(
